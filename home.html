@@ -1,32 +1,48 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teste PetMatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- importando fonte Inter do google -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-gray-800 flex flex-col font-sans" style="font-family: 'Inter', sans-serif;">
-    <header class="bg-[#000000] text-[#fca311] p-4">
-        <h1 class="text-2xl font-bold">Bem vindo ao PetMatch</h1>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>Bem vindo ao PetMatch</h1>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Fotos dos pets</a></li>
+                <li><a href="#">Histórias e novidades</a></li>
+                <li><a href="#">Dicas sobre cuidados com os pets</a></li>
+                <li><a href="#">Sobre</a></li>
+            </ul>
+        </nav>
+        <!-- procurar ícone pra colocar aqui -->
+        <div class="search-icon">
+            <img src="search-icon.png" alt="Buscar">
+        </div>
     </header>
-    <nav class="bg-[#14213d] p-2">
-        <ul class="flex space-x-4">
-            <li><a href="#" class="hover:text-[#fca311]">Home</a></li>
-            <li><a href="#" class="hover:text-[#fca311]">Sobre</a></li>
-            <li><a href="#" class="hover:text-[#fca311]">Serviços</a></li>
-            <li><a href="#" class="hover:text-[#fca311]">Contato</a></li>
-        </ul>
-    </nav>
-    <main class="flex-grow p-4">
-        <section class="bg-[#fca311] rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-semibold text-[#000000]">Main Content</h2>
-            <p>This is where the main content of the website goes. It can include text, images, and other multimedia elements.</p>
-        </section>
+
+    <!-- seção principal -->
+    <main>
+        <div class="hero">
+            <div class="overlay"></div>
+            <div class="hero-content">
+                <h2>Adote um amigo</h2>
+                <p>Lorem ipsum dolor sit amet. Eum molestiae ducimus 33 accusamus nisi sed voluptatem perspiciatis ex fugiat commodi est neque fugiat.</p>
+            </div>
+        </div>
     </main>
-    <footer class="bg-[#000000] text-[#fffffc] p-4 text-center">
-        <p>&copy; 2023 PetMatch. All Rights Reserved.</p>
+    
+    <footer>
+        <p>&copy; 2024 PetMatch. Todos os direitos reservados.</p>
     </footer>
 </body>
 </html>
