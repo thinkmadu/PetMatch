@@ -1,0 +1,181 @@
+/* CSS Global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Oxanium';
+    color: #fff;
+    background-color: #333;
+}
+
+/* Estilo da Navbar */
+nav {
+    background-color: #000;
+    font-family: 'Oxanium';
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+}
+
+/* Logo "PetMatch" no canto esquerdo */
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 33px;
+    font-weight: 700;
+    color: #f2f2f2;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 70px; /* Define a altura da imagem para se ajustar à altura da navbar */
+    width: auto; /* Mantém a proporção da imagem */
+    margin-right: 10px; /* Espaçamento entre a imagem e o texto */
+    filter: invert(50%); /* Inverte as cores da imagem */
+    object-fit: contain; /* Garante que a imagem se ajuste sem distorção */
+}
+
+.logo:hover {
+    color: #ccc;
+}
+
+/* Estilo da lista da Navbar */
+.topnav {
+   
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    flex: 2; /* Garante que a lista ocupe o restante do espaço */
+}
+
+.topnav a {
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 22 px;
+    display: inline-block;
+}
+
+.topnav a:hover {
+    color: #ccc;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    background: url('assets/home.jpg') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 0;
+}
+.hero h1 {
+    
+    font-size: 60px;
+    font-weight: 700;
+    text-decoration-line: underline;
+    padding-top: 180px; /* Ajuste esse valor conforme necessário */
+}
+.hero .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 60px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.hero-content h2 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+/* section sobre */
+
+.sobre {
+    position: relative; /* Garante que o conteúdo posicionado absoluto fique dentro dessa seção */
+    min-height: 600px; /* Define uma altura mínima para a seção */
+    background: linear-gradient(249deg, #6D9DB7 2.22%, #9F76AD 40.49%, #A99E63 72.32%);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    padding-top: 50px;
+    
+}
+
+
+.sobre h2{
+    top: 46px;
+    font-size: 48px;
+    font-weight: 400;
+}
+
+.sobre p{
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.sobre #doar {
+    text-align: left;
+    padding-top: 30px;
+    position: relative; /* Faz o elemento sair do fluxo normal da página */
+    left: 0; /* Move o elemento para o canto esquerdo */
+    margin-left: 40px; /* Adiciona um pequeno espaçamento à esquerda */
+}
+.sobre ul{
+    color: #000;
+    font-family: Oxanium;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.sobre img{
+    position: absolute;
+    right: 250px;
+    top: 202px;
+    border-radius: 55px;
+}
+
+/* Footer */
+footer {
+    background-color: #000;
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+}
