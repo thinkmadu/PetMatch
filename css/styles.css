@@ -1,4 +1,7 @@
 /* CSS Global */
+
+
+
 * {
     margin: 0;
     padding: 0;
@@ -55,7 +58,7 @@ nav {
 
 /* Estilo da lista da Navbar */
 .topnav {
-   
+    
     list-style: none;
     display: flex;
     justify-content: flex-end;
@@ -67,9 +70,10 @@ nav {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 22 px;
+    font-size: 27 px;
     display: inline-block;
 }
+
 
 .topnav a:hover {
     color: #ccc;
@@ -78,7 +82,7 @@ nav {
 /* Hero Section */
 .hero {
     position: relative;
-    background: url('assets/home.jpg') no-repeat center center/cover;
+    background: url('/assets/home.jpg') no-repeat center center/cover;
     height: 100vh;
     display: flex;
     align-items: center;
