@@ -5,20 +5,19 @@
     box-sizing: border-box;
 }
 
-*:before,
-*:after{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-body{
+body {
     font-family: 'Oxanium';
     color: #fff;
     background-color: #333;
-    
-    
 }
-* Estilo da Navbar */
+section{
+    padding-left: 10px;
+}
+
+main {
+    padding-top: 170px; /* Ajuste o valor conforme necessário, dependendo da altura da navbar */
+}
+/* Estilo da Navbar */
 nav {
     background-color: #000;
     font-family: 'Oxanium';
@@ -30,7 +29,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 16px;
+    padding: 0 16px;
 }
 
 /* Logo "PetMatch" no canto esquerdo */
@@ -83,6 +82,24 @@ nav {
     color: #ccc;
 }
 
+img {
+    display: block;
+    margin: 20px auto;
+    width: 200px; /* Largura fixa */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+
+#logoONG {
+    border-radius: 50%; /* Arredonda a imagem */
+    width: 250px; /* Largura fixa */
+    height: 250px; /* Altura fixa para manter a proporção circular */
+    object-fit: cover; /* Garante que a imagem se ajuste ao contêiner sem distorção */
+    display: block;
+   
+} 
+
+
 /* o footer ta no topo da tela n consegui fazer descer */
 footer {
     font-family: 'Oxanium';
@@ -95,3 +112,4 @@ footer {
 
     
 }
+
