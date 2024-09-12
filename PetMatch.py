@@ -1,7 +1,6 @@
-from flask import Flask,render_template
+from flask import Flask, render_template
 
 app = Flask(__name__)
-
 
 @app.route('/login')
 def login():
@@ -12,7 +11,13 @@ def login():
 def home():
     return render_template('index.html')
 
-#flask --app PetMatch.py run
+@app.route('/cadastro')
+def cadastro():
+    return render_template('auth/cadastro.html')
+
+@app.route('/ajude')
+def ajude():
+    return render_template('Ajude.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

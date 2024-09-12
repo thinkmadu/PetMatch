@@ -85,7 +85,7 @@ nav {
 /* Hero Section */
 .hero {
     position: relative;
-    background: url('/assets/home.jpg') no-repeat center center/cover;
+    background: url('/static/assets/home.jpg') no-repeat center center/cover;
     height: 100vh;
     display: flex;
     align-items: center;

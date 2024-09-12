@@ -1,38 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="utf-8">
-    <title>Cadastro</title>
+{% extends "layout.html" %}
+    {% block titleEcss %}
+        <title>Cadastro</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <!-- importando fonte Oxanium do google -->
-    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/montserrat-font.css">
-    <link rel="stylesheet" type="text/css"
-        href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
-
-    <link rel="stylesheet" href="/css/cadastro.css" />
-    <meta name="robots" content="noindex, follow">
+       <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+    {% endblock titleEcss%}
+   <meta name="robots" content="noindex, follow">
     <script
         nonce="88e21fa2-1ed9-4504-a628-028f4f64c14f">try { (function (w, d) { !function (j, k, l, m) { if (j.zaraz) console.error("zaraz is loaded twice"); else { j[l] = j[l] || {}; j[l].executed = []; j.zaraz = { deferred: [], listeners: [] }; j.zaraz._v = "5796"; j.zaraz.q = []; j.zaraz._f = function (n) { return async function () { var o = Array.prototype.slice.call(arguments); j.zaraz.q.push({ m: n, a: o }) } }; for (const p of ["track", "set", "debug"]) j.zaraz[p] = j.zaraz._f(p); j.zaraz.init = () => { var q = k.getElementsByTagName(m)[0], r = k.createElement(m), s = k.getElementsByTagName("title")[0]; s && (j[l].t = k.getElementsByTagName("title")[0].text); j[l].x = Math.random(); j[l].w = j.screen.width; j[l].h = j.screen.height; j[l].j = j.innerHeight; j[l].e = j.innerWidth; j[l].l = j.location.href; j[l].r = k.referrer; j[l].k = j.screen.colorDepth; j[l].n = k.characterSet; j[l].o = (new Date).getTimezoneOffset(); if (j.dataLayer) for (const w of Object.entries(Object.entries(dataLayer).reduce(((x, y) => ({ ...x[1], ...y[1] })), {}))) zaraz.set(w[0], w[1], { scope: "page" }); j[l].q = []; for (; j.zaraz.q.length;) { const z = j.zaraz.q.shift(); j[l].q.push(z) } r.defer = !0; for (const A of [localStorage, sessionStorage]) Object.keys(A || {}).filter((C => C.startsWith("_zaraz_"))).forEach((B => { try { j[l]["z_" + B.slice(7)] = JSON.parse(A.getItem(B)) } catch { j[l]["z_" + B.slice(7)] = A.getItem(B) } })); r.referrerPolicy = "origin"; r.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(j[l]))); q.parentNode.insertBefore(r, q) };["complete", "interactive"].includes(k.readyState) ? zaraz.init() : j.addEventListener("DOMContentLoaded", zaraz.init) } }(w, d, "zarazData", "script"); window.zaraz._p = async bv => new Promise((bw => { if (bv) { bv.e && bv.e.forEach((bx => { try { const by = d.querySelector("script[nonce]"), bz = by?.nonce || by?.getAttribute("nonce"), bA = d.createElement("script"); bz && (bA.nonce = bz); bA.innerHTML = bx; bA.onload = () => { d.head.removeChild(bA) }; d.head.appendChild(bA) } catch (bB) { console.error(`Error executing script: ${bx}\n`, bB) } })); Promise.allSettled((bv.f || []).map((bC => fetch(bC[0], bC[1])))) } bw() })); zaraz._p({ "e": ["(function(w,d){})(window,document)"] }); })(window, document) } catch (e) { throw fetch("/cdn-cgi/zaraz/t"), e; };</script>
 </head>
 
-<body class="form-v10">
-    <!-- Navbar -->
-    <nav>
-        <div class="navbar-left">
-            <a href="/templates/index.html" class="logo">
-                <img src="/assets/pata%20png.webp " alt="Logo"> <!-- Imagem ao lado do texto -->
-                PetMatch
-            </a> <!-- Link para a home -->
-        </div>
-        <ul class="topnav">
-            <li><a href="/templates/Ajude.html">Ajude as instituições</a></li>
-            <li><a href="/templates/auth/cadastro.html">Cadastrar</a></li>
-            <li><a href="/templates/auth/login.html">Entrar</a></li>
-        </ul>
-    </nav>
-    <div class="page-content">
+     {% block conteudo %}
+        <div class="page-content">
         <div class="form-v10-content">
             <form class="form-detail" action="#" method="post" id="myform">
                 <div class="form-left">
@@ -65,9 +43,9 @@
                         </span>
                     </div>
                     <div class="form-group">
-                        
+
                         <div class="form-row form-row-4">
-        
+
                             <span class="select-btn">
                                 <i class="zmdi zmdi-chevron-down"></i>
                             </span>
@@ -95,7 +73,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        
+
                         <span class="select-btn">
                             <i class="zmdi zmdi-chevron-down"></i>
                         </span>
@@ -141,9 +119,5 @@
         integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
         data-cf-beacon='{"rayId":"8c0c54720d0579ab","serverTiming":{"name":{"cfExtPri":true,"cfL4":true}},"version":"2024.8.0","token":"cd0b4b3a733644fc843ef0b185f98241"}'
         crossorigin="anonymous"></script>
-    <footer>
-        <p>&copy; 2024 PetMatch. Todos os direitos reservados.</p>
-    </footer>
-</body>
+    {% endblock conteudo%}
 
-</html>
