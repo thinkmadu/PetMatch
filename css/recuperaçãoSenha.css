@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1; /* Faz o conteúdo principal ocupar o espaço disponível */
+}
+
+.form-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    text-align: left;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+input[type="email"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* não tá ficando com o texto branco e eu não faço ideia do pq */
+footer {
+    background-color: #000;
+    padding: 5px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #f2f2f2;
+    position: absolute; /* Adicionei essa linha para posicionar o rodapé */
+    bottom: 0; /* Coloca o rodapé na parte inferior */
+    width: 100%; /* Faz o rodapé ocupar toda a largura */
+}
+
+nav {
+    background-color: #000;
+    font-family: 'Oxanium';
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+}
+
+/* Logo "PetMatch" no canto esquerdo */
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 33px;
+    font-weight: 700;
+    color: #f2f2f2;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 70px; /* Define a altura da imagem para se ajustar à altura da navbar */
+    width: auto; /* Mantém a proporção da imagem */
+    margin-right: 10px; /* Espaçamento entre a imagem e o texto */
+    filter: invert(50%); /* Inverte as cores da imagem */
+    object-fit: contain; /* Garante que a imagem se ajuste sem distorção */
+}
+
+.logo:hover {
+    color: #ccc;
+}
+
+/* Estilo da lista da Navbar */
+.topnav {
+    
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    flex: 2; /* Garante que a lista ocupe o restante do espaço */
+}
+
+.topnav a {
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 27 px;
+    display: inline-block;
+}
+
+/* Ajuste para compensar o espaço ocupado pela navbar */
+body {
+    padding-top: 60px; /* Adiciona espaço no topo para a navbar */
+}
