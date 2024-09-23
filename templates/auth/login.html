@@ -1,29 +1,29 @@
 {% extends "layout.html" %}
-    {% block titleEcss %}
-        <title>Login</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% block titleEcss %}
+<title>Login</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 
-    {% endblock titleEcss%}
+{% endblock titleEcss%}
 
-     {% block conteudo %}
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
+{% block conteudo %}
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+<form>
+    <h3>Login</h3>
+
+    <label for="username">Usúario </label>
+    <input type="text" placeholder="Email" id="username">
+
+    <label for="password">Senha</label>
+    <input type="password" placeholder="Senha" id="password">
+
+    <button>Log In</button>
+    <div class="social">
+        <div class="go"><i class="fab fa-google"></i> Google</div>
     </div>
-    <form>
-        <h3>Login</h3>
-
-        <label for="username">Usúario   </label>
-        <input type="text" placeholder="Email" id="username">
-
-        <label for="password">Senha</label>
-        <input type="password" placeholder="Senha" id="password">
-
-        <button>Log In</button>
-        <div class="social">
-          <div class="go"><i class="fab fa-google"></i>  Google</div>
-        </div>
-        <a href="/templates/recuperaçãoSenha.html" class="button">Esqueceu a senha?</a>
-    </form>
-    {% endblock conteudo%}
+    <a href="/recuperar" class="button">Esqueceu a senha?</a>
+</form>
+{% endblock conteudo%}
 

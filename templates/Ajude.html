@@ -1,30 +1,35 @@
 {% extends "layout.html" %}
-    {% block titleEcss %}
-        <title>Ajude as Instituições</title>
-         <link rel="stylesheet" href="{{ url_for('static', filename='css/instituicoes.css') }}">
-    {% endblock titleEcss%}
+{% block titleEcss %}
+<title>Ajude as Instituições</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/instituicoes.css') }}">
+{% endblock titleEcss%}
 
-     {% block conteudo %}
-     <main>
-        <section>
-            <h2>Animal de Rua Campina Grande</h2>
-            <p><strong>Endereço:</strong> Logradouro NAPOLEAO LAUREANO, Número 527, Bairro LAURITZEN, Município CAMPINA GRANDE, UF PB, CEP 58401372</p>
-            <p><strong>PIX CNPJ:</strong> 46.540.371/0001-67</p>
-            <div class="image-container">
-                <img id="logoONG" src="../static/assets/logos ongs/Animal de rua.jpg" alt="Logo do Animal de Rua Campina Grande">
-                <img src="../static/assets/qr code ongs/qr code  ong animal de rua.png" alt="QR Code do Animal de Rua Campina Grande">
-            </div>
-        </section>
+{% block conteudo %}
+<main>
+    <section>
+        <h2>Animal de Rua Campina Grande</h2>
+        <p><strong>Endereço:</strong> Logradouro NAPOLEAO LAUREANO, Número 527, Bairro LAURITZEN, Município CAMPINA
+            GRANDE, UF PB, CEP 58401372</p>
+        <p><strong>PIX CNPJ:</strong> 46.540.371/0001-67</p>
+        <div class="image-container">
+            <img id="logoONG" src="../static/assets/logos ongs/Animal de rua.jpg"
+                 alt="Logo do Animal de Rua Campina Grande">
+            <img src="../static/assets/qr code ongs/qr code  ong animal de rua.png"
+                 alt="QR Code do Animal de Rua Campina Grande">
+        </div>
+    </section>
 
-        <section>
-            <h2>Associação dos Amigos dos Animais Abandonados de CG-PB</h2>
-            <p><strong>Endereço:</strong> RUA ACASSIO FIGUEIREDO, 1011, CATINGUEIRA, CEP 58400-002, 1981 - PB</p>
-            <p><strong>PIX:</strong> 06.262.522.0001-48</p>
-            <div class="image-container">
-                <img id="logoONG" src="../static/assets/logos ongs/Ass dos amgs dos animais.jpg" alt="Logo do Associação dos Amigos dos Animais Abandonados de CG-PB">
-                <img src="../static/assets/qr code ongs/qr code a4 associacao.png" alt="QR Code do Associação dos Amigos dos Animais Abandonados de CG-PB">
-            </div>
-        </section>
-    </main>
-    {% endblock conteudo%}
+    <section>
+        <h2>Associação dos Amigos dos Animais Abandonados de CG-PB</h2>
+        <p><strong>Endereço:</strong> RUA ACASSIO FIGUEIREDO, 1011, CATINGUEIRA, CEP 58400-002, 1981 - PB</p>
+        <p><strong>PIX:</strong> 06.262.522.0001-48</p>
+        <div class="image-container">
+            <img id="logoONG" src="../static/assets/logos ongs/Ass dos amgs dos animais.jpg"
+                 alt="Logo do Associação dos Amigos dos Animais Abandonados de CG-PB">
+            <img src="../static/assets/qr code ongs/qr code a4 associacao.png"
+                 alt="QR Code do Associação dos Amigos dos Animais Abandonados de CG-PB">
+        </div>
+    </section>
+</main>
+{% endblock conteudo%}
 
