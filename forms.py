@@ -10,7 +10,7 @@ class cadastroForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(),Email()])
     senha = PasswordField('Senha', validators=[DataRequired()])
     senhaConfirmar = PasswordField('Senha Confirmar', validators=[DataRequired(), EqualTo('senha', message="Senhas diferentes")])
-    cadastrarBotao = SubmitField('Cadastrar')
+
     fotoPerfil = FileField('Foto de Perfil', validators=[FileAllowed(['jpg','png','jpeg'])])
     rua = StringField('Rua', validators=[DataRequired()])
     complemento = StringField('Complemento', validators=[DataRequired()])
@@ -18,3 +18,12 @@ class cadastroForm(FlaskForm):
     numero = StringField('Número', validators=[DataRequired(),Regexp(regex='^[0-9]$')])
     ddd = StringField('DDD', validators=[DataRequired(),Regexp(regex='^[0-9]$'),Length(min=2,max=2)])
     celular = StringField('Celular', validators=[DataRequired(),Regexp(regex='^[0-9]$'),Length(min=9,max=9)])
+
+    cadastrarBotao = SubmitField('Cadastrar')
+
+class loginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(),Email()])
+    senha = PasswordField('Senha', validators=[DataRequired()])
+
+
+    loginBotao = SubmitField('Login')

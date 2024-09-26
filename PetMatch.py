@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-
+from forms import cadastroForm,loginForm
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'JHBJDJMBDKJ677898'
 
 #sql lite
 
@@ -14,7 +15,8 @@ db = SQLAlchemy(app)
 
 @app.route('/login')
 def login():
-    return render_template('auth/login.html')
+    form = loginForm()
+    return render_template('auth/login.html', form=loginForm())
 
 @app.route('/')
 @app.route('/home')
@@ -23,7 +25,8 @@ def home():
 
 @app.route('/cadastro')
 def cadastro():
-    return render_template('auth/cadastro.html')
+    form = cadastroForm()
+    return render_template('auth/cadastro.html', form=form)
 
 @app.route('/recuperar')
 def recuperar():
