@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template,  request, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 from forms import cadastroForm,loginForm
 app = Flask(__name__)
@@ -23,9 +23,22 @@ def login():
 def home():
     return render_template('index.html')
 
-@app.route('/cadastro')
+@app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
     form = cadastroForm()
+    if form.validate_on_submit():
+        # Aqui você processa os dados do formulário e salva no banco de dados
+        novo_usuario = Usuario(
+            primeiro_nome=form.primeiroNome.data,
+            sobrenome=form.sobrenome.data,
+            email=form.email.data,
+            senha=form.senha.data,  # Lembre-se de hashear a senha
+            telefone=form.celular.data
+        )
+        db.session.add(novo_usuario)
+        db.session.commit()
+        flash('Cadastro realizado com sucesso!', 'success')
+        return redirect('auth/login.html')  # Redireciona para a página de login após cadastro
     return render_template('auth/cadastro.html', form=form)
 
 @app.route('/recuperar')
