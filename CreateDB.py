@@ -1,7 +1,11 @@
-from PetMatch import db, app
+import mysql.connector
 
-# Garante que o contexto da aplicação está ativo
-with app.app_context():
-    # Cria todas as tabelas no banco de dados
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="87Amore;;w34"
+)
 
-    db.create_all()
+mycursor = mydb.cursor()
+
+mycursor.execute("CREATE DATABASE Petmatch")

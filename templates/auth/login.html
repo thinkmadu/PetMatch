@@ -1,29 +1,32 @@
 {% extends "layout.html" %}
+
 {% block titleEcss %}
 <title>Login</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-
-{% endblock titleEcss%}
+{% endblock titleEcss %}
 
 {% block conteudo %}
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-<form>
+
+<form method="POST" action="{{ url_for('login') }}">
+    {{ form.hidden_tag() }}  <!-- Token CSRF -->
+
     <h3>Login</h3>
 
-    <label for="username">Usúario </label>
-    <input type="text" placeholder="Email" id="username">
-
+    <label for="email">Email</label>
+    {{ form.email(class="form-control", id="email", placeholder="Email") }}
+    
     <label for="password">Senha</label>
-    <input type="password" placeholder="Senha" id="password">
+    {{ form.senha(class="form-control", id="password", placeholder="Senha") }}
+    
+    <button type="submit">{{ form.loginBotao() }}</button>  <!-- Botão de login -->
 
-    <button>Log In</button>
     <div class="social">
-        <div class="go"><i class="fab fa-google"></i> Google</div>
+        <div class="go"><i class="fab fa-google"></i> Google</div>  <!-- Botão de login com Google -->
     </div>
     <a href="/recuperar" class="button">Esqueceu a senha?</a>
 </form>
-{% endblock conteudo%}
-
+{% endblock conteudo %}
