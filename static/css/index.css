@@ -88,7 +88,6 @@ nav {
 .hero h1 {
     font-size: 60px;
     font-weight: 700;
-    text-decoration-line: underline;
     padding-top: 180px; /* Ajuste esse valor conforme necessário */
 }
 
@@ -174,4 +173,9 @@ footer {
     text-align: center;
     font-size: 14px;
     font-weight: 400;
+}
+
+a, a:visited {
+    text-decoration: none !important; /* Remove o sublinhado de ambos */
+    color: inherit; /* Define a cor para herdar do elemento pai, se desejado */
 }
