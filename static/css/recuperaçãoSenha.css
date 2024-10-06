@@ -63,7 +63,7 @@ input[type="email"] {
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #317134;
     color: white;
     padding: 10px;
     border: none;
@@ -72,7 +72,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #317134;
 }
 
 footer {

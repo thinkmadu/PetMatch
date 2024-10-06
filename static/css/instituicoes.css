@@ -9,14 +9,8 @@ body {
     font-family: 'Oxanium';
     color: #fff;
     background-color: #333;
-}
-
-section{
-    padding-left: 10px;
-}
-
-main {
-    padding-top: 170px; /* Ajuste o valor conforme necessário, dependendo da altura da navbar */
+    padding-top: 100px; /* Margem para que o conteúdo não seja sobreposto pela navbar */
+    padding-bottom: 60px; /* Espaço para que o conteúdo não seja sobreposto pelo footer */
 }
 
 nav {
@@ -30,7 +24,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 16px;
+    padding: 14px 16px;
 }
 
 /* Logo no canto esquerdo */
@@ -79,6 +73,14 @@ nav {
 
 .topnav a:hover {
     color: #ccc;
+}
+
+section{
+    padding-left: 10px;
+}
+
+main {
+    padding-top: 170px; /* Ajuste o valor conforme necessário, dependendo da altura da navbar */
 }
 
 img {

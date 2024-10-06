@@ -88,9 +88,6 @@ nav {
     -ms-align-items: center;
     -moz-align-items: center;
     -webkit-align-items: center;
-    background-image: -moz-linear-gradient( 136deg,rgb(149,153,226) 0%,rgb(139,198,236) 100%);
-    background-image: -webkit-linear-gradient( 136deg,rgb(149,153,226) 0%,rgb(139,198,236) 100%);
-    background-image: -ms-linear-gradient( 136deg,rgb(149,153,226) 0%, rgb(83, 85, 87) 100%)
 }
 
 .form-v10-content {
@@ -137,7 +134,7 @@ nav {
 
 .form-v10-content .form-detail .form-right {
     width: 100%;
-    background: #4835d4;
+    background: #317134;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px
 }
@@ -279,7 +276,7 @@ nav {
 }
 
 .form-v10-content .form-detail .form-right select option {
-    background: #4835d4
+    background: #317134
 }
 
 .form-v10-content .form-detail .form-checkbox {
@@ -517,7 +514,7 @@ nav {
 
 }
 .input-file::-webkit-file-upload-button {
-    background: #4835d4;
+    background: #317134;
     color: white;
     border: none;
     border-radius: 5px;
@@ -527,7 +524,7 @@ nav {
 }
 
 .input-file::-webkit-file-upload-button:hover {
-    background: #2271dd;
+    background: #449e49;
 }
 
 /* Footer */
