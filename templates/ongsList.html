@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 {% block titleEcss %}
 <title>Lista de pets para adoção</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/listaPets.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ongsList.css') }}">
 {% endblock titleEcss%}
 
 {% block conteudo %}
 <main>
     <!-- Primeira Instituição -->
-    <section class="petsList">
-        <div class="petsList-item">
+    <section class="ongsList">
+        <div class="ongsList-item">
             <img src="{{ url_for('static', filename='assets/logos ongs/Animal de rua.jpg') }}"
                 alt="Logo do Animal de Rua Campina Grande">
             <h3>Animal de Rua Campina Grande</h3>
@@ -24,15 +24,15 @@
     </section>
 
     <!-- Segunda Instituição -->
-    <section class="petsList">
-        <div class="petsList-item">
+    <section class="ongsList">
+        <div class="ongsList-item">
             <img src="{{ url_for('static', filename='assets/logos ongs/Ass dos amgs dos animais.jpg') }}"
                 alt="Logo do Associação dos Amigos dos Animais Abandonados de CG-PB">
             <h3>Associação dos Amigos dos Animais Abandonados</h3>
             <p>RUA ACASSIO FIGUEIREDO, 1011, CATINGUEIRA, CAMPINA GRANDE, PB, CEP 58400-002</p>
             <p><strong>PIX:</strong> 06.262.522.0001-48</p>
         </div>
-        <div class="petsList-item">
+        <div class="ongsList-item">
             <img src="{{ url_for('static', filename='assets/qr code ongs/qr code a4 associacao.png') }}"
                 alt="QR Code do Associação dos Amigos dos Animais Abandonados">
             <h3>QR Code</h3>
