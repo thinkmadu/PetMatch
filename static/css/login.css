@@ -11,12 +11,11 @@
     margin: 0;
     box-sizing: border-box;
 }
+
 body{
     font-family: 'Oxanium';
     color: #fff;
     background-color: #333;
-    
-    
 }
 
 .background{
@@ -33,6 +32,7 @@ body{
     position: absolute;
     border-radius: 50%;
 }
+
 .shape:first-child{
     background: linear-gradient(
         #d97c18,
@@ -41,6 +41,7 @@ body{
     left: -80px;
     top: -80px;
 }
+
 .shape:last-child{
     background: linear-gradient(
         to right,
@@ -67,7 +68,6 @@ form{
 }
 
 form *{
-    
     color: #ffffff;
     letter-spacing: 0.5px;
     outline: none;
@@ -117,7 +117,6 @@ button {
 }
 
 .button{
-    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -126,32 +125,33 @@ button {
 }
 
 .social{
-  margin-top: 30px;
-  display: flex;
+    margin-top: 30px;
+    display: flex;
   justify-content: center; /* Centraliza os itens dentro do contêiner .social */
 
 }
+
 .social div{
-  background: red;
-  width: 150px;
-  border-radius: 3px;
-  padding: 5px 10px 10px 5px;
-  background-color: rgba(255,255,255,0.27);
-  color: #eaf0fb;
-  text-align: center;
+    background: red;
+    width: 150px;
+    border-radius: 3px;
+    padding: 5px 10px 10px 5px;
+    background-color: rgba(255,255,255,0.27);
+    color: #eaf0fb;
+    text-align: center;
 }
+
 .social div:hover{
-  background-color: rgba(255,255,255,0.47);
+    background-color: rgba(255,255,255,0.47);
 }
 .social .fb{
-  margin-left: 25px;
+    margin-left: 25px;
 }
 .social i{
-  margin-right: 4px;
+    margin-right: 4px;
 }
 
-
-/* Estilo da Navbar */
+/* CSS global */
 nav {
     background-color: #000;
     font-family: 'Oxanium';
@@ -166,14 +166,14 @@ nav {
     padding: 14px 16px;
 }
 
-/* Logo "PetMatch" no canto esquerdo */
+/* Logo no canto esquerdo */
 .navbar-left {
     display: flex;
     align-items: center;
 }
 
 .logo {
-    font-size: 33px;
+    font-size: 25px;
     font-weight: 700;
     color: #f2f2f2;
     text-decoration: none;
@@ -182,7 +182,7 @@ nav {
 }
 
 .logo img {
-    height: 70px; /* Define a altura da imagem para se ajustar à altura da navbar */
+    height: 50px; /* Define a altura da imagem para se ajustar à altura da navbar */
     width: auto; /* Mantém a proporção da imagem */
     margin-right: 10px; /* Espaçamento entre a imagem e o texto */
     filter: invert(50%); /* Inverte as cores da imagem */
@@ -195,7 +195,6 @@ nav {
 
 /* Estilo da lista da Navbar */
 .topnav {
-    
     list-style: none;
     display: flex;
     justify-content: flex-end;
@@ -211,12 +210,10 @@ nav {
     display: inline-block;
 }
 
-
 .topnav a:hover {
     color: #ccc;
 }
 
-/* o footer ta no topo da tela n consegui fazer descer */
 footer {
     font-family: 'Oxanium';
     background-color: #000;
@@ -229,3 +226,4 @@ footer {
     bottom: 0; /* Coloca o rodapé na parte inferior */
     width: 100%; /* Faz o rodapé ocupar toda a largura */
 }
+/* Fim CSS global */

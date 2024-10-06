@@ -1,7 +1,4 @@
 /* CSS Global */
-
-
-
 * {
     margin: 0;
     padding: 0;
@@ -14,8 +11,6 @@ body {
     background-color: #333;
 }
 
-
-/* Estilo da Navbar */
 nav {
     background-color: #000;
     font-family: 'Oxanium';
@@ -30,14 +25,14 @@ nav {
     padding: 14px 16px;
 }
 
-/* Logo "PetMatch" no canto esquerdo */
+/* Logo no canto esquerdo */
 .navbar-left {
     display: flex;
     align-items: center;
 }
 
 .logo {
-    font-size: 33px;
+    font-size: 25px;
     font-weight: 700;
     color: #f2f2f2;
     text-decoration: none;
@@ -46,7 +41,7 @@ nav {
 }
 
 .logo img {
-    height: 70px; /* Define a altura da imagem para se ajustar à altura da navbar */
+    height: 50px; /* Define a altura da imagem para se ajustar à altura da navbar */
     width: auto; /* Mantém a proporção da imagem */
     margin-right: 10px; /* Espaçamento entre a imagem e o texto */
     filter: invert(50%); /* Inverte as cores da imagem */
@@ -59,7 +54,6 @@ nav {
 
 /* Estilo da lista da Navbar */
 .topnav {
-    
     list-style: none;
     display: flex;
     justify-content: flex-end;
@@ -74,7 +68,6 @@ nav {
     font-size: 27 px;
     display: inline-block;
 }
-
 
 .topnav a:hover {
     color: #ccc;
@@ -91,13 +84,14 @@ nav {
     text-align: center;
     margin-bottom: 0;
 }
+
 .hero h1 {
-    
     font-size: 60px;
     font-weight: 700;
     text-decoration-line: underline;
     padding-top: 180px; /* Ajuste esse valor conforme necessário */
 }
+
 .hero .overlay {
     position: absolute;
     top: 0;
@@ -130,7 +124,6 @@ nav {
 }
 
 /* section sobre */
-
 .sobre {
     position: relative; /* Garante que o conteúdo posicionado absoluto fique dentro dessa seção */
     min-height: 600px; /* Define uma altura mínima para a seção */
@@ -138,9 +131,7 @@ nav {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     text-align: center;
     padding-top: 50px;
-    
 }
-
 
 .sobre h2{
     top: 46px;
@@ -160,6 +151,7 @@ nav {
     left: 0; /* Move o elemento para o canto esquerdo */
     margin-left: 40px; /* Adiciona um pequeno espaçamento à esquerda */
 }
+
 .sobre ul{
     color: #000;
     font-family: Oxanium;
@@ -176,7 +168,6 @@ nav {
     border-radius: 55px;
 }
 
-/* Footer */
 footer {
     background-color: #000;
     padding: 15px;

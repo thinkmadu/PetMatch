@@ -16,7 +16,7 @@ body{
     color: #fff;
     background-color: #333;
 }
-/* Estilo da Navbar */
+
 nav {
     background-color: #000;
     font-family: 'Oxanium', serif;
@@ -31,14 +31,14 @@ nav {
     padding: 14px 16px;
 }
 
-/* Logo "PetMatch" no canto esquerdo */
+/* Logo no canto esquerdo */
 .navbar-left {
     display: flex;
     align-items: center;
 }
 
 .logo {
-    font-size: 33px;
+    font-size: 25px;
     font-weight: 700;
     color: #f2f2f2;
     text-decoration: none;
@@ -47,7 +47,7 @@ nav {
 }
 
 .logo img {
-    height: 70px; /* Define a altura da imagem para se ajustar à altura da navbar */
+    height: 50px; /* Define a altura da imagem para se ajustar à altura da navbar */
     width: auto; /* Mantém a proporção da imagem */
     margin-right: 10px; /* Espaçamento entre a imagem e o texto */
     filter: invert(50%); /* Inverte as cores da imagem */
@@ -60,7 +60,6 @@ nav {
 
 /* Estilo da lista da Navbar */
 .topnav {
-    
     list-style: none;
     display: flex;
     justify-content: flex-end;
@@ -76,12 +75,10 @@ nav {
     display: inline-block;
 }
 
-
 .topnav a:hover {
     color: #ccc;
 }
 
-/* o footer ta no topo da tela n consegui fazer descer */
 footer {
     font-family: 'Oxanium', serif;
     background-color: #000;
