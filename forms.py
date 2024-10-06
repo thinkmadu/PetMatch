@@ -21,4 +21,4 @@ class cadastroForm(FlaskForm):
 class loginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     senha = PasswordField('Senha', validators=[DataRequired()])
-    loginBotao = SubmitField('Login') 
+    loginBotao = SubmitField('Login')

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
-from sqlalchemy import text 
+from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
 from forms import cadastroForm, loginForm
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user, current_user
@@ -10,17 +10,13 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'JHBJDJMBDKJ677898'
 
-
-
 # Configurações do MySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:87Amore;;w34@localhost/PetMatch'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Mylooksql2024@localhost/PetMatch'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 
 # Inicializar o banco de dados
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)  # Configurar Flask-Migrate
-
 
 # Inicializar o LoginManager
 login_manager = LoginManager()
@@ -31,7 +27,6 @@ login_manager.login_view = 'login'  # Definir a rota de login
 @login_manager.user_loader
 def load_user(user_id):
     return Usuario.query.get(int(user_id))
-
 
 # Modelos de Dados
 class Usuario(db.Model):
@@ -51,7 +46,7 @@ class Usuario(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.senha, password)
-    
+
     @property
     def is_active(self):
         return True
@@ -86,7 +81,7 @@ def test_db():
         return "Conexão com o banco de dados bem-sucedida!"
     except Exception as e:
         return f"Erro ao conectar ao banco de dados: {e}"
-    
+
 # Rotas
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -95,14 +90,14 @@ def login():
         print("Formulário validado!")
         email = form.email.data
         senha = form.senha.data
-        
+
         user = Usuario.query.filter_by(email=email).first()
-        
+
 
         if user:
             print("Usuário encontrado:", user.primeiro_nome)
-            print("Senha:", user.senha)  
-            print("Senha fornecida:", senha)  
+            print("Senha:", user.senha)
+            print("Senha fornecida:", senha)
             if user.check_password(senha):
                 login_user(user)
                 flash('Login bem-sucedido!', 'success')
@@ -195,6 +190,6 @@ pets = [
 
 if __name__ == '__main__':
     with app.app_context():
-     db.create_all()
-     print("Tabelas criadas com sucesso!")
+        db.create_all()
+    print("Tabelas criadas com sucesso!")
     app.run(debug=True)

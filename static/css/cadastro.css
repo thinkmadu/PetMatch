@@ -8,7 +8,6 @@
 
 body {
     margin: 0
-    
 }
 
 /* Estilo da Navbar */
@@ -55,7 +54,6 @@ nav {
 
 /* Estilo da lista da Navbar */
 .topnav {
-    
     list-style: none;
     display: flex;
     justify-content: flex-end;
@@ -519,7 +517,7 @@ nav {
     font-weight: 500;
     font-size: 25px;
     margin-bottom: 10px;
-    
+
 }
 .input-file::-webkit-file-upload-button {
     background: #4835d4;
