@@ -92,7 +92,7 @@ footer {
 }
 
 /* Estilo das Instituições */
-.ongsList {
+.petsList {
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
@@ -102,7 +102,7 @@ footer {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.ongsList-item {
+.petsList-item {
     box-sizing: border-box; /* Inclui padding e bordas no cálculo da largura */
     width: calc(20% - 10px); /* Ajuste para margens */
     text-align: center;
@@ -113,7 +113,7 @@ footer {
     margin: 5px;
 }
 
-.ongsList-item img {
+.petsList-item img {
     width: 100%;
     height: 200px;
     object-fit: cover; /* Garante que a imagem seja cortada em um formato quadrado */
@@ -121,17 +121,17 @@ footer {
     transition: transform 0.2s ease;
 }
 
-.ongsList-item img:hover {
+.petsList-item img:hover {
     transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
 }
 
-.ongsList-item h3 {
+.petsList-item h3 {
     font-size: 18px;
     margin-top: 10px;
     color: #fff;
 }
 
-.ongsList-item p {
+.petsList-item p {
     font-size: 14px;
     margin-top: 5px;
     color: #ddd;
@@ -139,11 +139,11 @@ footer {
 
 /* Responsividade para telas menores */
 @media (max-width: 768px) {
-    .ongsList {
+    .petsList {
         flex-direction: column;
     }
 
-    .ongsList-item {
+    .petsList-item {
         width: 100%;
     }
 }

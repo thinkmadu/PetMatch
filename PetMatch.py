@@ -181,10 +181,20 @@ def petsList():
     total_pages = (len(pets) + per_page - 1) // per_page
     return render_template('petsList.html', pets=paginated_pets, page=page, total_pages=total_pages)
 
+@app.route('/ongsList')
+def ongsList():
+    page = request.args.get('page', 1, type=int)
+    per_page = 20
+    start = (page - 1) * per_page
+    end = start + per_page
+    paginated_pets = pets[start:end]
+    total_pages = (len(pets) + per_page - 1) // per_page
+    return render_template('ongsList.html', pets=paginated_pets, page=page, total_pages=total_pages)
+
 # Lista de pets com imagem e descrição
 pets = [
-    {'image': 'pet1.jpg', 'description': 'Cachorro brincalhão'},
-    {'image': 'pet2.jpg', 'description': 'Gato curioso'},
+    {'image': 'pet 1.jpg', 'description': 'Cachorro brincalhão'},
+    {'image': 'pet 2.jpg', 'description': 'Gato curioso'},
     # Adicione mais pets conforme necessário...
 ]
 
