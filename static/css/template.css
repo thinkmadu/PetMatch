@@ -11,6 +11,7 @@
     margin: 0;
     box-sizing: border-box;
 }
+
 body{
     font-family: 'Oxanium', serif;
     color: #fff;
@@ -91,3 +92,4 @@ footer {
     bottom: 0;
     width: 100%;
 }
+/* Fim CSS global */
