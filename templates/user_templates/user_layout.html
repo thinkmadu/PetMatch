@@ -4,31 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {% block titleEcss %} {% endblock %}
+    {% block titleEcss %}
+    <title>Pagina Inicial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/userScreen.css') }}">
+    {% endblock %}
 
-    <!-- importando fonte Oxanium do google -->
-    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
-</head>
+        <!-- importando fonte Oxanium do google -->
+        <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+    </head>
 
-<body class="form-v10">
-<!-- Navbar -->
-<nav>
-    <div class="navbar-left">
-        <a href="/home" class="logo">
-            <img src="../static/assets/pata%20png.webp " alt="Logo"> <!-- Imagem ao lado do texto -->
-            PetMatch
-        </a> <!-- Link para a home -->
-    </div>
+    <body class="form-v10">
+    <nav>
+        <div class="navbar-left">
+            <a href="/home" class="logo">
+                <img src="../static/assets/pata%20png.webp " alt="Logo"> <!-- Imagem ao lado do texto -->
+                PetMatch
+            </a> <!-- Link para a home -->
+        </div>
+
     <ul class="topnav">
         <li><a href="/ajude">Ajude as instituições</a></li>
         <li><a href="/petsList">Pets para adoção</a></li>
         <li><a href="/ongsList">ONGs</a></li>
         <li><a href="/home">Home</a></li>
         <li><a href="/sobre">Sobre</a></li>
+        <li><a href="/perfil">Perfil</a></li>
+        <li><a href="/logout">Sair</a></li>
     </ul>
 </nav>
+
 {% block conteudo %} {% endblock %}
-<!-- Footer -->
 <footer>
     <p>&copy; 2024 PetMatch. Todos os direitos reservados.</p>
 </footer>

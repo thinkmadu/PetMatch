@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_migrate import Migrate
 
 
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'JHBJDJMBDKJ677898'
 
@@ -70,7 +71,6 @@ class Animal(db.Model):
     descricao = db.Column(db.String(300))
     foto = db.Column(db.String(300))  # Caminho da foto
 
-
 # Rota de teste para verificar a conexão com o banco de dados
 @app.route('/test_db')
 def test_db():
@@ -92,15 +92,15 @@ def login():
 
         user = Usuario.query.filter_by(email=email).first()
 
-
         if user:
             print("Usuário encontrado:", user.primeiro_nome)
             print("Senha:", user.senha)
             print("Senha fornecida:", senha)
+
             if user.check_password(senha):
                 login_user(user)
                 flash('Login bem-sucedido!', 'success')
-                return redirect(url_for('petsList'))
+                return redirect(url_for('user_layout'))
             else:
                 print("Senha incorreta.")
                 flash('Senha incorreta. Tente novamente.', 'danger')
@@ -161,7 +161,6 @@ def cadastro():
         print("Formulário inválido:", form.errors)
     return render_template('auth/cadastro.html', form=form)
 
-
 @app.route('/recuperar')
 def recuperar():
     return render_template('recuperarSenha.html')
@@ -197,6 +196,10 @@ def ong_1():
 @app.route('/ongs_pages/ong_2')
 def ong_2():
     return render_template('ongs_pages/ong_2.html')
+
+@app.route('/user_templates/user_layout')
+def user_layout():
+    return render_template('/user_templates/user_layout.html')
 
 
 # Lista de pets com imagem e descrição
