@@ -71,7 +71,6 @@ class Animal(db.Model):
     foto = db.Column(db.String(300))  # Caminho da foto
 
 
-
 # Rota de teste para verificar a conexão com o banco de dados
 @app.route('/test_db')
 def test_db():
@@ -167,9 +166,9 @@ def cadastro():
 def recuperar():
     return render_template('recuperarSenha.html')
 
-@app.route('/ajude')
-def ajude():
-    return render_template('Ajude.html')
+@app.route('/sobre')
+def sobre():
+    return render_template('sobre.html')
 
 @app.route('/petsList')
 def petsList():
