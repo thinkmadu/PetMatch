@@ -33,4 +33,22 @@ class ResetPasswordForm(FlaskForm):
 class sendLinkForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     sendBotao = SubmitField('Enviar link de recuperação')
-    
+
+class profileForm(FlaskForm):
+    editarBotao = SubmitField('Editar perfil')
+
+
+class editPerfilForm(FlaskForm):
+    primeiroNome = StringField('Primeiro Nome')
+    sobrenome = StringField('Sobrenome')
+    email = StringField('Email', validators=[ Email()])
+    senha = PasswordField('Senha')
+    senhaConfirmar = PasswordField('Confirmar Senha', validators=[EqualTo('senha', message="Senhas diferentes")])
+    fotoPerfil = FileField('Foto de Perfil', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+    rua = StringField('Rua')
+    complemento = StringField('Complemento')
+    cep = StringField('CEP', validators=[ Regexp(regex=r'^\d{8}$', message='O CEP deve ter 8 dígitos.'), Length(min=8, max=8)])
+    numero = StringField('Número', validators=[ Regexp(regex=r'^\d+$', message='O número deve conter apenas dígitos.')])
+    ddd = StringField('DDD', validators=[Regexp(regex=r'^\d{2}$', message='O DDD deve ter 2 dígitos.'),Length(min=2, max=2)])
+    celular = StringField('Celular', validators=[ Regexp(regex=r'^\d{9}$', message='O celular deve ter 9 dígitos.'), Length(min=9, max=9)])
+    salvarBotao = SubmitField('Salvar')

@@ -1,0 +1,17 @@
+{% extends "user_layout.html" %}
+{% block titleEcss %}
+
+<title>Profile</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/userScreen.css') }}">
+
+{% endblock titleEcss%}
+
+{% block conteudo %}
+
+<div>
+    <form method="POST" action="{{ url_for('profile') }}">
+    {{ form.hidden_tag() }}
+    <button type="submit">{{ form.editarBotao() }}</button>
+</form>
+</div>
+{% endblock conteudo%}

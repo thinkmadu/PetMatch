@@ -1,12 +1,14 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
-from config.forms import cadastroForm, loginForm,ResetPasswordForm,sendLinkForm
+from config.forms import cadastroForm, loginForm,ResetPasswordForm,sendLinkForm,profileForm,editPerfilForm
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 from flask_migrate import Migrate
+import base64
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'JHBJDJMBDKJ677898'
@@ -69,7 +71,7 @@ def login():
             if user.check_password(senha):
                 login_user(user)
                 flash('Login bem-sucedido!', 'success')
-                return redirect(url_for('user_layout'))
+                return redirect(url_for('profile'))
             else:
                 print("Senha incorreta.")
                 flash('Senha incorreta. Tente novamente.', 'danger')
@@ -191,6 +193,70 @@ def redefinir():
 @app.route('/sobre')
 def sobre():
     return render_template('sobre.html')
+
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    form = profileForm()
+    if form.validate_on_submit():
+        return redirect(url_for('edit_profile'))
+    return render_template('user_pages/profile.html', form=form)
+
+
+@app.route('/profile/edit', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    
+    form = editPerfilForm()
+
+
+
+   # Verifique se o usuário tem uma foto de perfil
+    foto_perfil_atual = None
+    if current_user.foto_perfil:
+        # Converta a foto de perfil binária para base64 para exibição na página
+        foto_perfil_atual = base64.b64encode(current_user.foto_perfil).decode('utf-8')
+
+    # Preencher o formulário com os dados atuais do usuário logado
+    if request.method == 'GET':
+        form.primeiroNome.data = current_user.primeiro_nome
+        form.sobrenome.data = current_user.sobrenome
+        form.email.data = current_user.email
+        form.rua.data = current_user.rua
+        form.complemento.data = current_user.complemento
+        form.cep.data = current_user.cep
+        form.numero.data = current_user.numero
+        form.ddd.data = current_user.ddd
+        form.celular.data = current_user.celular
+    
+    # Quando o formulário for submetido
+    if form.validate_on_submit():
+        current_user.primeiro_nome = form.primeiroNome.data
+        current_user.sobrenome = form.sobrenome.data
+        current_user.email = form.email.data
+        current_user.rua = form.rua.data
+        current_user.complemento = form.complemento.data
+        current_user.cep = form.cep.data
+        current_user.numero = form.numero.data
+        current_user.ddd = form.ddd.data
+        current_user.celular = form.celular.data
+
+        # Se uma nova foto de perfil for enviada
+        if form.fotoPerfil.data:
+            current_user.foto_perfil = form.fotoPerfil.data.read()
+
+        # Se uma nova senha for fornecida
+        if form.senha.data:
+            current_user.senha = generate_password_hash(form.senha.data)
+
+        # Salvar as alterações no banco de dados
+        db.session.commit()
+
+        flash('Perfil atualizado com sucesso!', 'success')
+        return redirect(url_for('profile'))
+
+    return render_template('user_pages/edit.html', form=form)
+
 
 @app.route('/petsList')
 def petsList():
