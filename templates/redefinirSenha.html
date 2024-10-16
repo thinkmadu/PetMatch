@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block titleEcss %}
+<title>Redefinir</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+{% endblock titleEcss%}
+
+{% block conteudo %}
+<div class="page-content">
+    <div class="form-v10-content">
+        <form class="form-detail" action="{{ url_for('redefinir') }}" method="post" enctype="multipart/form-data">
+            <!-- Campo de segurança CSRF -->
+            {{ form.hidden_tag() }}
+
+
+                <div class="form-row">
+                    {{ form.email.label }}
+                    {{ form.email(class="input-text") }}
+                    {% if form.email.errors %}
+                        <div class="error">{{ form.email.errors[0] }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-row">
+                    {{ form.senha.label }}
+                    {{ form.senha(class="input-text") }}
+                    {% if form.senha.errors %}
+                        <div class="error">{{ form.senha.errors[0] }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-row">
+                    {{ form.senhaConfirmar.label }}
+                    {{ form.senhaConfirmar(class="input-text") }}
+                    {% if form.senhaConfirmar.errors %}
+                        <div class="error">{{ form.senhaConfirmar.errors[0] }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-row-last">
+                    {{ form.redefinirBotao(class="register") }}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock conteudo %}
+

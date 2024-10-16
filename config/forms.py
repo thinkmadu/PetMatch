@@ -22,3 +22,15 @@ class loginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     senha = PasswordField('Senha', validators=[DataRequired()])
     loginBotao = SubmitField('Login')
+
+
+class ResetPasswordForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    senha = PasswordField('Senha', validators=[DataRequired()])
+    senhaConfirmar = PasswordField('Confirmar Senha', validators=[DataRequired(), EqualTo('senha', message="Senhas diferentes")])
+    redefinirBotao = SubmitField('Redefinir Senha')
+
+class sendLinkForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    sendBotao = SubmitField('Enviar link de recuperação')
+    

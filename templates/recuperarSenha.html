@@ -11,10 +11,17 @@
     <div class="form-box">
         <h2>Recuperar Senha</h2>
         <p>Insira seu endereço de e-mail e enviaremos um link para redefinir sua senha.</p>
-        <form action="#" method="POST">
-            <label for="email">Endereço de E-mail</label>
-            <input type="email" id="email" name="email" required>
-            <button type="submit">Enviar Link de Recuperação</button>
+        <form action="{{ url_for('recuperar') }}" method="POST">
+            {{ form.hidden_tag() }}
+
+            {{ form.email.label }}
+                    {{ form.email(class="input-text") }}
+                    {% if form.email.errors %}
+                        <div class="error">{{ form.email.errors[0] }}</div>
+                    {% endif %}
+
+            <button type="submit">{{ form.sendBotao() }}</button>
+            
         </form>
     </div>
 </div>
