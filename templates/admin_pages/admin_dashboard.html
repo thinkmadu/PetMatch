@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block titleEcss %}
+<title>Admin</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+
+{% endblock titleEcss%}
+
+{% block conteudo %}
+
+<div class="container">
+    <div class="form-box">
+        <h2>Administrador</h2>
+        <form action="{{ url_for('admin_dashboard') }}" method="POST" target="_blank">
+            {{ form.hidden_tag() }}
+
+            
+
+            <button type="submit">{{ form.cadastrarBotao() }}</button>
+            
+        </form>
+    </div>
+</div>
+{% endblock conteudo%}

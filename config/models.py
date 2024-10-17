@@ -2,6 +2,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import event
 
 from PetMatch import db
 
@@ -31,6 +32,13 @@ class Animal(db.Model):
     descricao = db.Column(db.String(300))
     foto = db.Column(db.LargeBinary)
 
+# admins que criei
+#(44,"Dua Lipa","admin1@gmail.com","77"),
+#(74,"Olivia Rodrigo","admin2@gmail.com","88")
+
+# INSERT	INTO admin(id,nome,email,senha)
+# VALUES (44,"Dua Lipa","admin1@gmail.com","77"),(74,"Olivia Rodrigo","admin2@gmail.com","88");
+#(48,"Beyonce","admin3@gmail.com","77"),(24,"Sia","admin4@gmail.com","88");
 
 class Admin(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -40,6 +48,7 @@ class Admin(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.senha, password)
+
 
 class Ong(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

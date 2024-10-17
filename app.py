@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
-from config.forms import cadastroForm, loginForm,ResetPasswordForm,sendLinkForm,profileForm,editPerfilForm
+from config.forms import cadastroForm, loginForm,ResetPasswordForm,sendLinkForm,profileForm,editPerfilForm,cadastrar_OngForm
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
@@ -36,10 +36,21 @@ mail = Mail(app)
 s = URLSafeTimedSerializer(app.secret_key)
 
 
-from config.models import Usuario, Admin, Ong
+from config.models import Usuario, Admin, Ong, Animal
 
 @login_manager.user_loader
 def load_user(user_id):
+    # Tenta carregar como Admin
+    user = Admin.query.get(int(user_id))
+    if user:
+        return user
+
+    # Tenta carregar como Ong
+    user = Ong.query.get(int(user_id))
+    if user:
+        return user
+
+    # Tenta carregar como Usuario
     return Usuario.query.get(int(user_id))
 
 # Rota de teste para verificar a conexão com o banco de dados
@@ -60,6 +71,9 @@ def login():
         print("Formulário validado!")
         email = form.email.data
         senha = form.senha.data
+
+        print("Email:", email)
+        print("Senha:", senha)
 
         user = Usuario.query.filter_by(email=email).first()
 
@@ -100,15 +114,18 @@ def login():
 @login_required
 def admin_dashboard():
     # Verifica se o usuário logado é um administrador
+    print(isinstance(current_user, Admin))
+    form =cadastrar_OngForm()
     if isinstance(current_user, Admin):
         # Aqui você pode adicionar dados que deseja exibir no dashboard
         usuarios = Usuario.query.all()
         ongs = Ong.query.all()
-        return render_template('admin_pages/admin_dashboard.html', usuarios=usuarios, ongs=ongs)
+        animais = Animal.query.all()
+        return render_template('admin_pages/admin_dashboard.html', usuarios=usuarios, ongs=ongs,animais=animais,form=form)
     else:
+        print("Acesso negado. Somente administradores podem acessar esta página.")
         flash('Acesso negado. Somente administradores podem acessar esta página.', 'danger')
         return redirect(url_for('home'))
-
 
 
 @app.route('/logout')
