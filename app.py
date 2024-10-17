@@ -36,7 +36,7 @@ mail = Mail(app)
 s = URLSafeTimedSerializer(app.secret_key)
 
 
-from config.models import Usuario
+from config.models import Usuario, Admin, Ong
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -75,11 +75,41 @@ def login():
             else:
                 print("Senha incorreta.")
                 flash('Senha incorreta. Tente novamente.', 'danger')
+
+        # Verifica na tabela Admin
+        admin = Admin.query.filter_by(email=email).first()
+        if admin and admin.check_password(senha):
+            login_user(admin)
+            flash('Login bem-sucedido! Bem-vindo Admin.', 'success')
+            return redirect(url_for('admin_dashboard'))  # Redireciona para o dashboard do admin
+        
+        # Verifica na tabela Ong
+        ong = Ong.query.filter_by(email=email).first()
+        if ong and ong.check_password(senha):
+            login_user(ong)
+            flash('Login bem-sucedido! Bem-vindo Ong.', 'success')
+            return redirect(url_for('ong_dashboard'))  # Redireciona para a página da ONG
+
         else:
             print("Usuário não encontrado.")
             flash('Usuário não encontrado. Verifique o email.', 'danger')
 
     return render_template('auth/login.html', form=form)
+
+@app.route('/admin_dashboard')
+@login_required
+def admin_dashboard():
+    # Verifica se o usuário logado é um administrador
+    if isinstance(current_user, Admin):
+        # Aqui você pode adicionar dados que deseja exibir no dashboard
+        usuarios = Usuario.query.all()
+        ongs = Ong.query.all()
+        return render_template('admin_pages/admin_dashboard.html', usuarios=usuarios, ongs=ongs)
+    else:
+        flash('Acesso negado. Somente administradores podem acessar esta página.', 'danger')
+        return redirect(url_for('home'))
+
+
 
 @app.route('/logout')
 @login_required
