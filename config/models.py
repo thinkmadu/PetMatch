@@ -38,7 +38,7 @@ class Animal(db.Model):
 
 # INSERT	INTO admin(id,nome,email,senha)
 # VALUES (44,"Dua Lipa","admin1@gmail.com","77"),(74,"Olivia Rodrigo","admin2@gmail.com","88");
-#(48,"Beyonce","admin3@gmail.com","77"),(24,"Sia","admin4@gmail.com","88");
+# (48,"Beyonce","admin3@gmail.com","77"),(24,"Sia","admin4@gmail.com","88");
 
 class Admin(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

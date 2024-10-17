@@ -12,9 +12,9 @@ import base64
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'JHBJDJMBDKJ677898'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:87Amore;;w34@localhost/PetMatch'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:87Amore;;w34@localhost/PetMatch'
 # de madu
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Mylooksql2024@localhost/PetMatch'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Mylooksql2024@localhost/PetMatch'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -29,9 +29,9 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Servidor SMTP do Gmail
 app.config['MAIL_PORT'] = 587  # Porta para TLS
 app.config['MAIL_USE_TLS'] = True  # Habilita TLS
 app.config['MAIL_USE_SSL'] = False  # Não usa SSL
-app.config['MAIL_USERNAME'] = 'petmatch.adm@gmail.com'  
-#app.config['MAIL_PASSWORD'] = 'eett34;;' 
-app.config['MAIL_PASSWORD'] = 'kuya dzya toli ygpz' 
+app.config['MAIL_USERNAME'] = 'petmatch.adm@gmail.com'
+#app.config['MAIL_PASSWORD'] = 'eett34;;'
+app.config['MAIL_PASSWORD'] = 'kuya dzya toli ygpz'
 mail = Mail(app)
 s = URLSafeTimedSerializer(app.secret_key)
 
@@ -96,7 +96,7 @@ def login():
             login_user(admin)
             flash('Login bem-sucedido! Bem-vindo Admin.', 'success')
             return redirect(url_for('admin_dashboard'))  # Redireciona para o dashboard do admin
-        
+
         # Verifica na tabela Ong
         ong = Ong.query.filter_by(email=email).first()
         if ong and ong.check_password(senha):
@@ -194,7 +194,7 @@ def recuperar():
 
         # Encontrar o usuário pelo email
         user = Usuario.query.filter_by(email=email).first()
-        
+
         if user:
             # Criar o token
             token = s.dumps(email, salt='email-confirm')
@@ -253,7 +253,6 @@ def profile():
 @app.route('/profile/edit', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    
     form = editPerfilForm()
 
 
@@ -336,3 +335,15 @@ def ong_2():
 @app.route('/user_user_layout')
 def user_layout():
     return render_template('user_templates/user_layout.html')
+
+@app.route('/ong_dashboard')
+def ong_dashboard():
+    return render_template('ongs_pages/ong_dashboard.html')
+
+@app.route('/ongs_register')
+def ongs_register():
+    return render_template('admin_pages/ongs_register.html')
+
+@app.route('/pets_register')
+def pets_register():
+    return render_template('admin_pages/pets_register.html')
