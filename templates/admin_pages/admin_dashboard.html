@@ -31,7 +31,57 @@
 </nav>
 
 {% block conteudo %}
+<h1>Admin Dashboard</h1>
 
+<h2>Lista de ONGs</h2>
+<table>
+    <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Telefone</th>
+    </tr>
+    {% for ong in ongs %}
+    <tr>
+        <td>{{ ong.nome_Ong }}</td>
+        <td>{{ ong.email }}</td>
+        <td>{{ ong.telefone }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Lista de Animais</h2>
+<table>
+    <tr>
+        <th>Nome</th>
+        <th>Espécie</th>
+        <th>Idade</th>
+    </tr>
+    {% for animal in animais %}
+    <tr>
+        <td>{{ animal.nome }}</td>
+        <td>{{ animal.especie }}</td>
+        <td>{{ animal.idade }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<h2>Lista de Usuários</h2>
+<table>
+    <tr>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+        <th>email</th>
+        
+    </tr>
+    {% for usuario in usuarios %}
+    <tr>
+        <td>{{ usuario.primeiro_nome }}</td>
+        <td>{{ usuario.sobrenome }}</td>
+        <td>{{ usuario.email }}</td>
+    </tr>
+    {% endfor %}
+</table>
 <div class="button-container">
     <a href="/admin_dashboard/ongs_register"> CADASTRAR ONG</a>
 </div>

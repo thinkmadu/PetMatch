@@ -28,17 +28,26 @@ class Animal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     especie = db.Column(db.String(50), nullable=False)
-    idade = db.Column(db.Integer)
-    descricao = db.Column(db.String(300))
-    foto = db.Column(db.LargeBinary)
+    idade = db.Column(db.Integer, nullable=False)
+    descricao = db.Column(db.String(300), nullable=False)
+    status = db.Column(db.String(50), nullable=False)
+    foto1 = db.Column(db.LargeBinary, nullable=False)
+    foto2 = db.Column(db.LargeBinary)
+    foto3 = db.Column(db.LargeBinary)
+    foto4 = db.Column(db.LargeBinary)
 
-# admins que criei
-#(44,"Dua Lipa","admin1@gmail.com","77"),
-#(74,"Olivia Rodrigo","admin2@gmail.com","88")
+    # Chave estrangeira para referenciar a ONG
+    ong_id = db.Column(db.Integer, db.ForeignKey('ong.id'), nullable=False)
 
-# INSERT	INTO admin(id,nome,email,senha)
-# VALUES (44,"Dua Lipa","admin1@gmail.com","77"),(74,"Olivia Rodrigo","admin2@gmail.com","88");
-# (48,"Beyonce","admin3@gmail.com","77"),(24,"Sia","admin4@gmail.com","88");
+    # Definir o relacionamento com a classe Ong
+    ong = db.relationship('Ong', backref='animais')
+
+
+
+""" INSERT	INTO admin(id,nome,email,senha)
+ VALUES (44,"Dua Lipa","admin1@gmail.com","77"),(74,"Olivia Rodrigo","admin2@gmail.com","88"),
+(48,"Beyonce","admin3@gmail.com","77"),(24,"Sia","admin4@gmail.com","88");
+"""
 
 class Admin(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

@@ -115,13 +115,13 @@ def login():
 def admin_dashboard():
     # Verifica se o usuário logado é um administrador
     print(isinstance(current_user, Admin))
-    form =cadastrar_OngForm()
+    
     if isinstance(current_user, Admin):
         # Aqui você pode adicionar dados que deseja exibir no dashboard
         usuarios = Usuario.query.all()
         ongs = Ong.query.all()
         animais = Animal.query.all()
-        return render_template('admin_pages/admin_dashboard.html', usuarios=usuarios, ongs=ongs,animais=animais,form=form)
+        return render_template('admin_pages/admin_dashboard.html', usuarios=usuarios, ongs=ongs,animais=animais)
     else:
         print("Acesso negado. Somente administradores podem acessar esta página.")
         flash('Acesso negado. Somente administradores podem acessar esta página.', 'danger')
@@ -337,8 +337,23 @@ def user_layout():
     return render_template('user_templates/user_layout.html')
 
 @app.route('/ong_dashboard')
+@login_required
 def ong_dashboard():
-    return render_template('ongs_pages/ong_dashboard.html')
+
+    # Verifica se o usuário logado é um administrador
+    print(isinstance(current_user, Ong))
+    
+    if isinstance(current_user, Ong):
+        # Aqui você pode adicionar dados que deseja exibir no dashboard
+
+        animais = Animal.query.all()
+        return render_template('ongs_pages/ong_dashboard.html',animais=animais)
+    else:
+        print("Acesso negado. Somente Ongs podem acessar esta página.")
+        flash('Acesso negado. Somente Ongs podem acessar esta página.', 'danger')
+        return redirect(url_for('home'))
+
+
 
 
 @app.route('/admin_dashboard/ongs_register', methods=['GET', 'POST'])

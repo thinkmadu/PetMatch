@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, FileField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp
+from wtforms import StringField, PasswordField, SubmitField, FileField,IntegerField,TextAreaField,SelectField,QuerySelectField
+from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp,NumberRange
 from flask_wtf.file import FileAllowed
+from config.models import Ong 
 
 class cadastroForm(FlaskForm):
     primeiroNome = StringField('Primeiro Nome', validators=[DataRequired()])
@@ -71,3 +72,20 @@ class cadastrar_OngForm(FlaskForm):
     ddd = StringField('DDD', validators=[DataRequired(), Regexp(regex=r'^\d{2}$', message='O DDD deve ter 2 dígitos.'),Length(min=2, max=2)])
     celular = StringField('Celular', validators=[DataRequired(), Regexp(regex=r'^\d{9}$', message='O celular deve ter 9 dígitos.'), Length(min=9, max=9)])
     cadastrarBotao = SubmitField('Cadastrar ONG')
+
+
+class AnimalForm(FlaskForm):
+    nome = StringField('Nome do Animal', validators=[DataRequired(), Length(min=2, max=100)])
+    especie = StringField('Espécie', validators=[DataRequired(), Length(min=2, max=50)])
+    idade = IntegerField('Idade', validators=[DataRequired(), NumberRange(min=0, max=30, message='Idade inválida')])
+    descricao = TextAreaField('Descrição', validators=[DataRequired(), Length(max=300)])
+    status = SelectField('Status', choices=[('disponível', 'Disponível'), ('adotado', 'Adotado')], validators=[DataRequired()])
+    foto1 = FileField('Foto 1', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Apenas arquivos de imagem são permitidos'), DataRequired()])
+    foto2 = FileField('Foto 2', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+    foto3 = FileField('Foto 3', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+    foto4 = FileField('Foto 4', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+
+    # Campo para escolher a ONG a qual o animal pertence
+    ong = QuerySelectField('ONG', query_factory=lambda: Ong.query.all(), get_label='nome_Ong', allow_blank=False, validators=[DataRequired()])
+
+    cadastrarBotao = SubmitField('Cadastrar Animal')

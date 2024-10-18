@@ -6,13 +6,13 @@
 }
 
 *:before,
-*:after{
+*:after {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     font-family: 'Oxanium', serif;
     color: #fff;
     background-color: #333;
@@ -32,7 +32,6 @@ nav {
     padding: 14px 16px;
 }
 
-/* Logo no canto esquerdo */
 .navbar-left {
     display: flex;
     align-items: center;
@@ -48,41 +47,44 @@ nav {
 }
 
 .logo img {
-    height: 50px; /* Define a altura da imagem para se ajustar à altura da navbar */
-    width: auto; /* Mantém a proporção da imagem */
-    margin-right: 10px; /* Espaçamento entre a imagem e o texto */
-    filter: invert(50%); /* Inverte as cores da imagem */
-    object-fit: contain; /* Garante que a imagem se ajuste sem distorção */
+    height: 50px;
+    width: auto;
+    margin-right: 10px;
+    filter: invert(50%);
+    object-fit: contain;
 }
 
 .logo:hover {
     color: #ccc;
 }
 
-/* Estilo da lista da Navbar */
 .topnav {
     list-style: none;
     display: flex;
     justify-content: flex-end;
-    flex: 2; /* Garante que a lista ocupe o restante do espaço */
+    flex: 2;
 }
-
-
 
 .topnav a {
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 27 px;
+    font-size: 27px;
     display: inline-block;
 }
+
+.topnav a:hover {
+    color: #ccc;
+}
+
 .button-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Isso garante que o contêiner ocupe a altura total da tela */
-    margin-bottom: 50px; /* Ajuste conforme necessário para espaçar do rodapé */
+    height: 20vh;
+    margin-bottom: 50px;
+    
 }
 
 button {
@@ -99,9 +101,23 @@ button:hover {
     background-color: #555;
 }
 
-.topnav a:hover {
-    color: #ccc;
+/* Estilo para o botão de cadastro de ONG */
+.button-container a {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #7546bc; /* Cor de fundo */
+    color: #fff; /* Cor do texto */
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px; /* Bordas arredondadas */
+    transition: background-color 0.3s ease; /* Transição suave */
 }
+
+.button-container a:hover {
+    background-color: #c43d1b; /* Cor de fundo ao passar o mouse */
+}
+
 
 footer {
     font-family: 'Oxanium', serif;
@@ -115,4 +131,51 @@ footer {
     bottom: 0;
     width: 100%;
 }
-/* Fim CSS global */
+
+/* Estilizando o dashboard */
+h1, h2 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Aumentando o espaçamento superior do primeiro h2 */
+h2:first-of-type {
+    margin-top: 60px; /* Aumente esse valor conforme necessário */
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    text-align: left;
+    background-color: #6dadc3;
+    color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Centralizando os títulos das colunas */
+table th {
+    background-color: #8e58c4;
+    text-align: center; /* Centralizando os títulos */
+}
+
+table th, table td {
+    padding: 15px;
+    border: 1px solid #555;
+}
+
+/* Centralizando o conteúdo das células */
+table td {
+    text-align: center;
+}
+
+/* Espaçamento entre colunas */
+table th, table td {
+    padding: 12px 20px;
+}
+
+/* Centralizando conteúdo */
+table {
+    margin: 20px auto;
+}

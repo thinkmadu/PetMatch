@@ -32,7 +32,34 @@
 </nav>
 
 {% block conteudo %}
-{% endblock %}
+<h1>ONG Dashboard</h1>
+
+<h2>Lista de Animais</h2>
+<table>
+    <tr>
+        <th>Nome</th>
+        <th>idade</th>
+        <th>raça</th>
+        <th>status</th>
+    </tr>
+
+    {% for animal in animais %}
+    <tr>
+        <td>{{ animal.nome }}</td>
+        <td>{{ animal.idade }}</td>
+        <td>{{ animal.especie }}</td>
+        <td>{{ animal.status }}</td>
+        
+    </tr>
+    {% endfor %}
+</table>
+
+
+</table>
+<div class="button-container">
+    <a href="/ong_dashboard/pets_register"> Cadastrar animal</a>
+    <a href="/ong_dashboard/pets_edit"> Editar animal</a>
+</div>
 <footer>
     <p>&copy; 2024 PetMatch. Todos os direitos reservados.</p>
 </footer>
