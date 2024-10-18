@@ -67,6 +67,8 @@ nav {
     flex: 2; /* Garante que a lista ocupe o restante do espaço */
 }
 
+
+
 .topnav a {
     color: #f2f2f2;
     text-align: center;
@@ -74,6 +76,27 @@ nav {
     text-decoration: none;
     font-size: 27 px;
     display: inline-block;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Isso garante que o contêiner ocupe a altura total da tela */
+    margin-bottom: 50px; /* Ajuste conforme necessário para espaçar do rodapé */
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #555;
 }
 
 .topnav a:hover {

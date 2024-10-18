@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 
 {% block titleEcss %}
-    <title>Cadastro</title>
+    <title>Cadastro de ONG</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ongs_register.css') }}">
 {% endblock titleEcss %}
 
 {% block conteudo %}
 <div class="page-content">
     <div class="form-v10-content">
-        <form class="form-detail" action="{{ url_for('cadastro') }}" method="post" enctype="multipart/form-data">
+        <form class="form-detail" action="{{ url_for('ongs_register') }}" method="post" enctype="multipart/form-data">
             <!-- Campo de segurança CSRF -->
             {{ form.hidden_tag() }}
 
@@ -16,28 +16,34 @@
                 <h2>Informações Gerais</h2>
                 <div class="form-row">
                     <div class="form-row form-row-1">
-                        {{ form.primeiroNome.label }}
-                        {{ form.primeiroNome(class="input-text") }}
-                        {% if form.primeiroNome.errors %}
-                            <div class="error">{{ form.primeiroNome.errors[0] }}</div>
+                        {{ form.nome_Ong.label }}
+                        {{ form.nome_Ong(class="input-text") }}
+                        {% if form.nome_Ong.errors %}
+                            <div class="error">{{ form.nome_Ong.errors[0] }}</div>
                         {% endif %}
                     </div>
 
                     <div class="form-row form-row-2">
-                        {{ form.sobrenome.label }}
-                        {{ form.sobrenome(class="input-text") }}
-                        {% if form.sobrenome.errors %}
-                            <div class="error">{{ form.sobrenome.errors[0] }}</div>
+                        {{ form.cnpj.label }}
+                        {{ form.cnpj(class="input-text") }}
+                        {% if form.cnpj.errors %}
+                            <div class="error">{{ form.cnpj.errors[0] }}</div>
                         {% endif %}
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="form-row form-row-3">
-                        {{ form.fotoPerfil.label }}<br>
-                        {{ form.fotoPerfil(class="input-file") }}
-                        {% if form.fotoPerfil.errors %}
-                            <div class="error">{{ form.fotoPerfil.errors[0] }}</div>
+                        {{ form.fotoPerfilLogo.label }}<br>
+                        {{ form.fotoPerfilLogo(class="input-file") }}
+                        {% if form.fotoPerfilLogo.errors %}
+                            <div class="error">{{ form.fotoPerfilLogo.errors[0] }}</div>
+                        {% endif %}
+
+                        {{ form.fotoQrCode.label }}<br>
+                        {{ form.fotoQrCode(class="input-file") }}
+                        {% if form.fotoQrCode.errors %}
+                            <div class="error">{{ form.fotoQrCode.errors[0] }}</div>
                         {% endif %}
                     </div>
                 </div>
@@ -95,6 +101,24 @@
                     </div>
                 </div>
 
+                <h2>Informações Bancárias</h2>
+                <div class="form-row">
+                    {{ form.dados_bancarios.label }}
+                    {{ form.dados_bancarios(class="input-text") }}
+                    {% if form.dados_bancarios.errors %}
+                        <div class="error">{{ form.dados_bancarios.errors[0] }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-row">
+                    {{ form.instagram.label }}
+                    {{ form.instagram(class="input-text") }}
+                    {% if form.instagram.errors %}
+                        <div class="error">{{ form.instagram.errors[0] }}</div>
+                    {% endif %}
+                </div>
+
+                <h2>Segurança</h2>
                 <div class="form-row">
                     {{ form.email.label }}
                     {{ form.email(class="input-text") }}

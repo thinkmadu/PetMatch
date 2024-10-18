@@ -12,9 +12,9 @@ import base64
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'JHBJDJMBDKJ677898'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:87Amore;;w34@localhost/PetMatch'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:87Amore;;w34@localhost/PetMatch'
 # de madu
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Mylooksql2024@localhost/PetMatch'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Mylooksql2024@localhost/PetMatch'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -340,9 +340,65 @@ def user_layout():
 def ong_dashboard():
     return render_template('ongs_pages/ong_dashboard.html')
 
-@app.route('/ongs_register')
+
+@app.route('/admin_dashboard/ongs_register', methods=['GET', 'POST'])
+@login_required
 def ongs_register():
-    return render_template('admin_pages/ongs_register.html')
+    # Verifica se o usuário logado é um administrador
+    if isinstance(current_user, Admin):
+        form = cadastrar_OngForm()
+
+        if form.validate_on_submit():
+            print("Formulário validado")
+            
+            # Hasheando a senha antes de salvar
+            senha_hash = generate_password_hash(form.senha.data)
+            
+            # Verificar se uma imagem foi enviada para o QR code e a logo/perfil
+            foto_qr_code_binaria = form.fotoQrCode.data.read() if form.fotoQrCode.data else None
+            foto_perfil_binaria = form.fotoPerfilLogo.data.read() if form.fotoPerfilLogo.data else None
+
+            # Cria nova ONG
+            nova_ong = Ong(
+                nome_Ong=form.nome_Ong.data,
+                email=form.email.data,
+                senha=senha_hash,  # Senha hasheada
+                telefone=form.celular.data,
+                rua=form.rua.data,
+                complemento=form.complemento.data,
+                cep=form.cep.data,
+                numero=form.numero.data,
+                ddd=form.ddd.data,
+                celular=form.celular.data,
+                foto_perfil_Logo=foto_perfil_binaria,
+                foto_qrCode=foto_qr_code_binaria,
+                cnpj=form.cnpj.data,
+                instagram=form.instagram.data,
+                dados_bancarios=form.dados_bancarios.data
+            )
+
+            # Verifica se a ONG já existe pelo email
+            ong_existente = Ong.query.filter_by(email=form.email.data).first()
+            if ong_existente:
+                flash('Email já cadastrado. Tente outro.', 'danger')
+                return redirect(url_for('ongs_register'))
+
+            # Adiciona e confirma a ONG no banco de dados
+            db.session.add(nova_ong)
+            db.session.commit()
+
+            flash('Cadastro de ONG realizado com sucesso!', 'success')
+            return redirect(url_for('admin_dashboard'))
+
+        else:
+            print("Formulário inválido:", form.errors)
+
+        return render_template('admin_pages/ongs_register.html', form=form)
+
+    else:
+        flash('Acesso negado. Apenas administradores podem acessar esta página.', 'danger')
+        return redirect(url_for('home'))
+
 
 @app.route('/pets_register')
 def pets_register():
