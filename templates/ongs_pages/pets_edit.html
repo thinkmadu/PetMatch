@@ -1,19 +1,19 @@
 {% extends "layout.html" %}
 
 {% block titleEcss %}
-    <title>Cadastro de Animais</title>
+    <title>Edição de Animais</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/pets_register.css') }}">
 {% endblock titleEcss %}
 
 {% block conteudo %}
 <div class="page-content">
     <div class="form-v10-content">
-        <form class="form-detail" action="{{ url_for('pets_register') }}" method="post" enctype="multipart/form-data">
+        <form class="form-detail" action="{{ url_for('edit_animal', id=animal.id) }}" method="post" enctype="multipart/form-data">
             <!-- Campo de segurança CSRF -->
             {{ form.hidden_tag() }}
 
             <div class="form-left">
-                <h2>Informações do Animal</h2>
+                <h2>Edição de Informações do Animal</h2>
 
                 <div class="form-row">
                     {{ form.nome.label }}

@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 from sqlalchemy import text
 from flask_sqlalchemy import SQLAlchemy
-from config.forms import cadastroForm, loginForm,ResetPasswordForm,sendLinkForm,profileForm,editPerfilForm,cadastrar_OngForm
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
@@ -37,6 +36,8 @@ s = URLSafeTimedSerializer(app.secret_key)
 
 
 from config.models import Usuario, Admin, Ong, Animal
+from config.forms import cadastroForm, loginForm,ResetPasswordForm,sendLinkForm,profileForm,editPerfilForm,cadastrar_OngForm,AnimalForm,editAnimalForm
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -52,6 +53,8 @@ def load_user(user_id):
 
     # Tenta carregar como Usuario
     return Usuario.query.get(int(user_id))
+
+
 
 # Rota de teste para verificar a conexão com o banco de dados
 @app.route('/test_db')
@@ -109,23 +112,6 @@ def login():
             flash('Usuário não encontrado. Verifique o email.', 'danger')
 
     return render_template('auth/login.html', form=form)
-
-@app.route('/admin_dashboard')
-@login_required
-def admin_dashboard():
-    # Verifica se o usuário logado é um administrador
-    print(isinstance(current_user, Admin))
-    
-    if isinstance(current_user, Admin):
-        # Aqui você pode adicionar dados que deseja exibir no dashboard
-        usuarios = Usuario.query.all()
-        ongs = Ong.query.all()
-        animais = Animal.query.all()
-        return render_template('admin_pages/admin_dashboard.html', usuarios=usuarios, ongs=ongs,animais=animais)
-    else:
-        print("Acesso negado. Somente administradores podem acessar esta página.")
-        flash('Acesso negado. Somente administradores podem acessar esta página.', 'danger')
-        return redirect(url_for('home'))
 
 
 @app.route('/logout')
@@ -336,25 +322,26 @@ def ong_2():
 def user_layout():
     return render_template('user_templates/user_layout.html')
 
-@app.route('/ong_dashboard')
+
+
+# ROTAS DO ADMIN
+
+@app.route('/admin_dashboard')
 @login_required
-def ong_dashboard():
-
+def admin_dashboard():
     # Verifica se o usuário logado é um administrador
-    print(isinstance(current_user, Ong))
+    print(isinstance(current_user, Admin))
     
-    if isinstance(current_user, Ong):
+    if isinstance(current_user, Admin):
         # Aqui você pode adicionar dados que deseja exibir no dashboard
-
+        usuarios = Usuario.query.all()
+        ongs = Ong.query.all()
         animais = Animal.query.all()
-        return render_template('ongs_pages/ong_dashboard.html',animais=animais)
+        return render_template('admin_pages/admin_dashboard.html', usuarios=usuarios, ongs=ongs,animais=animais)
     else:
-        print("Acesso negado. Somente Ongs podem acessar esta página.")
-        flash('Acesso negado. Somente Ongs podem acessar esta página.', 'danger')
+        print("Acesso negado. Somente administradores podem acessar esta página.")
+        flash('Acesso negado. Somente administradores podem acessar esta página.', 'danger')
         return redirect(url_for('home'))
-
-
-
 
 @app.route('/admin_dashboard/ongs_register', methods=['GET', 'POST'])
 @login_required
@@ -415,6 +402,133 @@ def ongs_register():
         return redirect(url_for('home'))
 
 
-@app.route('/pets_register')
+# ROTAS DA ONG
+
+@app.route('/ong_dashboard')
+@login_required
+def ong_dashboard():
+
+    # Verifica se o usuário logado é um administrador
+    print(isinstance(current_user, Ong))
+    
+    if isinstance(current_user, Ong):
+        # Aqui você pode adicionar dados que deseja exibir no dashboard
+
+        animais = Animal.query.all()
+        return render_template('ongs_pages/ong_dashboard.html',animais=animais)
+    else:
+        print("Acesso negado. Somente Ongs podem acessar esta página.")
+        flash('Acesso negado. Somente Ongs podem acessar esta página.', 'danger')
+        return redirect(url_for('home'))
+    
+
+@app.route('/ong_dashboard/pets_register', methods=['GET', 'POST'])
+@login_required
 def pets_register():
-    return render_template('admin_pages/pets_register.html')
+    # Verifica se o usuário logado é uma ONG
+    if isinstance(current_user, Ong):
+        form = AnimalForm()
+
+
+        # Preenche o campo ong com o nome da ONG associada
+        form.ong.data = current_user.nome_Ong
+
+        if form.validate_on_submit():
+            # Convertendo as imagens para formato binário
+            foto1_binaria = form.foto1.data.read() if form.foto1.data else None
+            foto2_binaria = form.foto2.data.read() if form.foto2.data else None
+            foto3_binaria = form.foto3.data.read() if form.foto3.data else None
+            foto4_binaria = form.foto4.data.read() if form.foto4.data else None
+
+            # Criando novo animal
+            novo_animal = Animal(
+                nome=form.nome.data,
+                especie=form.especie.data,
+                idade=form.idade.data,
+                descricao=form.descricao.data,
+                status=form.status.data,
+                foto1=foto1_binaria,
+                foto2=foto2_binaria,
+                foto3=foto3_binaria,
+                foto4=foto4_binaria,
+                ong_id=current_user.id
+            )
+
+
+            # Adiciona e salva o novo animal no banco de dados
+            db.session.add(novo_animal)
+            db.session.commit()
+
+            flash('Animal cadastrado com sucesso!', 'success')
+            return redirect(url_for('ong_dashboard'))
+        else:
+            print("Formulário inválido:", form.errors)
+
+        return render_template('ongs_pages/pets_register.html', form=form)
+    
+    else:
+        flash('Acesso negado. Apenas ONGs podem acessar esta página.', 'danger')
+        return redirect(url_for('home'))
+
+
+@app.route('/ong_dashboard/pets_delete/<int:id>', methods=['POST'])
+@login_required
+def delete_animal(id):
+    if isinstance(current_user, Ong):
+        animal = Animal.query.get_or_404(id)  # Busca o animal pelo ID
+        db.session.delete(animal)  # Exclui o animal do banco de dados
+        db.session.commit()  # Confirma a exclusão
+        flash('Animal excluído com sucesso!', 'success')
+        return redirect(url_for('ong_dashboard'))
+    else:
+        flash('Acesso negado. Apenas ONGs podem acessar esta página.', 'danger')
+        return redirect(url_for('home'))
+    
+@app.route('/ong_dashboard/pets_edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_animal(id):
+
+    if isinstance(current_user, Ong):
+        animal = Animal.query.get_or_404(id)  # Busca o animal pelo ID ou retorna 404 se não encontrado
+        form = editAnimalForm()
+
+
+        # Preenche o campo ong com o nome da ONG associada
+        form.ong.data = current_user.nome_Ong
+
+        # Preencher o formulário com os dados atuais do animal
+        if request.method == 'GET':
+            form.nome.data = animal.nome
+            form.especie.data = animal.especie
+            form.idade.data = animal.idade
+            form.descricao.data = animal.descricao
+            form.status.data = animal.status
+            ong_id=current_user.id # Supondo que a ONG tenha um atributo 'nome'
+
+        # Quando o formulário for submetido
+        if form.validate_on_submit():
+            animal.nome = form.nome.data
+            animal.especie = form.especie.data
+            animal.idade = form.idade.data
+            animal.descricao = form.descricao.data
+            animal.status = form.status.data
+            # Atualiza as fotos se novas forem enviadas
+            if form.foto1.data:
+                animal.foto1 = form.foto1.data.read()
+            if form.foto2.data:
+                animal.foto2 = form.foto2.data.read()
+            if form.foto3.data:
+                animal.foto3 = form.foto3.data.read()
+            if form.foto4.data:
+                animal.foto4 = form.foto4.data.read()
+
+            # Salvar as alterações no banco de dados
+            db.session.commit()
+
+            flash('Animal atualizado com sucesso!', 'success')
+            return redirect(url_for('ong_dashboard'))  # Redirecionar para a dashboard dos animais ou outra página relevante
+
+        return render_template('ongs_pages/pets_edit.html', form=form, animal=animal)
+    else:
+        flash('Acesso negado. Apenas ONGs podem acessar esta página.', 'danger')
+        return redirect(url_for('home'))

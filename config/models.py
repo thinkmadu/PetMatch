@@ -30,6 +30,7 @@ class Animal(db.Model):
     especie = db.Column(db.String(50), nullable=False)
     idade = db.Column(db.Integer, nullable=False)
     descricao = db.Column(db.String(300), nullable=False)
+    #ong = db.Column(db.String(60), nullable=False)
     status = db.Column(db.String(50), nullable=False)
     foto1 = db.Column(db.LargeBinary, nullable=False)
     foto2 = db.Column(db.LargeBinary)

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, FileField,IntegerField,TextAreaField,SelectField,QuerySelectField
+from wtforms import StringField, PasswordField, SubmitField, FileField,IntegerField,TextAreaField,SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp,NumberRange
 from flask_wtf.file import FileAllowed
 from config.models import Ong 
@@ -79,13 +79,30 @@ class AnimalForm(FlaskForm):
     especie = StringField('Espécie', validators=[DataRequired(), Length(min=2, max=50)])
     idade = IntegerField('Idade', validators=[DataRequired(), NumberRange(min=0, max=30, message='Idade inválida')])
     descricao = TextAreaField('Descrição', validators=[DataRequired(), Length(max=300)])
-    status = SelectField('Status', choices=[('disponível', 'Disponível'), ('adotado', 'Adotado')], validators=[DataRequired()])
+    status = SelectField('Status', choices=[('disponível', 'Disponível'), ('adotado', 'Adotado'),('reservado', 'Reservado')], validators=[DataRequired()])
     foto1 = FileField('Foto 1', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Apenas arquivos de imagem são permitidos'), DataRequired()])
     foto2 = FileField('Foto 2', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     foto3 = FileField('Foto 3', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     foto4 = FileField('Foto 4', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
 
-    # Campo para escolher a ONG a qual o animal pertence
-    ong = QuerySelectField('ONG', query_factory=lambda: Ong.query.all(), get_label='nome_Ong', allow_blank=False, validators=[DataRequired()])
+    # Campo de nome da ONG preenchido automaticamente e oculto
+    ong = StringField('ONG', render_kw={'readonly': True}, validators=[DataRequired()])
 
     cadastrarBotao = SubmitField('Cadastrar Animal')
+
+
+class editAnimalForm(FlaskForm):
+    nome = StringField('Nome do Animal', validators=[DataRequired(), Length(min=2, max=100)])
+    especie = StringField('Espécie', validators=[DataRequired(), Length(min=2, max=50)])
+    idade = IntegerField('Idade', validators=[DataRequired(), NumberRange(min=0, max=30, message='Idade inválida')])
+    descricao = TextAreaField('Descrição', validators=[DataRequired(), Length(max=300)])
+    status = SelectField('Status', choices=[('disponível', 'Disponível'), ('adotado', 'Adotado'),('reservado', 'Reservado')], validators=[DataRequired()])
+    foto1 = FileField('Foto 1', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Apenas arquivos de imagem são permitidos'), DataRequired()])
+    foto2 = FileField('Foto 2', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+    foto3 = FileField('Foto 3', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+    foto4 = FileField('Foto 4', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+
+    # Campo de nome da ONG preenchido automaticamente e oculto
+    ong = StringField('ONG', render_kw={'readonly': True}, validators=[DataRequired()])
+
+    cadastrarBotao = SubmitField('Salvar')
