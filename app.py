@@ -240,52 +240,52 @@ def profile():
 @login_required
 def edit_profile():
     form = editPerfilForm()
+    if isinstance(current_user, Usuario):
 
 
+    # Verifique se o usuário tem uma foto de perfil
+        foto_perfil_atual = None
+        if current_user.foto_perfil:
+            # Converta a foto de perfil binária para base64 para exibição na página
+            foto_perfil_atual = base64.b64encode(current_user.foto_perfil).decode('utf-8')
 
-   # Verifique se o usuário tem uma foto de perfil
-    foto_perfil_atual = None
-    if current_user.foto_perfil:
-        # Converta a foto de perfil binária para base64 para exibição na página
-        foto_perfil_atual = base64.b64encode(current_user.foto_perfil).decode('utf-8')
+        # Preencher o formulário com os dados atuais do usuário logado
+        if request.method == 'GET':
+            form.primeiroNome.data = current_user.primeiro_nome
+            form.sobrenome.data = current_user.sobrenome
+            form.email.data = current_user.email
+            form.rua.data = current_user.rua
+            form.complemento.data = current_user.complemento
+            form.cep.data = current_user.cep
+            form.numero.data = current_user.numero
+            form.ddd.data = current_user.ddd
+            form.celular.data = current_user.celular
+        
+        # Quando o formulário for submetido
+        if form.validate_on_submit():
+            current_user.primeiro_nome = form.primeiroNome.data
+            current_user.sobrenome = form.sobrenome.data
+            current_user.email = form.email.data
+            current_user.rua = form.rua.data
+            current_user.complemento = form.complemento.data
+            current_user.cep = form.cep.data
+            current_user.numero = form.numero.data
+            current_user.ddd = form.ddd.data
+            current_user.celular = form.celular.data
 
-    # Preencher o formulário com os dados atuais do usuário logado
-    if request.method == 'GET':
-        form.primeiroNome.data = current_user.primeiro_nome
-        form.sobrenome.data = current_user.sobrenome
-        form.email.data = current_user.email
-        form.rua.data = current_user.rua
-        form.complemento.data = current_user.complemento
-        form.cep.data = current_user.cep
-        form.numero.data = current_user.numero
-        form.ddd.data = current_user.ddd
-        form.celular.data = current_user.celular
-    
-    # Quando o formulário for submetido
-    if form.validate_on_submit():
-        current_user.primeiro_nome = form.primeiroNome.data
-        current_user.sobrenome = form.sobrenome.data
-        current_user.email = form.email.data
-        current_user.rua = form.rua.data
-        current_user.complemento = form.complemento.data
-        current_user.cep = form.cep.data
-        current_user.numero = form.numero.data
-        current_user.ddd = form.ddd.data
-        current_user.celular = form.celular.data
+            # Se uma nova foto de perfil for enviada
+            if form.fotoPerfil.data:
+                current_user.foto_perfil = form.fotoPerfil.data.read()
 
-        # Se uma nova foto de perfil for enviada
-        if form.fotoPerfil.data:
-            current_user.foto_perfil = form.fotoPerfil.data.read()
+            # Se uma nova senha for fornecida
+            if form.senha.data:
+                current_user.senha = generate_password_hash(form.senha.data)
 
-        # Se uma nova senha for fornecida
-        if form.senha.data:
-            current_user.senha = generate_password_hash(form.senha.data)
+            # Salvar as alterações no banco de dados
+            db.session.commit()
 
-        # Salvar as alterações no banco de dados
-        db.session.commit()
-
-        flash('Perfil atualizado com sucesso!', 'success')
-        return redirect(url_for('profile'))
+            flash('Perfil atualizado com sucesso!', 'success')
+            return redirect(url_for('profile'))
 
     return render_template('user_pages/edit.html', form=form)
 
@@ -414,7 +414,7 @@ def ong_dashboard():
     if isinstance(current_user, Ong):
         # Aqui você pode adicionar dados que deseja exibir no dashboard
 
-        animais = Animal.query.all()
+        animais = Animal.query.filter_by(ong_id=current_user.id).all()
         return render_template('ongs_pages/ong_dashboard.html',animais=animais)
     else:
         print("Acesso negado. Somente Ongs podem acessar esta página.")
@@ -444,6 +444,7 @@ def pets_register():
             novo_animal = Animal(
                 nome=form.nome.data,
                 especie=form.especie.data,
+                tamanho = form.tamanho.data,
                 idade=form.idade.data,
                 descricao=form.descricao.data,
                 status=form.status.data,

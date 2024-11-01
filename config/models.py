@@ -28,14 +28,16 @@ class Animal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     especie = db.Column(db.String(50), nullable=False)
+    tamanho = db.Column(db.String(20), nullable=False)
     idade = db.Column(db.Integer, nullable=False)
     descricao = db.Column(db.String(300), nullable=False)
     #ong = db.Column(db.String(60), nullable=False)
     status = db.Column(db.String(50), nullable=False)
-    foto1 = db.Column(db.LargeBinary, nullable=False)
-    foto2 = db.Column(db.LargeBinary)
-    foto3 = db.Column(db.LargeBinary)
-    foto4 = db.Column(db.LargeBinary)
+    #fotos
+    foto1  = db.Column(db.String(200), nullable=True)
+    foto2 = db.Column(db.String(200))
+    foto3 = db.Column(db.String(200))
+    foto4 = db.Column(db.String(200))
 
     # Chave estrangeira para referenciar a ONG
     ong_id = db.Column(db.Integer, db.ForeignKey('ong.id'), nullable=False)
@@ -74,9 +76,22 @@ class Ong(db.Model, UserMixin):
     numero = db.Column(db.String(10), nullable=False)
     ddd = db.Column(db.String(2), nullable=False)
     celular = db.Column(db.String(9), nullable=False)
-    foto_perfil_Logo = db.Column(db.LargeBinary, nullable=False)
-    foto_qrCode = db.Column(db.LargeBinary, nullable=False)
+    #fotos
+    foto_perfil_Logo = db.Column(db.String(200), nullable=True)
+    foto_qrCode =db.Column(db.String(200), nullable=True)
+
     dados_bancarios = db.Column(db.String(100), nullable=False)
 
     def check_password(self, password):
         return check_password_hash(self.senha, password)
+
+
+class Adocao(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    animal_id = db.Column(db.Integer, db.ForeignKey('animal.id'), nullable=False)
+
+
+    # Relacionamentos
+    usuario = db.relationship('Usuario', backref='adocoes')
+    animal = db.relationship('Animal', backref='adocoes')

@@ -32,6 +32,14 @@
                 </div>
 
                 <div class="form-row">
+                        {{ form.tamanho.label }}
+                        {{ form.tamanho(class="input-text") }}
+                        {% if form.tamanho.errors %}
+                            <div class="error">{{ form.tamanho.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                <div class="form-row">
                     {{ form.idade.label }}
                     {{ form.idade(class="input-text") }}
                     {% if form.idade.errors %}

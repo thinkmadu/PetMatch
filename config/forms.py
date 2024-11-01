@@ -76,7 +76,14 @@ class cadastrar_OngForm(FlaskForm):
 
 class AnimalForm(FlaskForm):
     nome = StringField('Nome do Animal', validators=[DataRequired(), Length(min=2, max=100)])
-    especie = StringField('Espécie', validators=[DataRequired(), Length(min=2, max=50)])
+
+    # Campo especie com opções fixas
+    especie = SelectField('Espécie', choices=[('gato', 'Gato'), ('cachorro', 'Cachorro'),('outro','Outro')], validators=[DataRequired()])
+
+    # Campo tamanho com opções fixas
+    tamanho = SelectField('Tamanho', choices=[('pequeno', 'Pequeno'), ('medio', 'Médio'), ('grande', 'Grande')],
+                          validators=[DataRequired()])
+
     idade = IntegerField('Idade', validators=[DataRequired(), NumberRange(min=0, max=30, message='Idade inválida')])
     descricao = TextAreaField('Descrição', validators=[DataRequired(), Length(max=300)])
     status = SelectField('Status', choices=[('disponível', 'Disponível'), ('adotado', 'Adotado'),('reservado', 'Reservado')], validators=[DataRequired()])
