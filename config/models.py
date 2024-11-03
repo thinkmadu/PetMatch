@@ -19,7 +19,9 @@ class Usuario(db.Model, UserMixin):
     numero = db.Column(db.String(10), nullable=False)
     ddd = db.Column(db.String(2), nullable=False)
     celular = db.Column(db.String(9), nullable=False)
-    foto_perfil = db.Column(db.LargeBinary)
+    foto_perfil =db.Column(db.String(300), nullable=False)
+    #descrição das fotos para acessibilidade
+    descricao_foto_perfil = db.Column(db.String(300), nullable=False)
 
     def check_password(self, password):
         return check_password_hash(self.senha, password)
@@ -34,10 +36,17 @@ class Animal(db.Model):
     #ong = db.Column(db.String(60), nullable=False)
     status = db.Column(db.String(50), nullable=False)
     #fotos
-    foto1  = db.Column(db.String(200), nullable=True)
+    foto1  = db.Column(db.String(200), nullable=False)
     foto2 = db.Column(db.String(200))
     foto3 = db.Column(db.String(200))
     foto4 = db.Column(db.String(200))
+
+    #descrição das fotos para acessibilidade
+    descricao_foto1 = db.Column(db.String(300), nullable=False)
+    descricao_foto2 = db.Column(db.String(300), nullable=True)
+    descricao_foto3 = db.Column(db.String(300), nullable=True)
+    descricao_foto4 = db.Column(db.String(300), nullable=True)
+
 
     # Chave estrangeira para referenciar a ONG
     ong_id = db.Column(db.Integer, db.ForeignKey('ong.id'), nullable=False)
@@ -76,11 +85,15 @@ class Ong(db.Model, UserMixin):
     numero = db.Column(db.String(10), nullable=False)
     ddd = db.Column(db.String(2), nullable=False)
     celular = db.Column(db.String(9), nullable=False)
+    dados_bancarios = db.Column(db.String(100), nullable=False)
+
     #fotos
     foto_perfil_Logo = db.Column(db.String(200), nullable=True)
     foto_qrCode =db.Column(db.String(200), nullable=True)
-
-    dados_bancarios = db.Column(db.String(100), nullable=False)
+ 
+     #descrição das fotos para acessibilidade
+    descricao_foto_perfil_Logo = db.Column(db.String(300), nullable=False)
+    descricao_foto_qrCode = db.Column(db.String(300), nullable=False)
 
     def check_password(self, password):
         return check_password_hash(self.senha, password)

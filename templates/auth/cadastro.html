@@ -34,10 +34,20 @@
 
                 <div class="form-group">
                     <div class="form-row form-row-3">
-                        {{ form.fotoPerfil.label }}<br>
-                        {{ form.fotoPerfil(class="input-file") }}
-                        {% if form.fotoPerfil.errors %}
-                            <div class="error">{{ form.fotoPerfil.errors[0] }}</div>
+                        {{ form.foto_perfil.label }}<br>
+                        {{ form.foto_perfil(class="input-file") }}
+                        {% if form.foto_perfil.errors %}
+                            <div class="error">{{ form.foto_perfil.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        {{ form.descricao_foto_perfil.label }}<br>
+                        {{ form.descricao_foto_perfil(class="input-textarea") }}
+                        {% if form.descricao_foto_perfil.errors %}
+                            <div class="error">{{ form.descricao_foto_perfil.errors[0] }}</div>
                         {% endif %}
                     </div>
                 </div>

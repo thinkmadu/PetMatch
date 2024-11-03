@@ -9,12 +9,12 @@
 <div class="page-content">
     <div class="form-v10-content">
         <form class="form-detail" action="{{ url_for('pets_register') }}" method="post" enctype="multipart/form-data">
-            <!-- Campo de segurança CSRF -->
             {{ form.hidden_tag() }}
 
             <div class="form-left">
                 <h2>Informações do Animal</h2>
 
+                <!-- Campos de informações do animal -->
                 <div class="form-row">
                     {{ form.nome.label }}
                     {{ form.nome(class="input-text") }}
@@ -22,7 +22,6 @@
                         <div class="error">{{ form.nome.errors[0] }}</div>
                     {% endif %}
                 </div>
-
                 <div class="form-row">
                     {{ form.especie.label }}
                     {{ form.especie(class="input-text") }}
@@ -30,15 +29,13 @@
                         <div class="error">{{ form.especie.errors[0] }}</div>
                     {% endif %}
                 </div>
-
                 <div class="form-row">
-                        {{ form.tamanho.label }}
-                        {{ form.tamanho(class="input-text") }}
-                        {% if form.tamanho.errors %}
-                            <div class="error">{{ form.tamanho.errors[0] }}</div>
-                        {% endif %}
-                    </div>
-
+                    {{ form.tamanho.label }}
+                    {{ form.tamanho(class="input-text") }}
+                    {% if form.tamanho.errors %}
+                        <div class="error">{{ form.tamanho.errors[0] }}</div>
+                    {% endif %}
+                </div>
                 <div class="form-row">
                     {{ form.idade.label }}
                     {{ form.idade(class="input-text") }}
@@ -46,7 +43,6 @@
                         <div class="error">{{ form.idade.errors[0] }}</div>
                     {% endif %}
                 </div>
-
                 <div class="form-row">
                     {{ form.descricao.label }}
                     {{ form.descricao(class="input-text") }}
@@ -54,7 +50,6 @@
                         <div class="error">{{ form.descricao.errors[0] }}</div>
                     {% endif %}
                 </div>
-
                 <div class="form-row">
                     {{ form.status.label }}
                     {{ form.status(class="input-select") }}
@@ -65,6 +60,7 @@
 
                 <h2>Fotos do Animal</h2>
 
+                <!-- Campos para foto 1 -->
                 <div class="form-row">
                     {{ form.foto1.label }}
                     {{ form.foto1(class="input-file") }}
@@ -72,7 +68,15 @@
                         <div class="error">{{ form.foto1.errors[0] }}</div>
                     {% endif %}
                 </div>
+                <div class="form-row">
+                    {{ form.descricao_foto1.label }}
+                    {{ form.descricao_foto1(class="input-text") }}
+                    {% if form.descricao_foto1.errors %}
+                        <div class="error">{{ form.descricao_foto1.errors[0] }}</div>
+                    {% endif %}
+                </div>
 
+                <!-- Campos para foto 2 -->
                 <div class="form-row">
                     {{ form.foto2.label }}
                     {{ form.foto2(class="input-file") }}
@@ -80,7 +84,15 @@
                         <div class="error">{{ form.foto2.errors[0] }}</div>
                     {% endif %}
                 </div>
+                <div class="form-row">
+                    {{ form.descricao_foto2.label }}
+                    {{ form.descricao_foto2(class="input-text") }}
+                    {% if form.descricao_foto2.errors %}
+                        <div class="error">{{ form.descricao_foto2.errors[0] }}</div>
+                    {% endif %}
+                </div>
 
+                <!-- Campos para foto 3 -->
                 <div class="form-row">
                     {{ form.foto3.label }}
                     {{ form.foto3(class="input-file") }}
@@ -88,12 +100,27 @@
                         <div class="error">{{ form.foto3.errors[0] }}</div>
                     {% endif %}
                 </div>
+                <div class="form-row">
+                    {{ form.descricao_foto3.label }}
+                    {{ form.descricao_foto3(class="input-text") }}
+                    {% if form.descricao_foto3.errors %}
+                        <div class="error">{{ form.descricao_foto3.errors[0] }}</div>
+                    {% endif %}
+                </div>
 
+                <!-- Campos para foto 4 -->
                 <div class="form-row">
                     {{ form.foto4.label }}
                     {{ form.foto4(class="input-file") }}
                     {% if form.foto4.errors %}
                         <div class="error">{{ form.foto4.errors[0] }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-row">
+                    {{ form.descricao_foto4.label }}
+                    {{ form.descricao_foto4(class="input-text") }}
+                    {% if form.descricao_foto4.errors %}
+                        <div class="error">{{ form.descricao_foto4.errors[0] }}</div>
                     {% endif %}
                 </div>
 

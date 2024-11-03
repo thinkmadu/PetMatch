@@ -85,13 +85,61 @@ button {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 27 px;
+    font-size: 27px;
     display: inline-block;
 }
 
 .topnav a:hover {
     color: #ccc;
 }
+
+/* Estilos para o perfil */
+.profile-container {
+    max-width: 600px; /* Largura máxima do container */
+    margin: 100px auto; /* Centraliza verticalmente e horizontalmente */
+    padding: 20px; /* Espaçamento interno */
+    background-color: #444; /* Cor de fundo do container */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efeito de profundidade */
+}
+
+.profile-container h2 {
+    text-align: center; /* Centraliza o título */
+    margin-bottom: 20px; /* Espaço abaixo do título */
+    font-size: 28px; /* Tamanho da fonte do título */
+    color: #f2f2f2; /* Cor do texto */
+}
+
+.profile-image {
+    text-align: center; /* Centraliza a imagem */
+    margin-bottom: 20px; /* Espaço abaixo da imagem */
+}
+
+.profile-image img {
+    max-width: 150px; /* Largura máxima da imagem */
+    max-height: 150px; /* Altura máxima da imagem */
+    border-radius: 50%; /* Faz a imagem circular */
+    border: 3px solid #f2f2f2; /* Borda branca ao redor da imagem */
+}
+
+button {
+    margin-top: 20px; /* Espaço acima do botão */
+    width: 100%; /* Botão ocupa a largura total */
+    background-color: #33ba3354; /* Cor de fundo do botão */
+    color: #100707; /* Cor do texto do botão */
+    padding: 15px; /* Espaçamento interno do botão */
+    font-size: 24px; /* Tamanho da fonte do botão */
+    font-weight: 600; /* Peso da fonte do botão */
+    border: none; /* Remove a borda padrão */
+    border-radius: 4px; /* Bordas arredondadas do botão */
+    cursor: pointer; /* Muda o cursor ao passar o mouse */
+    transition: background-color 0.3s; /* Transição suave para a cor do fundo */
+}
+
+button:hover {
+    background-color: #33ba335; /* Cor de fundo do botão ao passar o mouse */
+}
+
 
 footer {
     font-family: 'Oxanium', serif;

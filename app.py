@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for,current_app
 from sqlalchemy import text
+from werkzeug.utils import secure_filename
+import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,6 +12,7 @@ import base64
 
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'static/uploads' 
 app.config['SECRET_KEY'] = 'JHBJDJMBDKJ677898'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:87Amore;;w34@localhost/PetMatch'
 # de madu
@@ -134,12 +137,15 @@ def cadastro():
         # Hasheando a senha antes de salvar
         senha_hash = generate_password_hash(form.senha.data)
 
-        # Verificar se uma imagem foi enviada
-        if form.fotoPerfil.data:
-            # Converta a imagem para binário
-            foto_binaria = form.fotoPerfil.data.read()
-        else:
-            foto_binaria = None  # Caso o usuário não envie uma foto
+       # Inicializa a variável para o caminho da foto do perfil
+        foto_perfil_path = None
+
+        # Verifica se uma imagem foi enviada
+        if form.foto_perfil.data:
+            # Salva a imagem na pasta de uploads
+            filename = secure_filename(form.foto_perfil.data.filename)
+            foto_perfil_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            form.foto_perfil.data.save(foto_perfil_path)
 
         # Cria novo usuário
         novo_usuario = Usuario(
@@ -154,7 +160,8 @@ def cadastro():
             numero=form.numero.data,
             ddd=form.ddd.data,
             celular=form.celular.data,
-            foto_perfil=foto_binaria
+            foto_perfil=foto_perfil_path,  # Caminho da imagem
+            descricao_foto_perfil=form.descricao_foto_perfil.data
         )
 
         user = Usuario.query.filter_by(email=form.email.data).first()
@@ -231,9 +238,10 @@ def sobre():
 @login_required
 def profile():
     form = profileForm()
-    if form.validate_on_submit():
-        return redirect(url_for('edit_profile'))
-    return render_template('user_pages/profile.html', form=form)
+    if isinstance(current_user, Usuario):
+        if form.validate_on_submit():
+            return redirect(url_for('edit_profile'))
+        return render_template('user_pages/profile.html', form=form)
 
 
 @app.route('/profile/edit', methods=['GET', 'POST'])
@@ -242,12 +250,11 @@ def edit_profile():
     form = editPerfilForm()
     if isinstance(current_user, Usuario):
 
-
-    # Verifique se o usuário tem uma foto de perfil
+# Verifique se o usuário tem uma foto de perfil
         foto_perfil_atual = None
         if current_user.foto_perfil:
-            # Converta a foto de perfil binária para base64 para exibição na página
-            foto_perfil_atual = base64.b64encode(current_user.foto_perfil).decode('utf-8')
+            # Obtenha o caminho da foto de perfil atual
+            foto_perfil_atual = current_user.foto_perfil
 
         # Preencher o formulário com os dados atuais do usuário logado
         if request.method == 'GET':
@@ -258,6 +265,7 @@ def edit_profile():
             form.complemento.data = current_user.complemento
             form.cep.data = current_user.cep
             form.numero.data = current_user.numero
+            form.descricao_foto_perfil.data = current_user.descricao_foto_perfil
             form.ddd.data = current_user.ddd
             form.celular.data = current_user.celular
         
@@ -269,13 +277,20 @@ def edit_profile():
             current_user.rua = form.rua.data
             current_user.complemento = form.complemento.data
             current_user.cep = form.cep.data
+            current_user.descricao_foto_perfil = form.descricao_foto_perfil.data
             current_user.numero = form.numero.data
             current_user.ddd = form.ddd.data
             current_user.celular = form.celular.data
 
             # Se uma nova foto de perfil for enviada
-            if form.fotoPerfil.data:
-                current_user.foto_perfil = form.fotoPerfil.data.read()
+            if form.foto_perfil.data:
+
+                if current_user.foto_perfil and os.path.exists(current_user.foto_perfil):
+                    os.remove(current_user.foto_perfil)
+                filename = secure_filename(form.foto_perfil.data.filename)
+                foto_perfil_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                form.foto_perfil.data.save(foto_perfil_path)
+                current_user.foto_perfil = foto_perfil_path  # Armazena o caminho no banco de dados
 
             # Se uma nova senha for fornecida
             if form.senha.data:
@@ -287,17 +302,23 @@ def edit_profile():
             flash('Perfil atualizado com sucesso!', 'success')
             return redirect(url_for('profile'))
 
-    return render_template('user_pages/edit.html', form=form)
+    return render_template('user_pages/edit.html', form=form, foto_perfil_atual=foto_perfil_atual)
 
+
+from flask import render_template, request, url_for
 
 @app.route('/petsList')
 def petsList():
+    animais = Animal.query.all()
     page = request.args.get('page', 1, type=int)
     per_page = 20
+    total_pages = (len(animais) + per_page - 1) // per_page
+
+    # Paginação
     start = (page - 1) * per_page
     end = start + per_page
-    paginated_pets = pets[start:end]
-    total_pages = (len(pets) + per_page - 1) // per_page
+    paginated_pets = animais[start:end]
+
     return render_template('petsList.html', pets=paginated_pets, page=page, total_pages=total_pages)
 
 @app.route('/ongsList')
@@ -350,15 +371,31 @@ def ongs_register():
     if isinstance(current_user, Admin):
         form = cadastrar_OngForm()
 
+         # Processa o formulário antes de validar
+        form.process(formdata=request.form)
+
         if form.validate_on_submit():
             print("Formulário validado")
+            
             
             # Hasheando a senha antes de salvar
             senha_hash = generate_password_hash(form.senha.data)
             
-            # Verificar se uma imagem foi enviada para o QR code e a logo/perfil
-            foto_qr_code_binaria = form.fotoQrCode.data.read() if form.fotoQrCode.data else None
-            foto_perfil_binaria = form.fotoPerfilLogo.data.read() if form.fotoPerfilLogo.data else None
+            # Caminhos das imagens a serem salvas
+            foto_qr_code_path = None
+            foto_perfil_path = None
+
+            # Verifica e salva a imagem do QR code
+            if form.fotoQrCode.data:
+                filename_qr = secure_filename(form.fotoQrCode.data.filename)
+                foto_qr_code_path = os.path.join(app.config['UPLOAD_FOLDER'], filename_qr)
+                form.fotoQrCode.data.save(foto_qr_code_path)
+
+            # Verifica e salva a imagem do perfil/logo
+            if form.fotoPerfilLogo.data:
+                filename_logo = secure_filename(form.fotoPerfilLogo.data.filename)
+                foto_perfil_path = os.path.join(app.config['UPLOAD_FOLDER'], filename_logo)
+                form.fotoPerfilLogo.data.save(foto_perfil_path)
 
             # Cria nova ONG
             nova_ong = Ong(
@@ -372,12 +409,15 @@ def ongs_register():
                 numero=form.numero.data,
                 ddd=form.ddd.data,
                 celular=form.celular.data,
-                foto_perfil_Logo=foto_perfil_binaria,
-                foto_qrCode=foto_qr_code_binaria,
+                foto_perfil_Logo=foto_perfil_path,
+                foto_qrCode=foto_qr_code_path,
                 cnpj=form.cnpj.data,
                 instagram=form.instagram.data,
-                dados_bancarios=form.dados_bancarios.data
+                dados_bancarios=form.dados_bancarios.data,
+                descricao_foto_perfil_Logo=form.descricao_foto_perfil_Logo.data,
+                descricao_foto_qrCode=form.descricao_fotoqrCode.data
             )
+
 
             # Verifica se a ONG já existe pelo email
             ong_existente = Ong.query.filter_by(email=form.email.data).first()
@@ -429,16 +469,25 @@ def pets_register():
     if isinstance(current_user, Ong):
         form = AnimalForm()
 
-
         # Preenche o campo ong com o nome da ONG associada
         form.ong.data = current_user.nome_Ong
 
         if form.validate_on_submit():
-            # Convertendo as imagens para formato binário
-            foto1_binaria = form.foto1.data.read() if form.foto1.data else None
-            foto2_binaria = form.foto2.data.read() if form.foto2.data else None
-            foto3_binaria = form.foto3.data.read() if form.foto3.data else None
-            foto4_binaria = form.foto4.data.read() if form.foto4.data else None
+            # Diretório de upload
+            upload_folder = current_app.config['UPLOAD_FOLDER']
+            os.makedirs(upload_folder, exist_ok=True)
+
+            # Salva as imagens e armazena o caminho no banco de dados
+            foto_paths = []
+            for i in range(1, 5):
+                foto = getattr(form, f'foto{i}').data
+                if foto:
+                    filename = secure_filename(foto.filename)
+                    foto_path = os.path.join(upload_folder, filename)
+                    foto.save(foto_path)
+                    foto_paths.append(foto_path)  # Adiciona o caminho para o banco
+                else:
+                    foto_paths.append(None)  # Se não houver imagem, adiciona None
 
             # Criando novo animal
             novo_animal = Animal(
@@ -448,10 +497,14 @@ def pets_register():
                 idade=form.idade.data,
                 descricao=form.descricao.data,
                 status=form.status.data,
-                foto1=foto1_binaria,
-                foto2=foto2_binaria,
-                foto3=foto3_binaria,
-                foto4=foto4_binaria,
+                foto1=foto_paths[0],
+                foto2=foto_paths[1],
+                foto3=foto_paths[2],
+                foto4=foto_paths[3],
+                descricao_foto1=form.descricao_foto1.data,
+                descricao_foto2=form.descricao_foto2.data,
+                descricao_foto3=form.descricao_foto3.data,
+                descricao_foto4=form.descricao_foto4.data,
                 ong_id=current_user.id
             )
 
@@ -477,6 +530,12 @@ def pets_register():
 def delete_animal(id):
     if isinstance(current_user, Ong):
         animal = Animal.query.get_or_404(id)  # Busca o animal pelo ID
+
+         # Exclui as imagens associadas ao animal
+        for foto_path in [animal.foto1, animal.foto2, animal.foto3, animal.foto4]:
+            if foto_path and os.path.exists(foto_path):  # Verifica se o caminho existe
+                os.remove(foto_path)  # Exclui a imagem
+
         db.session.delete(animal)  # Exclui o animal do banco de dados
         db.session.commit()  # Confirma a exclusão
         flash('Animal excluído com sucesso!', 'success')
@@ -488,46 +547,51 @@ def delete_animal(id):
 @app.route('/ong_dashboard/pets_edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_animal(id):
-
     if isinstance(current_user, Ong):
-        animal = Animal.query.get_or_404(id)  # Busca o animal pelo ID ou retorna 404 se não encontrado
+        animal = Animal.query.get_or_404(id)  # Busca o animal pelo ID
         form = editAnimalForm()
-
 
         # Preenche o campo ong com o nome da ONG associada
         form.ong.data = current_user.nome_Ong
 
-        # Preencher o formulário com os dados atuais do animal
+        # Preenche o formulário com os dados atuais do animal
         if request.method == 'GET':
             form.nome.data = animal.nome
             form.especie.data = animal.especie
+            form.tamanho.data = animal.tamanho
             form.idade.data = animal.idade
             form.descricao.data = animal.descricao
             form.status.data = animal.status
-            ong_id=current_user.id # Supondo que a ONG tenha um atributo 'nome'
 
-        # Quando o formulário for submetido
+        # Processa o formulário ao submeter
         if form.validate_on_submit():
+            # Atualiza os campos do animal
             animal.nome = form.nome.data
             animal.especie = form.especie.data
+            animal.tamanho = form.tamanho.data
             animal.idade = form.idade.data
             animal.descricao = form.descricao.data
             animal.status = form.status.data
+
             # Atualiza as fotos se novas forem enviadas
-            if form.foto1.data:
-                animal.foto1 = form.foto1.data.read()
-            if form.foto2.data:
-                animal.foto2 = form.foto2.data.read()
-            if form.foto3.data:
-                animal.foto3 = form.foto3.data.read()
-            if form.foto4.data:
-                animal.foto4 = form.foto4.data.read()
+            for i, foto_field in enumerate([form.foto1, form.foto2, form.foto3, form.foto4], start=1):
+                if foto_field.data:
+                    # Deleta a imagem antiga
+                    foto_atual = getattr(animal, f'foto{i}')
+                    if foto_atual and os.path.exists(foto_atual):
+                        os.remove(foto_atual)
+
+                    # Salva a nova imagem
+                    filename = secure_filename(foto_field.data.filename)
+                    path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                    foto_field.data.save(path)
+                    setattr(animal, f'foto{i}', path)
 
             # Salvar as alterações no banco de dados
             db.session.commit()
 
             flash('Animal atualizado com sucesso!', 'success')
-            return redirect(url_for('ong_dashboard'))  # Redirecionar para a dashboard dos animais ou outra página relevante
+            return redirect(url_for('ong_dashboard'))  # Redireciona para o dashboard da ONG
 
         return render_template('ongs_pages/pets_edit.html', form=form, animal=animal)
     else:

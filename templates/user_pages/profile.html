@@ -1,17 +1,18 @@
 {% extends "user_layout.html" %}
 {% block titleEcss %}
-
 <title>Profile</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/userScreen.css') }}">
-
-{% endblock titleEcss%}
+{% endblock titleEcss %}
 
 {% block conteudo %}
-
-<div>
+<div class="profile-container">
+    <h2>Perfil de {{ current_user.primeiro_nome }} {{ current_user.sobrenome }}</h2>
+    <div class="profile-image">
+        <img src="{{ current_user.foto_perfil }}" alt="{{ current_user.descricao_foto_perfil }}" />
+    </div>
     <form method="POST" action="{{ url_for('profile') }}">
-    {{ form.hidden_tag() }}
-    <button type="submit">{{ form.editarBotao() }}</button>
-</form>
+        {{ form.hidden_tag() }}
+        <button type="submit">{{ form.editarBotao() }}</button>
+    </form>
 </div>
-{% endblock conteudo%}
+{% endblock conteudo %}

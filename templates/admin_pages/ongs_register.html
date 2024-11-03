@@ -6,148 +6,161 @@
 {% endblock titleEcss %}
 
 {% block conteudo %}
-<div class="page-content">
-    <div class="form-v10-content">
-        <form class="form-detail" action="{{ url_for('ongs_register') }}" method="post" enctype="multipart/form-data">
-            <!-- Campo de segurança CSRF -->
-            {{ form.hidden_tag() }}
+    <div class="page-content">
+        <div class="form-v10-content">
+            <form class="form-detail" action="{{ url_for('ongs_register') }}" method="post"
+                  enctype="multipart/form-data">
+                <!-- Campo de segurança CSRF -->
+                {{ form.hidden_tag() }}
 
-            <div class="form-left">
-                <h2>Informações Gerais</h2>
-                <div class="form-row">
-                    <div class="form-row form-row-1">
-                        {{ form.nome_Ong.label }}
-                        {{ form.nome_Ong(class="input-text") }}
-                        {% if form.nome_Ong.errors %}
-                            <div class="error">{{ form.nome_Ong.errors[0] }}</div>
+                <div class="form-left">
+                    <h2>Informações Gerais</h2>
+                    <div class="form-row">
+                        <div class="form-row form-row-1">
+                            {{ form.nome_Ong.label }}
+                            {{ form.nome_Ong(class="input-text") }}
+                            {% if form.nome_Ong.errors %}
+                                <div class="error">{{ form.nome_Ong.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-row form-row-2">
+                            {{ form.cnpj.label }}
+                            {{ form.cnpj(class="input-text") }}
+                            {% if form.cnpj.errors %}
+                                <div class="error">{{ form.cnpj.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row form-row-3">
+                            {{ form.fotoPerfilLogo.label }}<br>
+                            {{ form.fotoPerfilLogo(class="input-file") }}
+                            {% if form.fotoPerfilLogo.errors %}
+                                <div class="error">{{ form.fotoPerfilLogo.errors[0] }}</div>
+                            {% endif %}
+
+                            {{ form.descricao_foto_perfil_Logo.label }}<br>
+                            {{ form.descricao_foto_perfil_Logo(class="input-text") }}
+                            {% if form.descricao_foto_perfil_Logo.errors %}
+                                <div class="error">{{ form.descricao_foto_perfil_Logo.errors[0] }}</div>
+                            {% endif %}
+                            {{ form.fotoQrCode.label }}<br>
+                            {{ form.fotoQrCode(class="input-file") }}
+                            {% if form.fotoQrCode.errors %}
+                                <div class="error">{{ form.fotoQrCode.errors[0] }}</div>
+                            {% endif %}
+
+                            {{ form.descricao_fotoqrCode.label }}<br>
+                            {{ form.descricao_fotoqrCode(class="input-text") }}
+                            {% if form.descricao_fotoqrCode.errors %}
+                                <div class="error">{{ form.descricao_fotoqrCode.errors[0] }}</div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                    <h2>Informações de Contato</h2>
+                    <div class="form-row">
+                        {{ form.rua.label }}
+                        {{ form.rua(class="input-text") }}
+                        {% if form.rua.errors %}
+                            <div class="error">{{ form.rua.errors[0] }}</div>
                         {% endif %}
                     </div>
 
-                    <div class="form-row form-row-2">
-                        {{ form.cnpj.label }}
-                        {{ form.cnpj(class="input-text") }}
-                        {% if form.cnpj.errors %}
-                            <div class="error">{{ form.cnpj.errors[0] }}</div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-row form-row-3">
-                        {{ form.fotoPerfilLogo.label }}<br>
-                        {{ form.fotoPerfilLogo(class="input-file") }}
-                        {% if form.fotoPerfilLogo.errors %}
-                            <div class="error">{{ form.fotoPerfilLogo.errors[0] }}</div>
-                        {% endif %}
-
-                        {{ form.fotoQrCode.label }}<br>
-                        {{ form.fotoQrCode(class="input-file") }}
-                        {% if form.fotoQrCode.errors %}
-                            <div class="error">{{ form.fotoQrCode.errors[0] }}</div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <h2>Informações de Contato</h2>
-                <div class="form-row">
-                    {{ form.rua.label }}
-                    {{ form.rua(class="input-text") }}
-                    {% if form.rua.errors %}
-                        <div class="error">{{ form.rua.errors[0] }}</div>
-                    {% endif %}
-                </div>
-
-                <div class="form-row">
-                    {{ form.complemento.label }}
-                    {{ form.complemento(class="input-text") }}
-                    {% if form.complemento.errors %}
-                        <div class="error">{{ form.complemento.errors[0] }}</div>
-                    {% endif %}
-                </div>
-
-                <div class="form-group">
-                    <div class="form-row form-row-1">
-                        {{ form.cep.label }}
-                        {{ form.cep(class="input-text") }}
-                        {% if form.cep.errors %}
-                            <div class="error">{{ form.cep.errors[0] }}</div>
+                    <div class="form-row">
+                        {{ form.complemento.label }}
+                        {{ form.complemento(class="input-text") }}
+                        {% if form.complemento.errors %}
+                            <div class="error">{{ form.complemento.errors[0] }}</div>
                         {% endif %}
                     </div>
 
-                    <div class="form-row form-row-2">
-                        {{ form.numero.label }}
-                        {{ form.numero(class="input-text") }}
-                        {% if form.numero.errors %}
-                            <div class="error">{{ form.numero.errors[0] }}</div>
+                    <div class="form-group">
+                        <div class="form-row form-row-1">
+                            {{ form.cep.label }}
+                            {{ form.cep(class="input-text") }}
+                            {% if form.cep.errors %}
+                                <div class="error">{{ form.cep.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-row form-row-2">
+                            {{ form.numero.label }}
+                            {{ form.numero(class="input-text") }}
+                            {% if form.numero.errors %}
+                                <div class="error">{{ form.numero.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row form-row-1">
+                            {{ form.ddd.label }}
+                            {{ form.ddd(class="input-text") }}
+                            {% if form.ddd.errors %}
+                                <div class="error">{{ form.ddd.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-row form-row-2">
+                            {{ form.celular.label }}
+                            {{ form.celular(class="input-text") }}
+                            {% if form.celular.errors %}
+                                <div class="error">{{ form.celular.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <h2>Informações Bancárias</h2>
+                    <div class="form-row">
+                        {{ form.dados_bancarios.label }}
+                        {{ form.dados_bancarios(class="input-text") }}
+                        {% if form.dados_bancarios.errors %}
+                            <div class="error">{{ form.dados_bancarios.errors[0] }}</div>
                         {% endif %}
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="form-row form-row-1">
-                        {{ form.ddd.label }}
-                        {{ form.ddd(class="input-text") }}
-                        {% if form.ddd.errors %}
-                            <div class="error">{{ form.ddd.errors[0] }}</div>
+                    <div class="form-row">
+                        {{ form.instagram.label }}
+                        {{ form.instagram(class="input-text") }}
+                        {% if form.instagram.errors %}
+                            <div class="error">{{ form.instagram.errors[0] }}</div>
                         {% endif %}
                     </div>
 
-                    <div class="form-row form-row-2">
-                        {{ form.celular.label }}
-                        {{ form.celular(class="input-text") }}
-                        {% if form.celular.errors %}
-                            <div class="error">{{ form.celular.errors[0] }}</div>
+                    <h2>Segurança</h2>
+                    <div class="form-row">
+                        {{ form.email.label }}
+                        {{ form.email(class="input-text") }}
+                        {% if form.email.errors %}
+                            <div class="error">{{ form.email.errors[0] }}</div>
                         {% endif %}
                     </div>
-                </div>
 
-                <h2>Informações Bancárias</h2>
-                <div class="form-row">
-                    {{ form.dados_bancarios.label }}
-                    {{ form.dados_bancarios(class="input-text") }}
-                    {% if form.dados_bancarios.errors %}
-                        <div class="error">{{ form.dados_bancarios.errors[0] }}</div>
-                    {% endif %}
-                </div>
+                    <div class="form-row">
+                        {{ form.senha.label }}
+                        {{ form.senha(class="input-text") }}
+                        {% if form.senha.errors %}
+                            <div class="error">{{ form.senha.errors[0] }}</div>
+                        {% endif %}
+                    </div>
 
-                <div class="form-row">
-                    {{ form.instagram.label }}
-                    {{ form.instagram(class="input-text") }}
-                    {% if form.instagram.errors %}
-                        <div class="error">{{ form.instagram.errors[0] }}</div>
-                    {% endif %}
-                </div>
+                    <div class="form-row">
+                        {{ form.senhaConfirmar.label }}
+                        {{ form.senhaConfirmar(class="input-text") }}
+                        {% if form.senhaConfirmar.errors %}
+                            <div class="error">{{ form.senhaConfirmar.errors[0] }}</div>
+                        {% endif %}
+                    </div>
 
-                <h2>Segurança</h2>
-                <div class="form-row">
-                    {{ form.email.label }}
-                    {{ form.email(class="input-text") }}
-                    {% if form.email.errors %}
-                        <div class="error">{{ form.email.errors[0] }}</div>
-                    {% endif %}
+                    <div class="form-row-last">
+                        {{ form.cadastrarBotao(class="register") }}
+                    </div>
                 </div>
-
-                <div class="form-row">
-                    {{ form.senha.label }}
-                    {{ form.senha(class="input-text") }}
-                    {% if form.senha.errors %}
-                        <div class="error">{{ form.senha.errors[0] }}</div>
-                    {% endif %}
-                </div>
-
-                <div class="form-row">
-                    {{ form.senhaConfirmar.label }}
-                    {{ form.senhaConfirmar(class="input-text") }}
-                    {% if form.senhaConfirmar.errors %}
-                        <div class="error">{{ form.senhaConfirmar.errors[0] }}</div>
-                    {% endif %}
-                </div>
-
-                <div class="form-row-last">
-                    {{ form.cadastrarBotao(class="register") }}
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock conteudo %}
