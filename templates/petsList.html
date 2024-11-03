@@ -7,15 +7,16 @@
 {% block conteudo %}
 <main>
     <section class="petsList">
-        {% for animal in animais %}
-        <div class="petsList-item">
-            <img src="{{ url_for(animal.foto1) }}" alt="Imagem de {{ animal.nome }}">
-            <h3>{{ animal.nome }}</h3>
-            <p>{{ animal.descricao }}</p>
-            <p>{{ animal.status }}</p>
-            <p><em>{{ animal.ong.nome }}</em></p>
-        </div>
-        {% endfor %}
+        {% for animal in animal %}
+    <div class="petsList-item">
+        <img src="{{ url_for('static', filename=animal.foto1.replace('\\', '/')) }}" alt="Imagem de {{ animal.nome }}">
+        <h3>{{ animal.nome }}</h3>
+        <p>{{ animal.descricao }}</p>
+        <p>{{ animal.status }}</p>
+        <p><em>{{ animal.ong.nome }}</em></p>
+    </div>
+{% endfor %}
+
     </section>
 
     <!-- Paginação -->

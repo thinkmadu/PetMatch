@@ -1,29 +1,39 @@
 {% extends "layout.html" %}
+
 {% block titleEcss %}
-<title>Lista de pets para adoção</title>
+<title>Lista de ONGs</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/ongsList.css') }}">
-{% endblock titleEcss%}
+{% endblock titleEcss %}
 
 {% block conteudo %}
 <main>
     <section class="ongsList">
+        {% for ong in ongs %}
         <div class="ongsList-item">
-            <a href="{{ url_for('ong_1') }}"><img src="{{ url_for('static', filename='assets/logos ongs/Animal de rua.jpg') }}"
-                alt="Logo do Animal de Rua Campina Grande">
-            </a>
-            <h3>Animal de Rua Campina Grande</h3>
-            <p>Logradouro NAPOLEAO LAUREANO, Nº 527, Bairro LAURITZEN, CAMPINA GRANDE, PB, CEP 58401372</p>
-            <p><strong>PIX CNPJ:</strong> 46.540.371/0001-67</p>
-        </div>
+            <img src="{{ url_for('static', filename=ong.foto_perfil_Logo.replace('\\', '/')) }}"
+                 alt="Imagem de {{ ong.descricao_foto_perfil_Logo }}">
+            <img src="{{ url_for('static', filename=ong.foto_qrCode.replace('\\', '/')) }}"
+                 alt="Imagem de {{ ong.descricao_foto_qrCode }}">
 
-        <div class="ongsList-item">
-            <a href="{{ url_for('ong_2') }}"><img src="{{ url_for('static', filename='assets/logos ongs/Ass dos amgs dos animais.jpg') }}"
-                alt="Logo do Associação dos Amigos dos Animais Abandonados de CG-PB">
-            </a>
-            <h3>Associação dos Amigos dos Animais Abandonados</h3>
-            <p>RUA ACASSIO FIGUEIREDO, 1011, CATINGUEIRA, CAMPINA GRANDE, PB, CEP 58400-002</p>
-            <p><strong>PIX:</strong> 06.262.522.0001-48</p>
+            <h3>{{ ong.nome }}</h3>
+            <p><strong>Dados Bancários:</strong> {{ ong.dados_bancarios }}</p>
+            <p><strong>Instagram:</strong> {{ ong.instagram }}</p>
+            <p><strong>Rua:</strong> {{ ong.rua }}</p>
+            <p><strong>Número:</strong> {{ ong.numero }}</p>
+
         </div>
+        {% endfor %}
     </section>
+
+    <!-- Paginação -->
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="{{ url_for('ongsList', page=page - 1) }}">Anterior</a>
+        {% endif %}
+        <span>Página {{ page }} de {{ total_pages }}</span>
+        {% if page < total_pages %}
+        <a href="{{ url_for('ongsList', page=page + 1) }}">Próxima</a>
+        {% endif %}
+    </div>
 </main>
 {% endblock conteudo %}

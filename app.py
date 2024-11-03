@@ -304,32 +304,46 @@ def edit_profile():
 
     return render_template('user_pages/edit.html', form=form, foto_perfil_atual=foto_perfil_atual)
 
+# @app.route('/petsList')
+# def petsList():
+#     animais = Animal.query.all()
+#     page = request.args.get('page', 1, type=int)
+#     per_page = 20
+#     start = (page - 1) * per_page
+#     end = start + per_page
+#     paginated_pets = pets[start:end]
+#     total_pages = (len(pets) + per_page - 1) // per_page
+#     return render_template('petsList.html', pets=paginated_pets, page=page, total_pages=total_pages)
 
-from flask import render_template, request, url_for
 
 @app.route('/petsList')
 def petsList():
-    animais = Animal.query.all()
     page = request.args.get('page', 1, type=int)
     per_page = 20
-    total_pages = (len(animais) + per_page - 1) // per_page
+    animais = Animal.query.paginate(page=page, per_page=per_page, error_out=False)
+    total_pages = animais.pages
 
-    # Paginação
-    start = (page - 1) * per_page
-    end = start + per_page
-    paginated_pets = animais[start:end]
+    return render_template('petsList.html', animal=animais.items, page=page, total_pages=total_pages)
 
-    return render_template('petsList.html', pets=paginated_pets, page=page, total_pages=total_pages)
 
+# @app.route('/ongsList')
+# def ongsList():
+#     page = request.args.get('page', 1, type=int)
+#     per_page = 20
+#     start = (page - 1) * per_page
+#     end = start + per_page
+#     paginated_pets = pets[start:end]
+#     total_pages = (len(pets) + per_page - 1) // per_page
+#     return render_template('ongsList.html')
 @app.route('/ongsList')
 def ongsList():
-    page = request.args.get('page', 1, type=int)
-    per_page = 20
-    start = (page - 1) * per_page
-    end = start + per_page
-    paginated_pets = pets[start:end]
-    total_pages = (len(pets) + per_page - 1) // per_page
-    return render_template('ongsList.html', pets=paginated_pets, page=page, total_pages=total_pages)
+    page = request.args.get('page', 1, type=int)  # Obter o número da página da requisição
+    per_page = 5
+    ongs = Ong.query.paginate(page=page, per_page=per_page, error_out=False)  # Consultar ONGs no banco de dados
+    total_pages = ongs.pages  # Obter o total de páginas
+
+    return render_template('ongsList.html', ongs=ongs.items, page=page, total_pages=total_pages)
+
 
 @app.route('/ongs_pages/ong_1')
 def ong_1():
