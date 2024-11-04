@@ -44,18 +44,18 @@ from config.forms import cadastroForm, loginForm,ResetPasswordForm,sendLinkForm,
 
 @login_manager.user_loader
 def load_user(user_id):
+    # Tenta carregar como Usuario
+    user = Usuario.query.get(int(user_id))
+    if user:
+        return user
+
     # Tenta carregar como Admin
     user = Admin.query.get(int(user_id))
     if user:
         return user
 
     # Tenta carregar como Ong
-    user = Ong.query.get(int(user_id))
-    if user:
-        return user
-
-    # Tenta carregar como Usuario
-    return Usuario.query.get(int(user_id))
+    return Ong.query.get(int(user_id))
 
 
 
@@ -84,12 +84,15 @@ def login():
         user = Usuario.query.filter_by(email=email).first()
 
         if user:
+            print(user)
+            print(current_user)
             print("Usuário encontrado:", user.primeiro_nome)
             print("Senha:", user.senha)
             print("Senha fornecida:", senha)
 
             if user.check_password(senha):
                 login_user(user)
+                print("Login realizado com sucesso!")
                 flash('Login bem-sucedido!', 'success')
                 return redirect(url_for('profile'))
             else:
@@ -120,6 +123,7 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
+
     logout_user()  # Faz logout do usuário
     flash('Você saiu da sua conta.', 'success')
     return redirect(url_for('login'))
@@ -238,10 +242,14 @@ def sobre():
 @login_required
 def profile():
     form = profileForm()
+    print(current_user)
+    print(isinstance(current_user, Usuario))
     if isinstance(current_user, Usuario):
         if form.validate_on_submit():
             return redirect(url_for('edit_profile'))
         return render_template('user_pages/profile.html', form=form)
+    else:
+        return "Unauthorized access", 403 
 
 
 @app.route('/profile/edit', methods=['GET', 'POST'])
