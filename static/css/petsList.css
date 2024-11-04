@@ -99,6 +99,36 @@ footer {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+.filter-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-form label {
+    color: #fff;
+}
+
+.filter-form select, .filter-form button {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+}
+
+.filter-form input[type=range] {
+    width: 30%; /* Faz o slider ocupar toda a largura do contêiner */
+    margin: 10px 0;
+}
+
+.filter-form div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff; /* Cor do texto */
+}
+
+
 .petsList-item {
     box-sizing: border-box; /* Inclui padding e bordas no cálculo da largura */
     width: calc(20% - 10px); /* Ajuste para margens */

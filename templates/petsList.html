@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+
 {% block titleEcss %}
 <title>Lista de pets para adoção</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/petsList.css') }}">
@@ -6,17 +7,46 @@
 
 {% block conteudo %}
 <main>
+    <!-- Formulário de Filtro -->
+    <form method="get" action="{{ url_for('petsList') }}" class="filter-form">
+        <label for="especie">Espécie:</label>
+        <select name="especie" id="especie">
+            <option value="">Todos</option>
+            <option value="gato" {% if especie == 'gato' %}selected{% endif %}>Gato</option>
+            <option value="cachorro" {% if especie == 'cachorro' %}selected{% endif %}>Cachorro</option>
+            <option value="outro" {% if especie == 'outro' %}selected{% endif %}>Outro</option>
+        </select>
+
+        <label for="tamanho">Tamanho:</label>
+        <select name="tamanho" id="tamanho">
+            <option value="">Todos</option>
+            <option value="pequeno" {% if tamanho == 'pequeno' %}selected{% endif %}>Pequeno</option>
+            <option value="medio" {% if tamanho == 'medio' %}selected{% endif %}>Médio</option>
+            <option value="grande" {% if tamanho == 'grande' %}selected{% endif %}>Grande</option>
+        </select>
+
+        <label for="idade">Idade (anos): <span id="idadeValue">0</span></label>
+        <input type="range" id="idade" name="idade" min="0" max="25" value="{{ idade if idade else 0 }}" oninput="updateAgeValue(this.value)">
+        <div>
+            <span>Selecionar até: </span>
+            <span id="idadeValue">{{ idade if idade else 0 }}</span> anos
+        </div>
+
+        <button type="submit">Filtrar</button>
+    </form>
+
     <section class="petsList">
         {% for animal in animal %}
-    <div class="petsList-item">
-        <img src="{{ url_for('static', filename=animal.foto1.replace('\\', '/')) }}" alt="Imagem de {{ animal.nome }}">
-        <h3>{{ animal.nome }}</h3>
-        <p>{{ animal.descricao }}</p>
-        <p>{{ animal.status }}</p>
-        <p><em>{{ animal.ong.nome }}</em></p>
-    </div>
-{% endfor %}
-
+            <div class="petsList-item">
+             <a href="{{ url_for('animalDetail', animal_id=animal.id) }}">
+                <img src="{{ url_for('static', filename=animal.foto1.replace('static/', '').replace('\\', '/')) }}" alt="Imagem de {{ animal.nome }}">
+                <h3>{{ animal.nome }}</h3>
+             </a>
+                <p>{{ animal.descricao }}</p>
+                <p>{{ animal.status }}</p>
+                <p><em>{{ animal.ong.nome }}</em></p>
+            </div>
+        {% endfor %}
     </section>
 
     <!-- Paginação -->
@@ -30,4 +60,10 @@
         {% endif %}
     </div>
 </main>
+
+<script>
+    function updateAgeValue(value) {
+        document.getElementById('idadeValue').innerText = value;
+    }
+</script>
 {% endblock conteudo %}

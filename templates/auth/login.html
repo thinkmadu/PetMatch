@@ -36,6 +36,11 @@
     <label for="password">Senha</label>
     {{ form.senha(class="form-control", id="password", placeholder="Senha") }}
 
+    <!-- Campo do reCAPTCHA -->
+    <div class="recaptcha-container">
+        {{ form.recaptcha() }}
+    </div>
+
     <button type="submit">{{ form.loginBotao() }}</button>  <!-- Botão de login -->
 
     <div class="social">

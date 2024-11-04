@@ -100,22 +100,23 @@ footer {
 
 .ongsList-item {
     box-sizing: border-box; /* Inclui padding e bordas no cálculo da largura */
-    width: calc(20% - 10px); /* Ajuste para margens */
+    width: calc(33.33% - 20px); /* Ajuste para margens, 3 itens por linha */
     text-align: center;
     background-color: #555;
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: 5px;
+    margin: 10px;
 }
 
 .ongsList-item img {
     width: 100%;
-    height: 200px;
+    height: auto; /* Ajusta a altura automaticamente para manter a proporção */
     object-fit: cover; /* Garante que a imagem seja cortada em um formato quadrado */
     border-radius: 10px;
     transition: transform 0.2s ease;
 }
+
 
 .ongsList-item img:hover {
     transform: scale(1.05); /* Efeito de zoom ao passar o mouse */

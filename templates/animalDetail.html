@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block titleEcss %}
+<title>Detalhes de {{ animal.nome }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/animalDetail.css') }}">
+{% endblock titleEcss %}
+
+{% block conteudo %}
+<main>
+    <div class="animal-detail">
+        <h1>{{ animal.nome }}</h1>
+        <p><strong>Descrição:</strong> {{ animal.descricao }}</p>
+        <p><strong>Status:</strong> {{ animal.status }}</p>
+        <p><strong>Espécie:</strong> {{ animal.especie }}</p>
+        <p><strong>Tamanho:</strong> {{ animal.tamanho }}</p>
+        <p><strong>Idade:</strong> {{ animal.idade }} anos</p>
+        <p><strong>ONG:</strong> {{ animal.ong.nome }}</p>
+
+        <div class="animal-images">
+            {% for i in range(1, 5) %}
+                {% set foto_attr = 'foto' ~ i %}
+                {% if getattr(animal, foto_attr) %}
+                    <div class="image-container">
+                        <img src="{{ url_for('static', filename=getattr(animal, foto_attr).replace('static/', '').replace('\\', '/')) }}" alt="{{ getattr(animal, 'descricao_foto' ~ i) }}">
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock conteudo %}

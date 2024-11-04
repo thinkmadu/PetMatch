@@ -26,6 +26,8 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+app.config['RECAPTCHA_PUBLIC_KEY'] = '6LdumXQqAAAAACTj9aFwLpEszVahxWSWTpItn9qj'
+app.config['RECAPTCHA_PRIVATE_KEY'] = '6LdumXQqAAAAAEPJFVgv-sHxpeTE5KOdvjAM-HE7'
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Servidor SMTP do Gmail
 app.config['MAIL_PORT'] = 587  # Porta para TLS
@@ -74,6 +76,11 @@ def test_db():
 def login():
     form = loginForm()
     if form.validate_on_submit():
+        # Verifica se o reCAPTCHA é válido
+        # Verificar a resposta do reCAPTCHA
+        recaptcha_response = request.form.get('g-recaptcha-response')
+        print(f"reCAPTCHA response: {recaptcha_response}")
+
         print("Formulário validado!")
         email = form.email.data
         senha = form.senha.data
@@ -328,10 +335,37 @@ def edit_profile():
 def petsList():
     page = request.args.get('page', 1, type=int)
     per_page = 20
-    animais = Animal.query.paginate(page=page, per_page=per_page, error_out=False)
+    especie = request.args.get('especie')
+    tamanho = request.args.get('tamanho')
+    idade = request.args.get('idade')  # Obter filtro de idade
+
+    # Consultar animais com filtros aplicados, se fornecidos
+    query = Animal.query
+    if especie:
+        query = query.filter_by(especie=especie)
+    if tamanho:
+        query = query.filter_by(tamanho=tamanho)
+    if idade:
+
+        query = query.filter(Animal.idade <= int(idade))  #  filtra animais com idade menor ou igual
+
+    animais = query.paginate(page=page, per_page=per_page, error_out=False)
     total_pages = animais.pages
 
-    return render_template('petsList.html', animal=animais.items, page=page, total_pages=total_pages)
+    return render_template(
+        'petsList.html',
+        animal=animais.items,
+        page=page,
+        total_pages=total_pages,
+        especie=especie,
+        tamanho=tamanho,
+        idade=idade
+    )
+
+@app.route('/petsList/<int:animal_id>')
+def animalDetail(animal_id):
+    animal = Animal.query.get_or_404(animal_id)  # Obter animal pelo ID ou 404 se não encontrado
+    return render_template('animalDetail.html', animal=animal, getattr=getattr)
 
 
 # @app.route('/ongsList')
@@ -353,17 +387,17 @@ def ongsList():
     return render_template('ongsList.html', ongs=ongs.items, page=page, total_pages=total_pages)
 
 
-@app.route('/ongs_pages/ong_1')
-def ong_1():
-    return render_template('ongs_pages/ong_1.html')
+# @app.route('/ongs_pages/ong_1')
+# def ong_1():
+#     return render_template('ongs_pages/ong_1.html')
+#
+# @app.route('/ongs_pages/ong_2')
+# def ong_2():
+#     return render_template('ongs_pages/ong_2.html')
 
-@app.route('/ongs_pages/ong_2')
-def ong_2():
-    return render_template('ongs_pages/ong_2.html')
-
-@app.route('/user_user_layout')
-def user_layout():
-    return render_template('user_templates/user_layout.html')
+# @app.route('/user_user_layout')
+# def user_layout():
+#     return render_template('user_templates/user_layout.html')
 
 
 
@@ -585,6 +619,7 @@ def edit_animal(id):
             form.descricao.data = animal.descricao
             form.status.data = animal.status
 
+
         # Processa o formulário ao submeter
         if form.validate_on_submit():
             # Atualiza os campos do animal
@@ -594,6 +629,10 @@ def edit_animal(id):
             animal.idade = form.idade.data
             animal.descricao = form.descricao.data
             animal.status = form.status.data
+            animal.descricao_foto1 = form.descricao_foto1.data,
+            animal.descricao_foto2 = form.descricao_foto2.data,
+            animal.descricao_foto3 = form.descricao_foto3.data,
+            animal.descricao_foto4 = form.descricao_foto4.data,
 
             # Atualiza as fotos se novas forem enviadas
             for i, foto_field in enumerate([form.foto1, form.foto2, form.foto3, form.foto4], start=1):
