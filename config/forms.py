@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, FileField,IntegerField,TextAreaField,SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp,NumberRange,Optional
 from flask_wtf.file import FileAllowed
-from config.models import Ong 
+from config.models import Ong
 
 class cadastroForm(FlaskForm):
     primeiroNome = StringField('Primeiro Nome', validators=[DataRequired()])
@@ -17,9 +17,9 @@ class cadastroForm(FlaskForm):
     numero = StringField('Número', validators=[DataRequired(), Regexp(regex=r'^\d+$', message='O número deve conter apenas dígitos.')])
     ddd = StringField('DDD', validators=[DataRequired(), Regexp(regex=r'^\d{2}$', message='O DDD deve ter 2 dígitos.'),Length(min=2, max=2)])
     celular = StringField('Celular', validators=[DataRequired(), Regexp(regex=r'^\d{9}$', message='O celular deve ter 9 dígitos.'), Length(min=9, max=9)])
-    
+
     descricao_foto_perfil  = TextAreaField('Descrição da foto de perfil para acessibilidade', validators=[DataRequired(), Length(max=300)])
-    
+
     cadastrarBotao = SubmitField('Cadastrar')
 
 class loginForm(FlaskForm):
@@ -55,10 +55,10 @@ class editPerfilForm(FlaskForm):
     numero = StringField('Número', validators=[ Regexp(regex=r'^\d+$', message='O número deve conter apenas dígitos.')])
     ddd = StringField('DDD', validators=[Regexp(regex=r'^\d{2}$', message='O DDD deve ter 2 dígitos.'),Length(min=2, max=2)])
     celular = StringField('Celular', validators=[ Regexp(regex=r'^\d{9}$', message='O celular deve ter 9 dígitos.'), Length(min=9, max=9)])
-    
+
     descricao_foto_perfil  = TextAreaField('Descrição da foto de perfil para acessibilidade', validators=[DataRequired(), Length(max=300)])
 
-    
+
     salvarBotao = SubmitField('Salvar')
 
 
@@ -67,7 +67,7 @@ class cadastrar_OngForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     senha = PasswordField('Senha', validators=[DataRequired()])
     senhaConfirmar = PasswordField('Confirmar Senha', validators=[DataRequired(), EqualTo('senha', message="Senhas diferentes")])
-    
+
     rua = StringField('Rua', validators=[DataRequired()])
     complemento = StringField('Complemento')
     cep = StringField('CEP', validators=[DataRequired(), Regexp(regex=r'^\d{8}$', message='O CEP deve ter 8 dígitos.'), Length(min=8, max=8)])
@@ -77,7 +77,7 @@ class cadastrar_OngForm(FlaskForm):
     numero = StringField('Número', validators=[DataRequired(), Regexp(regex=r'^\d+$', message='O número deve conter apenas dígitos.')])
     ddd = StringField('DDD', validators=[DataRequired(), Regexp(regex=r'^\d{2}$', message='O DDD deve ter 2 dígitos.'),Length(min=2, max=2)])
     celular = StringField('Celular', validators=[DataRequired(), Regexp(regex=r'^\d{9}$', message='O celular deve ter 9 dígitos.'), Length(min=9, max=9)])
-    
+
     #fotos
     fotoQrCode= FileField('Qr code para doações', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     descricao_fotoqrCode = TextAreaField('Descrição do qr code', validators=[DataRequired(), Length(max=300)])
@@ -89,7 +89,7 @@ class cadastrar_OngForm(FlaskForm):
     def process(self, formdata=None, obj=None, data=None, extra_filters=None):
         # Chama o método `process` padrão do FlaskForm
         super().process(formdata, obj, data, extra_filters)
-        
+
         # Preenche a descrição do QR code automaticamente se `nome_Ong` estiver definido
         if self.nome_Ong.data:
             self.descricao_fotoqrCode.data = f"Essa imagem é o QR code do PIX da ONG {self.nome_Ong.data}"
@@ -103,7 +103,7 @@ class AnimalForm(FlaskForm):
 
     # Campo tamanho com opções fixas
     tamanho = SelectField('Tamanho', choices=[('pequeno', 'Pequeno'), ('medio', 'Médio'), ('grande', 'Grande')],
-                          validators=[DataRequired()])
+                        validators=[DataRequired()])
 
     idade = IntegerField('Idade', validators=[DataRequired(), NumberRange(min=0, max=30, message='Idade inválida')])
     descricao = TextAreaField('Descrição', validators=[DataRequired(), Length(max=300)])
@@ -134,7 +134,7 @@ class AnimalForm(FlaskForm):
         for i in range(2, 5):
             foto_field = getattr(self, f'foto{i}')
             descricao_field = getattr(self, f'descricao_foto{i}')
-            
+
             # Se a foto foi enviada, a descrição é obrigatória
             if foto_field.data and not descricao_field.data:
                 descricao_field.errors.append('Descrição é obrigatória se uma imagem foi enviada.')
@@ -174,7 +174,7 @@ class editAnimalForm(FlaskForm):
         for i in range(2, 5):
             foto_field = getattr(self, f'foto{i}')
             descricao_field = getattr(self, f'descricao_foto{i}')
-            
+
             # Se a foto foi enviada, a descrição é obrigatória
             if foto_field.data and not descricao_field.data:
                 descricao_field.errors.append('Descrição é obrigatória se uma imagem foi enviada.')

@@ -9,16 +9,11 @@ body {
     margin: 0
 }
 
-.current-photo {
-    text-align: center; /* Centraliza o conteúdo dentro do div */
-}
-
 .current-photo img.profile-photo {
-    max-width: 350px;
-    max-height: 350px;
-    border-radius: ; /* Deixa a imagem redonda */
-  object-fit: cover; 
-    margin:50px; /* Centraliza a imagem se for um bloco */
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 50%; /* Exibir como círculo, opcional */
+    margin-bottom: 15px;
 }
 
 nav {
@@ -83,6 +78,32 @@ nav {
     color: #ccc;
 }
 /* Fim CSS global */
+
+.current-photo {
+    text-align: center; /* Centraliza o conteúdo dentro do div */
+}
+
+.current-photo img.profile-photo {
+    max-width: 350px;
+    max-height: 350px;
+    border-radius: ; /* Deixa a imagem redonda */
+    object-fit: cover;
+    margin:50px; /* Centraliza a imagem se for um bloco */
+}
+
+/* nav {
+    background-color: #000;
+    font-family: 'Oxanium';
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+} */
 
 .page-content {
     width: 100%;

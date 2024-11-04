@@ -9,13 +9,6 @@ body {
     margin: 0
 }
 
-.current-photo img.profile-photo {
-    max-width: 150px;
-    max-height: 150px;
-    border-radius: 50%; /* Exibir como círculo, opcional */
-    margin-bottom: 15px;
-}
-
 nav {
     background-color: #000;
     font-family: 'Oxanium';
@@ -78,6 +71,13 @@ nav {
     color: #ccc;
 }
 /* Fim CSS global */
+
+.current-photo img.profile-photo {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 50%; /* Exibir como círculo, opcional */
+    margin-bottom: 15px;
+}
 
 .page-content {
     width: 100%;
@@ -544,3 +544,4 @@ footer {
     font-weight: 400;
     color: #f2f2f2;
 }
+

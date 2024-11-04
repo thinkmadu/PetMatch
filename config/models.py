@@ -90,8 +90,8 @@ class Ong(db.Model, UserMixin):
     #fotos
     foto_perfil_Logo = db.Column(db.String(200), nullable=True)
     foto_qrCode =db.Column(db.String(200), nullable=True)
- 
-     #descrição das fotos para acessibilidade
+
+    #descrição das fotos para acessibilidade
     descricao_foto_perfil_Logo = db.Column(db.String(300), nullable=False)
     descricao_foto_qrCode = db.Column(db.String(300), nullable=False)
 
