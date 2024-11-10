@@ -14,7 +14,7 @@ import base64
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads' 
 app.config['SECRET_KEY'] = 'JHBJDJMBDKJ677898'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:87Amore;;w34@localhost/PetMatch'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://petuser:87Amore;;w34@localhost/PetMatch'
 # de madu
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Mylooksql2024@localhost/PetMatch'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
