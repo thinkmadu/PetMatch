@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block titleEcss %}
+    <title>Chat sobre {{ animal.nome }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+{% endblock titleEcss %}
+
+{% block conteudo %}
+    <main>
+        <div class="chat-container">
+            <h1>Chat com a ONG {{ ong.nome_Ong }}</h1>
+            <div id="chat-box">
+                <!-- Exibir mensagens anteriores -->
+                {% for msg in mensagens %}
+                    <div>
+                        <strong>{{ msg.sender_name }}:</strong> {{ msg.message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <form id="chat-form">
+                <input type="text" id="message" placeholder="Digite sua mensagem" required>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const socket = io();
+        const chatBox = document.getElementById('chat-box');
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message');
+
+        socket.on('connect', () => {
+            const room = '{{ animal.id }}';
+            socket.emit('join_room', room);
+        });
+
+        socket.on('receive_message', (data) => {
+            const message = document.createElement('div');
+            const sender = document.createElement('strong');
+
+
+            sender.textContent = `${data.senderName}: `;
+            message.appendChild(sender);
+
+            const text = document.createTextNode(data.message);
+            message.appendChild(text);
+
+            chatBox.appendChild(message);
+        });
+
+
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = messageInput.value;
+            const room = '{{ animal.id }}';
+
+            const senderName = '{{ user.primeiro_nome if user.primeiro_nome else user.nome_Ong }}';
+
+            socket.emit('send_message', {room, message, senderName});
+            messageInput.value = '';
+        });
+
+
+    </script>
+{% endblock conteudo %}

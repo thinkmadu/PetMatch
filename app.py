@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash, url_for,current_app
+from flask import Flask, render_template, request, redirect, flash, url_for, current_app
 from sqlalchemy import text
 from werkzeug.utils import secure_filename
 import os
@@ -9,18 +9,20 @@ from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer
 from flask_migrate import Migrate
 import base64
-
+from flask_socketio import SocketIO, join_room, leave_room, send
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'static/uploads' 
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['SECRET_KEY'] = 'JHBJDJMBDKJ677898'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://petuser:87Amore;;w34@localhost/PetMatch'
 # de madu
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Mylooksql2024@localhost/PetMatch'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'my    sql+pymysql://root:Mylooksql2024@localhost/PetMatch'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+socketio = SocketIO(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -34,14 +36,14 @@ app.config['MAIL_PORT'] = 587  # Porta para TLS
 app.config['MAIL_USE_TLS'] = True  # Habilita TLS
 app.config['MAIL_USE_SSL'] = False  # Não usa SSL
 app.config['MAIL_USERNAME'] = 'petmatch.adm@gmail.com'
-#app.config['MAIL_PASSWORD'] = 'eett34;;'
+# app.config['MAIL_PASSWORD'] = 'eett34;;'
 app.config['MAIL_PASSWORD'] = 'kuya dzya toli ygpz'
 mail = Mail(app)
 s = URLSafeTimedSerializer(app.secret_key)
 
-
-from config.models import Usuario, Admin, Ong, Animal
-from config.forms import cadastroForm, loginForm,ResetPasswordForm,sendLinkForm,profileForm,editPerfilForm,cadastrar_OngForm,AnimalForm,editAnimalForm
+from config.models import Usuario, Admin, Ong, Animal, Mensagem, InteresseAnimal
+from config.forms import cadastroForm, loginForm, ResetPasswordForm, sendLinkForm, profileForm, editPerfilForm, \
+    cadastrar_OngForm, AnimalForm, editAnimalForm
 
 
 @login_manager.user_loader
@@ -60,7 +62,6 @@ def load_user(user_id):
     return Ong.query.get(int(user_id))
 
 
-
 # Rota de teste para verificar a conexão com o banco de dados
 @app.route('/test_db')
 def test_db():
@@ -70,6 +71,7 @@ def test_db():
         return "Conexão com o banco de dados bem-sucedida!"
     except Exception as e:
         return f"Erro ao conectar ao banco de dados: {e}"
+
 
 # Rotas
 @app.route('/login', methods=['GET', 'POST'])
@@ -130,15 +132,16 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-
     logout_user()  # Faz logout do usuário
     flash('Você saiu da sua conta.', 'success')
     return redirect(url_for('login'))
+
 
 @app.route('/')
 @app.route('/home')
 def home():
     return render_template('index.html')
+
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
@@ -148,7 +151,7 @@ def cadastro():
         # Hasheando a senha antes de salvar
         senha_hash = generate_password_hash(form.senha.data)
 
-       # Inicializa a variável para o caminho da foto do perfil
+        # Inicializa a variável para o caminho da foto do perfil
         foto_perfil_path = None
 
         # Verifica se uma imagem foi enviada
@@ -189,6 +192,7 @@ def cadastro():
     else:
         print("Formulário inválido:", form.errors)
     return render_template('auth/cadastro.html', form=form)
+
 
 @app.route('/recuperar', methods=['GET', 'POST'])
 def recuperar():
@@ -241,9 +245,11 @@ def redefinir():
 
     return render_template('redefinirSenha.html', form=form)
 
+
 @app.route('/sobre')
 def sobre():
     return render_template('sobre.html')
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
@@ -256,7 +262,83 @@ def profile():
             return redirect(url_for('edit_profile'))
         return render_template('user_pages/profile.html', form=form)
     else:
-        return "Unauthorized access", 403 
+        return "Unauthorized access", 403
+
+
+@app.route('/chat/<int:animal_id>', methods=['GET'])
+@login_required
+def chat(animal_id):
+    animal = Animal.query.get_or_404(animal_id)
+    ong = Ong.query.get(animal.ong_id)
+
+    # Verificar se o usuário logado é um "Usuario"
+    if isinstance(current_user, Usuario):
+        # Verificar se o usuário tem interesse no animal
+        interesse = InteresseAnimal.query.filter_by(usuario_id=current_user.id, animal_id=animal.id).first()
+        if not interesse:
+            flash('Você não tem permissão para acessar este chat.', 'danger')
+            return redirect(url_for('home'))  # Redirecionar para uma página segura
+
+    # Verificar se o usuário logado é uma "Ong"
+    elif isinstance(current_user, Ong):
+        # As ONGs só podem acessar o chat se for a ONG responsável pelo animal
+        if current_user.id != animal.ong_id:
+            flash('Acesso negado. Esta não é a sua ONG.', 'danger')
+            return redirect(url_for('home'))  # Redirecionar para a página inicial
+
+    # Se tudo estiver correto, renderiza o chat
+    mensagens = Mensagem.query.filter_by(room_id=animal.id).order_by(Mensagem.timestamp.asc()).all()
+
+    return render_template('chat.html', animal=animal, ong=ong, user=current_user, mensagens=mensagens)
+
+
+@app.route('/interesse/<int:animal_id>', methods=['POST'])
+@login_required
+def interesse_animal(animal_id):
+    animal = Animal.query.get_or_404(animal_id)
+    if isinstance(current_user, Usuario):
+        # Verificar se o usuário já tem interesse registrado
+        interesse_existente = InteresseAnimal.query.filter_by(usuario_id=current_user.id, animal_id=animal.id).first()
+        if not interesse_existente:
+            interesse = InteresseAnimal(usuario_id=current_user.id, animal_id=animal.id)
+            db.session.add(interesse)
+            db.session.commit()
+            flash('Você demonstrou interesse neste animal!', 'success')
+        else:
+            flash('Você já demonstrou interesse neste animal.', 'info')
+
+    return redirect(url_for('chat', animal_id=animal_id))
+
+
+@socketio.on('join_room')
+def handle_join_room(data):
+    join_room(data)
+    if isinstance(current_user, Usuario):
+        send(f'{current_user.primeiro_nome} entrou na sala.', to=data)
+    elif isinstance(current_user, Ong):
+        send(f'{current_user.nome_Ong} entrou na sala.', to=data)
+
+
+@socketio.on('send_message')
+def handle_send_message(data):
+    room = data['room']
+    message = data['message']
+    sender_name = data['senderName']
+
+    # Salvar a mensagem no banco de dados
+    nova_mensagem = Mensagem(
+        message=message,
+        sender_name=sender_name,
+        room_id=room  # Referência ao animal/sala
+    )
+    db.session.add(nova_mensagem)
+    db.session.commit()
+
+    # Log para verificar os dados recebidos
+    print(f'Mensagem de {sender_name} na sala {room}: {message}')
+
+    # Envia a mensagem para os clientes na sala
+    socketio.emit('receive_message', {'message': message, 'senderName': sender_name}, to=room)
 
 
 @app.route('/profile/edit', methods=['GET', 'POST'])
@@ -265,7 +347,7 @@ def edit_profile():
     form = editPerfilForm()
     if isinstance(current_user, Usuario):
 
-# Verifique se o usuário tem uma foto de perfil
+        # Verifique se o usuário tem uma foto de perfil
         foto_perfil_atual = None
         if current_user.foto_perfil:
             # Obtenha o caminho da foto de perfil atual
@@ -283,7 +365,7 @@ def edit_profile():
             form.descricao_foto_perfil.data = current_user.descricao_foto_perfil
             form.ddd.data = current_user.ddd
             form.celular.data = current_user.celular
-        
+
         # Quando o formulário for submetido
         if form.validate_on_submit():
             current_user.primeiro_nome = form.primeiroNome.data
@@ -319,6 +401,7 @@ def edit_profile():
 
     return render_template('user_pages/edit.html', form=form, foto_perfil_atual=foto_perfil_atual)
 
+
 # @app.route('/petsList')
 # def petsList():
 #     animais = Animal.query.all()
@@ -346,8 +429,7 @@ def petsList():
     if tamanho:
         query = query.filter_by(tamanho=tamanho)
     if idade:
-
-        query = query.filter(Animal.idade <= int(idade))  #  filtra animais com idade menor ou igual
+        query = query.filter(Animal.idade <= int(idade))  # filtra animais com idade menor ou igual
 
     animais = query.paginate(page=page, per_page=per_page, error_out=False)
     total_pages = animais.pages
@@ -362,10 +444,19 @@ def petsList():
         idade=idade
     )
 
+
 @app.route('/petsList/<int:animal_id>')
 def animalDetail(animal_id):
-    animal = Animal.query.get_or_404(animal_id)  # Obter animal pelo ID ou 404 se não encontrado
-    return render_template('animalDetail.html', animal=animal, getattr=getattr)
+    animal = Animal.query.get_or_404(animal_id)
+    ong = Ong.query.get(animal.ong_id)
+
+    # Determinar o tipo de usuário (Usuario ou Ong)
+    user_type = "Usuario" if isinstance(current_user, Usuario) else "Ong"
+
+    return render_template('animalDetail.html', animal=animal, ong=ong, user=current_user, user_type=user_type)
+
+
+
 
 
 # @app.route('/ongsList')
@@ -400,7 +491,6 @@ def ongsList():
 #     return render_template('user_templates/user_layout.html')
 
 
-
 # ROTAS DO ADMIN
 
 @app.route('/admin_dashboard')
@@ -408,17 +498,18 @@ def ongsList():
 def admin_dashboard():
     # Verifica se o usuário logado é um administrador
     print(isinstance(current_user, Admin))
-    
+
     if isinstance(current_user, Admin):
         # Aqui você pode adicionar dados que deseja exibir no dashboard
         usuarios = Usuario.query.all()
         ongs = Ong.query.all()
         animais = Animal.query.all()
-        return render_template('admin_pages/admin_dashboard.html', usuarios=usuarios, ongs=ongs,animais=animais)
+        return render_template('admin_pages/admin_dashboard.html', usuarios=usuarios, ongs=ongs, animais=animais)
     else:
         print("Acesso negado. Somente administradores podem acessar esta página.")
         flash('Acesso negado. Somente administradores podem acessar esta página.', 'danger')
         return redirect(url_for('home'))
+
 
 @app.route('/admin_dashboard/ongs_register', methods=['GET', 'POST'])
 @login_required
@@ -427,16 +518,15 @@ def ongs_register():
     if isinstance(current_user, Admin):
         form = cadastrar_OngForm()
 
-         # Processa o formulário antes de validar
+        # Processa o formulário antes de validar
         form.process(formdata=request.form)
 
         if form.validate_on_submit():
             print("Formulário validado")
-            
-            
+
             # Hasheando a senha antes de salvar
             senha_hash = generate_password_hash(form.senha.data)
-            
+
             # Caminhos das imagens a serem salvas
             foto_qr_code_path = None
             foto_perfil_path = None
@@ -474,7 +564,6 @@ def ongs_register():
                 descricao_foto_qrCode=form.descricao_fotoqrCode.data
             )
 
-
             # Verifica se a ONG já existe pelo email
             ong_existente = Ong.query.filter_by(email=form.email.data).first()
             if ong_existente:
@@ -503,20 +592,19 @@ def ongs_register():
 @app.route('/ong_dashboard')
 @login_required
 def ong_dashboard():
-
     # Verifica se o usuário logado é um administrador
     print(isinstance(current_user, Ong))
-    
+
     if isinstance(current_user, Ong):
         # Aqui você pode adicionar dados que deseja exibir no dashboard
 
         animais = Animal.query.filter_by(ong_id=current_user.id).all()
-        return render_template('ongs_pages/ong_dashboard.html',animais=animais)
+        return render_template('ongs_pages/ong_dashboard.html', animais=animais)
     else:
         print("Acesso negado. Somente Ongs podem acessar esta página.")
         flash('Acesso negado. Somente Ongs podem acessar esta página.', 'danger')
         return redirect(url_for('home'))
-    
+
 
 @app.route('/ong_dashboard/pets_register', methods=['GET', 'POST'])
 @login_required
@@ -549,7 +637,7 @@ def pets_register():
             novo_animal = Animal(
                 nome=form.nome.data,
                 especie=form.especie.data,
-                tamanho = form.tamanho.data,
+                tamanho=form.tamanho.data,
                 idade=form.idade.data,
                 descricao=form.descricao.data,
                 status=form.status.data,
@@ -564,7 +652,6 @@ def pets_register():
                 ong_id=current_user.id
             )
 
-
             # Adiciona e salva o novo animal no banco de dados
             db.session.add(novo_animal)
             db.session.commit()
@@ -575,7 +662,7 @@ def pets_register():
             print("Formulário inválido:", form.errors)
 
         return render_template('ongs_pages/pets_register.html', form=form)
-    
+
     else:
         flash('Acesso negado. Apenas ONGs podem acessar esta página.', 'danger')
         return redirect(url_for('home'))
@@ -587,7 +674,7 @@ def delete_animal(id):
     if isinstance(current_user, Ong):
         animal = Animal.query.get_or_404(id)  # Busca o animal pelo ID
 
-         # Exclui as imagens associadas ao animal
+        # Exclui as imagens associadas ao animal
         for foto_path in [animal.foto1, animal.foto2, animal.foto3, animal.foto4]:
             if foto_path and os.path.exists(foto_path):  # Verifica se o caminho existe
                 os.remove(foto_path)  # Exclui a imagem
@@ -599,7 +686,8 @@ def delete_animal(id):
     else:
         flash('Acesso negado. Apenas ONGs podem acessar esta página.', 'danger')
         return redirect(url_for('home'))
-    
+
+
 @app.route('/ong_dashboard/pets_edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_animal(id):
@@ -618,7 +706,6 @@ def edit_animal(id):
             form.idade.data = animal.idade
             form.descricao.data = animal.descricao
             form.status.data = animal.status
-
 
         # Processa o formulário ao submeter
         if form.validate_on_submit():

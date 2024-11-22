@@ -1,3 +1,4 @@
+from datetime import datetime
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user, current_user
@@ -25,6 +26,30 @@ class Usuario(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.senha, password)
+
+
+class Mensagem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.String(500), nullable=False)  # Texto da mensagem
+    sender_name = db.Column(db.String(100), nullable=False)  # Nome do remetente
+    room_id = db.Column(db.Integer, db.ForeignKey('animal.id'), nullable=False)  # Referência ao animal
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)  # Hora de envio
+
+    # Relacionamento com o modelo Animal (sala)
+    animal = db.relationship('Animal', backref=db.backref('mensagens', lazy=True))
+
+    def __repr__(self):
+        return f"<Mensagem {self.sender_name}: {self.message}>"
+
+class InteresseAnimal(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    animal_id = db.Column(db.Integer, db.ForeignKey('animal.id'), nullable=False)
+    data_interesse = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relacionamentos
+    usuario = db.relationship('Usuario', backref=db.backref('interesses', lazy=True))
+    animal = db.relationship('Animal', backref=db.backref('interesses', lazy=True))
 
 class Animal(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -1,31 +1,48 @@
 {% extends "layout.html" %}
 
 {% block titleEcss %}
-<title>Detalhes de {{ animal.nome }}</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/animalDetail.css') }}">
+    <title>Detalhes de {{ animal.nome }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animalDetail.css') }}">
 {% endblock titleEcss %}
 
 {% block conteudo %}
-<main>
-    <div class="animal-detail">
-        <h1>{{ animal.nome }}</h1>
-        <p><strong>Descrição:</strong> {{ animal.descricao }}</p>
-        <p><strong>Status:</strong> {{ animal.status }}</p>
-        <p><strong>Espécie:</strong> {{ animal.especie }}</p>
-        <p><strong>Tamanho:</strong> {{ animal.tamanho }}</p>
-        <p><strong>Idade:</strong> {{ animal.idade }} anos</p>
-        <p><strong>ONG:</strong> {{ animal.ong.nome }}</p>
+    <main>
+        <div class="animal-detail">
+            <h1>{{ animal.nome }}</h1>
+            <p><strong>Descrição:</strong> {{ animal.descricao }}</p>
+            <p><strong>Status:</strong> {{ animal.status }}</p>
+            <p><strong>Espécie:</strong> {{ animal.especie }}</p>
+            <p><strong>Tamanho:</strong> {{ animal.tamanho }}</p>
+            <p><strong>Idade:</strong> {{ animal.idade }} anos</p>
+            <p><strong>ONG:</strong> {{ animal.ong.nome_Ong }}</p>
 
-        <div class="animal-images">
-            {% for i in range(1, 5) %}
-                {% set foto_attr = 'foto' ~ i %}
-                {% if getattr(animal, foto_attr) %}
-                    <div class="image-container">
-                        <img src="{{ url_for('static', filename=getattr(animal, foto_attr).replace('static/', '').replace('\\', '/')) }}" alt="{{ getattr(animal, 'descricao_foto' ~ i) }}">
-                    </div>
+            <div class="animal-images">
+                {% for i in range(1, 5) %}
+                    {% set foto_attr = 'foto' ~ i %}
+                    {% if getattr(animal, foto_attr) %}
+                        <div class="image-container">
+                            <img src="{{ url_for('static', filename=getattr(animal, foto_attr).replace('static/', '').replace('\\', '/')) }}"
+                                 alt="{{ getattr(animal, 'descricao_foto' ~ i) }}">
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="interest-button">
+                {% if user_type == "Usuario" %}
+                    {% set interesse = user.interesses|selectattr('animal_id', 'equalto', animal.id) | list %}
+                    <form action="{{ url_for('interesse_animal', animal_id=animal.id) }}" method="POST">
+                        <button type="submit" class="btn btn-primary" {% if interesse %} disabled {% endif %}>
+                            {% if interesse %}
+                                Você já demonstrou interesse
+                            {% else %}
+                                Tenho Interesse
+                            {% endif %}
+                        </button>
+                    </form>
                 {% endif %}
-            {% endfor %}
+            </div>
+
         </div>
-    </div>
-</main>
+    </main>
 {% endblock conteudo %}

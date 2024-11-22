@@ -25,11 +25,11 @@
             <option value="grande" {% if tamanho == 'grande' %}selected{% endif %}>Grande</option>
         </select>
 
-        <label for="idade">Idade (anos): <span id="idadeValue">0</span></label>
-        <input type="range" id="idade" name="idade" min="0" max="25" value="{{ idade if idade else 0 }}" oninput="updateAgeValue(this.value)">
+        <label for="idade">Idade (anos): <span id="idadeValue">25</span></label>
+        <input type="range" id="idade" name="idade" min="0" max="25" value="{{ idade if idade else 25 }}" oninput="updateAgeValue(this.value)">
         <div>
             <span>Selecionar até: </span>
-            <span id="idadeValue">{{ idade if idade else 0 }}</span> anos
+            <span id="idadeValue">{{ idade if idade else 25 }}</span> anos
         </div>
 
         <button type="submit">Filtrar</button>
