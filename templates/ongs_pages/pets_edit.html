@@ -6,138 +6,195 @@
 {% endblock titleEcss %}
 
 {% block conteudo %}
-<div class="page-content">
-    <div class="form-v10-content">
-        <form class="form-detail" action="{{ url_for('pets_register') }}" method="post" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
+    <div class="page-content">
+        <div class="form-v10-content">
+            <form class="form-detail" action="{{ url_for('edit_animal', id=animal.id) }}" method="post"
+                  enctype="multipart/form-data">
+                enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
 
-            <div class="form-left">
-                <h2>Informações do Animal</h2>
+                <div class="form-left">
+                    <h2>Informações do Animal</h2>
 
-                <!-- Campos de informações do animal -->
-                <div class="form-row">
-                    {{ form.nome.label }}
-                    {{ form.nome(class="input-text") }}
-                    {% if form.nome.errors %}
-                        <div class="error">{{ form.nome.errors[0] }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-row">
-                    {{ form.especie.label }}
-                    {{ form.especie(class="input-text") }}
-                    {% if form.especie.errors %}
-                        <div class="error">{{ form.especie.errors[0] }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-row">
-                    {{ form.tamanho.label }}
-                    {{ form.tamanho(class="input-text") }}
-                    {% if form.tamanho.errors %}
-                        <div class="error">{{ form.tamanho.errors[0] }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-row">
-                    {{ form.idade.label }}
-                    {{ form.idade(class="input-text") }}
-                    {% if form.idade.errors %}
-                        <div class="error">{{ form.idade.errors[0] }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-row">
-                    {{ form.descricao.label }}
-                    {{ form.descricao(class="input-text") }}
-                    {% if form.descricao.errors %}
-                        <div class="error">{{ form.descricao.errors[0] }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-row">
-                    {{ form.status.label }}
-                    {{ form.status(class="input-select") }}
-                    {% if form.status.errors %}
-                        <div class="error">{{ form.status.errors[0] }}</div>
-                    {% endif %}
-                </div>
+                    <!-- Campos de informações do animal -->
+                    <div class="form-row">
+                        {{ form.nome.label }}
+                        {{ form.nome(class="input-text") }}
+                        {% if form.nome.errors %}
+                            <div class="error">{{ form.nome.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        {{ form.especie.label }}
+                        {{ form.especie(class="input-text") }}
+                        {% if form.especie.errors %}
+                            <div class="error">{{ form.especie.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        {{ form.tamanho.label }}
+                        {{ form.tamanho(class="input-text") }}
+                        {% if form.tamanho.errors %}
+                            <div class="error">{{ form.tamanho.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        {{ form.idade.label }}
+                        {{ form.idade(class="input-text") }}
+                        {% if form.idade.errors %}
+                            <div class="error">{{ form.idade.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        {{ form.descricao.label }}
+                        {{ form.descricao(class="input-text") }}
+                        {% if form.descricao.errors %}
+                            <div class="error">{{ form.descricao.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        {{ form.status.label }}
+                        {{ form.status(class="input-select") }}
+                        {% if form.status.errors %}
+                            <div class="error">{{ form.status.errors[0] }}</div>
+                        {% endif %}
+                    </div>
 
-                <h2>Fotos do Animal</h2>
+                    <div class="form-row" id="adotante-field" style="display: none;">
+                        {{ form.adotante.label }}
+                        {{ form.adotante(class="input-select") }}
+                        {% if form.adotante.errors %}
+                            <div class="error">{{ form.adotante.errors[0] }}</div>
+                        {% endif %}
+                    </div>
 
-                <!-- Campos para foto 1 -->
-                <div class="form-row">
-                    {{ form.foto1.label }}
-                    {{ form.foto1(class="input-file") }}
-                    {% if form.foto1.errors %}
-                        <div class="error">{{ form.foto1.errors[0] }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-row">
-                    {{ form.descricao_foto1.label }}
-                    {{ form.descricao_foto1(class="input-text") }}
-                    {% if form.descricao_foto1.errors %}
-                        <div class="error">{{ form.descricao_foto1.errors[0] }}</div>
-                    {% endif %}
-                </div>
 
-                <!-- Campos para foto 2 -->
-                <div class="form-row">
-                    {{ form.foto2.label }}
-                    {{ form.foto2(class="input-file") }}
-                    {% if form.foto2.errors %}
-                        <div class="error">{{ form.foto2.errors[0] }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-row">
-                    {{ form.descricao_foto2.label }}
-                    {{ form.descricao_foto2(class="input-text") }}
-                    {% if form.descricao_foto2.errors %}
-                        <div class="error">{{ form.descricao_foto2.errors[0] }}</div>
-                    {% endif %}
-                </div>
+                    <h2>Fotos do Animal</h2>
 
-                <!-- Campos para foto 3 -->
-                <div class="form-row">
-                    {{ form.foto3.label }}
-                    {{ form.foto3(class="input-file") }}
-                    {% if form.foto3.errors %}
-                        <div class="error">{{ form.foto3.errors[0] }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-row">
-                    {{ form.descricao_foto3.label }}
-                    {{ form.descricao_foto3(class="input-text") }}
-                    {% if form.descricao_foto3.errors %}
-                        <div class="error">{{ form.descricao_foto3.errors[0] }}</div>
-                    {% endif %}
-                </div>
+                    <!-- Campos para foto 1 -->
+                    <div class="form-row">
+                        {{ form.foto1.label }}
+                        {{ form.foto1(class="input-file") }}
+                        {% if animal.foto1 %}
+                            <p>Imagem existente: <img
+                                    src="{{ url_for('static', filename=animal.foto1.replace('static/', '').replace('\\', '/')) }}"
+                                    alt="{{ animal.descricao_foto1 }}" style="max-width: 200px; max-height: 200px;"></p>
 
-                <!-- Campos para foto 4 -->
-                <div class="form-row">
-                    {{ form.foto4.label }}
-                    {{ form.foto4(class="input-file") }}
-                    {% if form.foto4.errors %}
-                        <div class="error">{{ form.foto4.errors[0] }}</div>
-                    {% endif %}
-                </div>
-                <div class="form-row">
-                    {{ form.descricao_foto4.label }}
-                    {{ form.descricao_foto4(class="input-text") }}
-                    {% if form.descricao_foto4.errors %}
-                        <div class="error">{{ form.descricao_foto4.errors[0] }}</div>
-                    {% endif %}
-                </div>
+                        {% endif %}
+                        {% if form.foto1.errors %}
+                            <div class="error">{{ form.foto1.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        {{ form.descricao_foto1.label }}
+                        {{ form.descricao_foto1(class="input-text") }}
+                        {% if form.descricao_foto1.errors %}
+                            <div class="error">{{ form.descricao_foto1.errors[0] }}</div>
+                        {% endif %}
+                    </div>
 
-                <!-- Campo oculto para a ONG -->
-                <div class="form-row">
-                    {{ form.ong.label }}
-                    {{ form.ong(class="input-text", readonly=True) }}
-                    {% if form.ong.errors %}
-                        <div class="error">{{ form.ong.errors[0] }}</div>
-                    {% endif %}
-                </div>
+                    <!-- Campos para foto 2 -->
+                    <div class="form-row">
+                        {{ form.foto2.label }}
+                        {{ form.foto2(class="input-file") }}
+                        {% if animal.foto2 %}
+                            <p>Imagem existente: <img
+                                    src="{{ url_for('static', filename=animal.foto2.replace('static/', '').replace('\\', '/')) }}"
+                                    alt="{{ animal.descricao_foto2 }}" style="max-width: 200px; max-height: 200px;"></p>
 
-                <div class="form-row-last">
-                    {{ form.cadastrarBotao(class="register") }}
+                        {% endif %}
+                        {% if form.foto2.errors %}
+                            <div class="error">{{ form.foto2.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        {{ form.descricao_foto2.label }}
+                        {{ form.descricao_foto2(class="input-text") }}
+                        {% if form.descricao_foto2.errors %}
+                            <div class="error">{{ form.descricao_foto2.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Campos para foto 3 -->
+                    <div class="form-row">
+                        {{ form.foto3.label }}
+                        {{ form.foto3(class="input-file") }}
+                        {% if animal.foto3 %}
+                            <p>Imagem existente: <img
+                                    src="{{ url_for('static', filename=animal.foto3.replace('static/', '').replace('\\', '/')) }}"
+                                    alt="{{ animal.descricao_foto3 }}" style="max-width: 200px; max-height: 200px;"></p>
+
+                        {% endif %}
+                        {% if form.foto3.errors %}
+                            <div class="error">{{ form.foto3.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        {{ form.descricao_foto3.label }}
+                        {{ form.descricao_foto3(class="input-text") }}
+                        {% if form.descricao_foto3.errors %}
+                            <div class="error">{{ form.descricao_foto3.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Campos para foto 4 -->
+                    <div class="form-row">
+                        {{ form.foto4.label }}
+                        {{ form.foto4(class="input-file") }}
+                        {% if animal.foto4 %}
+                            <p>Imagem existente: <img
+                                    src="{{ url_for('static', filename=animal.foto4.replace('static/', '').replace('\\', '/')) }}"
+                                    alt="{{ animal.descricao_foto4 }}" style="max-width: 200px; max-height: 200px;"></p>
+
+                        {% endif %}
+                        {% if form.foto4.errors %}
+                            <div class="error">{{ form.foto4.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-row">
+                        {{ form.descricao_foto4.label }}
+                        {{ form.descricao_foto4(class="input-text") }}
+                        {% if form.descricao_foto4.errors %}
+                            <div class="error">{{ form.descricao_foto4.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Campo oculto para a ONG -->
+                    <div class="form-row">
+                        {{ form.ong.label }}
+                        {{ form.ong(class="input-text", readonly=True) }}
+                        {% if form.ong.errors %}
+                            <div class="error">{{ form.ong.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-row-last">
+                        {{ form.salvarBotao(class="register") }}
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusField = document.getElementById('status');
+            const adotanteField = document.getElementById('adotante-field');
+
+            // Função para exibir ou ocultar o campo "adotante" com base no status selecionado
+            function toggleAdotanteField() {
+                if (statusField.value === 'reservado' || statusField.value === 'adotado') {
+                    adotanteField.style.display = 'block';
+                } else {
+                    adotanteField.style.display = 'none';
+                }
+            }
+
+            // Verificar ao carregar a página
+            toggleAdotanteField();
+
+            // Adicionar um evento para capturar alterações no campo "status"
+            statusField.addEventListener('change', toggleAdotanteField);
+        });
+    </script>
+
 {% endblock conteudo %}

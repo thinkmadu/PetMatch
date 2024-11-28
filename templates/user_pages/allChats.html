@@ -1,0 +1,27 @@
+{% extends "user_layout.html" %}
+
+{% block titleEcss %}
+    <title>Chats</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/userScreen.css') }}">
+{% endblock titleEcss %}
+
+{% block conteudo %}
+    <div class="chat-list">
+        <h2>Meus Chats</h2>
+        {% if chats %}
+            <ul>
+                {% for chat in chats %}
+                    <li>
+                        <a href="{{ url_for('chat_por_numero', numero_unico=chat.numero_unico) }}">
+                            <strong>Animal:</strong> {{ chat.animal.nome }} <br>
+                            <strong>Status:</strong> {{ chat.animal.status }} <br>
+                            <strong>Data de Interesse:</strong> {{ chat.data_interesse.strftime('%d/%m/%Y') }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Você ainda não tem chats. Entre em contato com a ONG ou mostre interesse em um animal.</p>
+        {% endif %}
+    </div>
+{% endblock conteudo %}

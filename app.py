@@ -1,3 +1,5 @@
+from random import randint
+
 from flask import Flask, render_template, request, redirect, flash, url_for, current_app
 from sqlalchemy import text
 from werkzeug.utils import secure_filename
@@ -41,7 +43,7 @@ app.config['MAIL_PASSWORD'] = 'kuya dzya toli ygpz'
 mail = Mail(app)
 s = URLSafeTimedSerializer(app.secret_key)
 
-from config.models import Usuario, Admin, Ong, Animal, Mensagem, InteresseAnimal
+from config.models import Usuario, Admin, Ong, Animal, Mensagem, InteresseAnimal, Adocao
 from config.forms import cadastroForm, loginForm, ResetPasswordForm, sendLinkForm, profileForm, editPerfilForm, \
     cadastrar_OngForm, AnimalForm, editAnimalForm
 
@@ -264,29 +266,39 @@ def profile():
     else:
         return "Unauthorized access", 403
 
-
-@app.route('/chat/<int:animal_id>', methods=['GET'])
+@app.route('/chats', methods=['GET', 'POST'])
 @login_required
-def chat(animal_id):
-    animal = Animal.query.get_or_404(animal_id)
-    ong = Ong.query.get(animal.ong_id)
-
-    # Verificar se o usuário logado é um "Usuario"
+def allchats():
+    # Buscar todos os chats do usuário
     if isinstance(current_user, Usuario):
-        # Verificar se o usuário tem interesse no animal
-        interesse = InteresseAnimal.query.filter_by(usuario_id=current_user.id, animal_id=animal.id).first()
-        if not interesse:
-            flash('Você não tem permissão para acessar este chat.', 'danger')
-            return redirect(url_for('home'))  # Redirecionar para uma página segura
-
-    # Verificar se o usuário logado é uma "Ong"
+        # Buscar todos os chats (interesses) do usuário
+        chats = InteresseAnimal.query.filter_by(usuario_id=current_user.id).all()
     elif isinstance(current_user, Ong):
-        # As ONGs só podem acessar o chat se for a ONG responsável pelo animal
-        if current_user.id != animal.ong_id:
-            flash('Acesso negado. Esta não é a sua ONG.', 'danger')
-            return redirect(url_for('home'))  # Redirecionar para a página inicial
+        # Se for uma ONG, buscar os chats relacionados aos animais cadastrados pela ONG
+        chats = InteresseAnimal.query.join(Animal).filter(Animal.ong_id == current_user.id).all()
+    else:
+        chats = []
 
-    # Se tudo estiver correto, renderiza o chat
+    # Retornar o template com a lista de chats
+    return render_template('user_pages/allChats.html', chats=chats)
+
+@app.route('/chat/<numero_unico>', methods=['GET'])
+@login_required
+def chat_por_numero(numero_unico):
+    interesse = InteresseAnimal.query.filter_by(numero_unico=numero_unico).first_or_404()
+    animal = Animal.query.get_or_404(interesse.animal_id)
+    ong = Ong.query.get_or_404(animal.ong_id)
+
+    # Verificar permissões
+    if isinstance(current_user, Usuario):
+        if interesse.usuario_id != current_user.id:
+            flash('Você não tem permissão para acessar este chat.', 'danger')
+            return redirect(url_for('home'))
+    elif isinstance(current_user, Ong):
+        if animal.ong_id != current_user.id:
+            flash('Acesso negado. Esta não é a sua ONG.', 'danger')
+            return redirect(url_for('home'))
+
     mensagens = Mensagem.query.filter_by(room_id=animal.id).order_by(Mensagem.timestamp.asc()).all()
 
     return render_template('chat.html', animal=animal, ong=ong, user=current_user, mensagens=mensagens)
@@ -300,14 +312,22 @@ def interesse_animal(animal_id):
         # Verificar se o usuário já tem interesse registrado
         interesse_existente = InteresseAnimal.query.filter_by(usuario_id=current_user.id, animal_id=animal.id).first()
         if not interesse_existente:
-            interesse = InteresseAnimal(usuario_id=current_user.id, animal_id=animal.id)
+            # Gerar número aleatório único
+            while True:
+                numero_unico = str(randint(100000, 999999))  # Gera número de 6 dígitos
+                if not InteresseAnimal.query.filter_by(numero_unico=numero_unico).first():
+                    break
+
+            # Criar o novo registro de interesse
+            interesse = InteresseAnimal(usuario_id=current_user.id, animal_id=animal.id, numero_unico=numero_unico)
             db.session.add(interesse)
             db.session.commit()
+
             flash('Você demonstrou interesse neste animal!', 'success')
+            return redirect(url_for('chat_por_numero', numero_unico=numero_unico))
         else:
             flash('Você já demonstrou interesse neste animal.', 'info')
-
-    return redirect(url_for('chat', animal_id=animal_id))
+            return redirect(url_for('chat_por_numero', numero_unico=interesse_existente.numero_unico))
 
 
 @socketio.on('join_room')
@@ -422,8 +442,8 @@ def petsList():
     tamanho = request.args.get('tamanho')
     idade = request.args.get('idade')  # Obter filtro de idade
 
-    # Consultar animais com filtros aplicados, se fornecidos
-    query = Animal.query
+    # Consultar animais
+    query = Animal.query.filter(Animal.status != 'adotado')  # Exclui animais adotados
     if especie:
         query = query.filter_by(especie=especie)
     if tamanho:
@@ -450,6 +470,16 @@ def animalDetail(animal_id):
     animal = Animal.query.get_or_404(animal_id)
     ong = Ong.query.get(animal.ong_id)
 
+    # # Lista de imagens e descrições
+    # imagens = [
+    #     {
+    #         "foto": getattr(animal, f"foto{i}").replace("\\", "/"),  # Corrige barras invertidas
+    #         "descricao": getattr(animal, f"descricao_foto{i}")
+    #     }
+    #     for i in range(1, 5)
+    #     if getattr(animal, f"foto{i}", None)
+    # ]
+    # print("Imagens para o animal:", imagens)
     # Determinar o tipo de usuário (Usuario ou Ong)
     user_type = "Usuario" if isinstance(current_user, Usuario) else "Ong"
 
@@ -695,10 +725,21 @@ def edit_animal(id):
         animal = Animal.query.get_or_404(id)  # Busca o animal pelo ID
         form = editAnimalForm()
 
-        # Preenche o campo ong com o nome da ONG associada
+        # Preenche o campo ong com o nome da ONG associada (se necessário no template)
         form.ong.data = current_user.nome_Ong
 
-        # Preenche o formulário com os dados atuais do animal
+        # Preencher dinamicamente o campo adotante
+        interessados = Usuario.query.join(InteresseAnimal, Usuario.id == InteresseAnimal.usuario_id) \
+            .filter(InteresseAnimal.animal_id == animal.id).all()
+
+        # Preenche o campo 'adotante' no formulário com os usuários interessados
+        form.adotante.choices = [(0, 'Nenhum')] + [(usuario.id, f'{usuario.primeiro_nome} {usuario.sobrenome}') for
+                                                   usuario in interessados]
+
+        # Definindo o valor do campo 'adotante' no formulário
+        form.adotante.data = animal.adotante.id if animal.adotante else 0  # Seleciona "Nenhum" se não houver adotante
+
+        # Preenche o formulário com os dados atuais do animal ao acessar a página
         if request.method == 'GET':
             form.nome.data = animal.nome
             form.especie.data = animal.especie
@@ -706,6 +747,12 @@ def edit_animal(id):
             form.idade.data = animal.idade
             form.descricao.data = animal.descricao
             form.status.data = animal.status
+            form.adotante.data = animal.adotante.id if animal.adotante else 0  # Seleciona "Nenhum" se não houver adotante
+
+            form.descricao_foto1.data = animal.descricao_foto1
+            form.descricao_foto2.data = animal.descricao_foto2
+            form.descricao_foto3.data = animal.descricao_foto3
+            form.descricao_foto4.data = animal.descricao_foto4
 
         # Processa o formulário ao submeter
         if form.validate_on_submit():
@@ -716,15 +763,25 @@ def edit_animal(id):
             animal.idade = form.idade.data
             animal.descricao = form.descricao.data
             animal.status = form.status.data
-            animal.descricao_foto1 = form.descricao_foto1.data,
-            animal.descricao_foto2 = form.descricao_foto2.data,
-            animal.descricao_foto3 = form.descricao_foto3.data,
-            animal.descricao_foto4 = form.descricao_foto4.data,
+            animal.adotante_id = form.adotante.data if form.adotante.data != 0 else None
+
+            # Se um adotante foi selecionado, cria uma adoção
+            if form.adotante.data != 0:
+                # Verifica se a adoção já existe (evita duplicidade)
+                if not Adocao.query.filter_by(animal_id=animal.id, usuario_id=form.adotante.data).first():
+                    nova_adocao = Adocao(usuario_id=form.adotante.data, animal_id=animal.id)
+                    db.session.add(nova_adocao)
+
+            # Atualiza as descrições das fotos
+            animal.descricao_foto1 = form.descricao_foto1.data
+            animal.descricao_foto2 = form.descricao_foto2.data
+            animal.descricao_foto3 = form.descricao_foto3.data
+            animal.descricao_foto4 = form.descricao_foto4.data
 
             # Atualiza as fotos se novas forem enviadas
             for i, foto_field in enumerate([form.foto1, form.foto2, form.foto3, form.foto4], start=1):
                 if foto_field.data:
-                    # Deleta a imagem antiga
+                    # Deleta a imagem antiga, se existir
                     foto_atual = getattr(animal, f'foto{i}')
                     if foto_atual and os.path.exists(foto_atual):
                         os.remove(foto_atual)
@@ -734,6 +791,12 @@ def edit_animal(id):
                     path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                     foto_field.data.save(path)
                     setattr(animal, f'foto{i}', path)
+                else:
+                    # Se nenhuma foto nova foi enviada, mantém a foto existente
+                    foto_atual = getattr(animal, f'foto{i}')
+                    if not foto_atual:
+                        # Se não houver foto, você pode definir um valor padrão ou deixar como está
+                        setattr(animal, f'foto{i}', None)
 
             # Salvar as alterações no banco de dados
             db.session.commit()

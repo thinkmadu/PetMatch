@@ -1,4 +1,5 @@
 from datetime import datetime
+import random
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, UserMixin, login_required, logout_user, current_user
@@ -41,10 +42,12 @@ class Mensagem(db.Model):
     def __repr__(self):
         return f"<Mensagem {self.sender_name}: {self.message}>"
 
+
 class InteresseAnimal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
     animal_id = db.Column(db.Integer, db.ForeignKey('animal.id'), nullable=False)
+    numero_unico = db.Column(db.String(10), unique=True, nullable=False)  # Número único
     data_interesse = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relacionamentos
@@ -78,6 +81,17 @@ class Animal(db.Model):
 
     # Definir o relacionamento com a classe Ong
     ong = db.relationship('Ong', backref='animais')
+
+    # Relacionamento com Adocao (para acessar o adotante)
+    adocoes = db.relationship('Adocao', backref='animal_associado', lazy=True)
+
+    # Método para acessar o adotante diretamente
+    @property
+    def adotante(self):
+        adotacao = Adocao.query.filter_by(animal_id=self.id).first()  # Pega a primeira adoção do animal
+        if adotacao:
+            return adotacao.usuario  # Retorna o usuário (adotante) associado
+        return None
 
 
 
@@ -132,4 +146,4 @@ class Adocao(db.Model):
 
     # Relacionamentos
     usuario = db.relationship('Usuario', backref='adocoes')
-    animal = db.relationship('Animal', backref='adocoes')
+    animal = db.relationship('Animal', backref='animal_associado')

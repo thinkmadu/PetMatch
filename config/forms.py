@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, FileField,IntegerField,TextAreaField,SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp,NumberRange,Optional
 from flask_wtf.file import FileAllowed
-from config.models import Ong
+from config.models import Ong, Usuario
 from flask_wtf.recaptcha import RecaptchaField
 
 
@@ -148,24 +148,14 @@ class AnimalForm(FlaskForm):
 
 class editAnimalForm(FlaskForm):
     nome = StringField('Nome do Animal', validators=[DataRequired(), Length(min=2, max=100)])
-
-    # Campo especie com opções fixas
-    especie = SelectField('Espécie', choices=[('gato', 'Gato'), ('cachorro', 'Cachorro'), ('outro', 'Outro')],
-                          validators=[DataRequired()])
-
-    # Campo tamanho com opções fixas
-    tamanho = SelectField('Tamanho', choices=[('pequeno', 'Pequeno'), ('medio', 'Médio'), ('grande', 'Grande')],
-                          validators=[DataRequired()])
-
+    especie = SelectField('Espécie', choices=[('gato', 'Gato'), ('cachorro', 'Cachorro'), ('outro', 'Outro')], validators=[DataRequired()])
+    tamanho = SelectField('Tamanho', choices=[('pequeno', 'Pequeno'), ('medio', 'Médio'), ('grande', 'Grande')], validators=[DataRequired()])
     idade = IntegerField('Idade', validators=[DataRequired(), NumberRange(min=0, max=30, message='Idade inválida')])
     descricao = TextAreaField('Descrição', validators=[DataRequired(), Length(max=300)])
-    status = SelectField('Status',
-                         choices=[('disponível', 'Disponível'), ('adotado', 'Adotado'), ('reservado', 'Reservado')],
-                         validators=[DataRequired()])
+    status = SelectField('Status', choices=[('disponível', 'Disponível'), ('adotado', 'Adotado'), ('reservado', 'Reservado')], validators=[DataRequired()])
+    adotante = SelectField('Adotante', choices=[], coerce=int)
 
-    foto1 = FileField('Foto 1',
-                      validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Apenas arquivos de imagem são permitidos'),
-                                  DataRequired()])
+    foto1 = FileField('Foto 1', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Apenas arquivos de imagem são permitidos')])
     foto2 = FileField('Foto 2', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     foto3 = FileField('Foto 3', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     foto4 = FileField('Foto 4', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
@@ -177,30 +167,16 @@ class editAnimalForm(FlaskForm):
 
     # Campo de nome da ONG preenchido automaticamente e oculto
     ong = StringField('ONG', render_kw={'readonly': True}, validators=[DataRequired()])
+    salvarBotao = SubmitField('Salvar')
 
-    cadastrarBotao = SubmitField('Salvar')
+    def __init__(self, *args, **kwargs):
+        super(editAnimalForm, self).__init__(*args, **kwargs)
+        # Preenche a lista de adotantes com usuários que já adotaram o animal
+        self.adotante.choices = [(0, 'Nenhum')] + [(usuario.id, f'{usuario.primeiro_nome} {usuario.sobrenome}') for usuario in Usuario.query.all()]
 
-    def validate(self, extra_validators=None):
+    def validate(self, **kwargs):
         # Executa validações padrão
-        if not super(AnimalForm, self).validate():
-            return False
-
-        # Verifica se a descrição está presente para as fotos 2, 3 e 4, caso as fotos tenham sido enviadas
-        for i in range(2, 5):
-            foto_field = getattr(self, f'foto{i}')
-            descricao_field = getattr(self, f'descricao_foto{i}')
-
-            # Se a foto foi enviada, a descrição é obrigatória
-            if foto_field.data and not descricao_field.data:
-                descricao_field.errors.append('Descrição é obrigatória se uma imagem foi enviada.')
-                return False
-
-        return True
-
-
-    def validate(self):
-        # Executa validações padrão
-        if not super(AnimalForm, self).validate():
+        if not super(editAnimalForm, self).validate():
             return False
 
         # Verifica se a descrição está presente para as fotos 2, 3 e 4, caso as fotos tenham sido enviadas
