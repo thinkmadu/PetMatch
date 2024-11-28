@@ -33,9 +33,9 @@
                         </div>
                     </div>
 
+                    <h2>Foto de perfil</h2>
                     <div class="form-group">
                         <div class="form-row form-row-3">
-                            {{ form.foto_perfil.label }}<br>
                             {{ form.foto_perfil(class="input-file") }}
                             {% if form.foto_perfil.errors %}
                                 <div class="error">{{ form.foto_perfil.errors[0] }}</div>

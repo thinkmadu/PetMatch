@@ -16,6 +16,10 @@ body {
     margin: 0; /* Remove margens padrão */
 }
 
+main {
+    flex: 1; /* Faz o conteúdo ocupar o espaço restante da tela */
+}
+
 /* Navbar */
 nav {
     background-color: #000;

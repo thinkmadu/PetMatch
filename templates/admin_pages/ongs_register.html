@@ -40,7 +40,11 @@
                             {% if form.fotoPerfilLogo.errors %}
                                 <div class="error">{{ form.fotoPerfilLogo.errors[0] }}</div>
                             {% endif %}
-
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-row">
                             {{ form.descricao_foto_perfil_Logo.label }}<br>
                             {{ form.descricao_foto_perfil_Logo(class="input-text-description") }}
                             {% if form.descricao_foto_perfil_Logo.errors %}
@@ -56,7 +60,10 @@
                                 {% if form.fotoQrCode.errors %}
                                     <div class="error">{{ form.fotoQrCode.errors[0] }}</div>
                                 {% endif %}
-
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
                                 {{ form.descricao_fotoqrCode.label }}<br>
                                 {{ form.descricao_fotoqrCode(class="input-text-description") }}
                                 {% if form.descricao_fotoqrCode.errors %}
