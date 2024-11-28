@@ -1,7 +1,7 @@
-{% extends "layout.html" %}
+{% extends "user_layout.html" %}
 
 {% block titleEcss %}
-    <title>Editar</title>
+    <title>Editar perfil</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/edit_profile.css') }}">
 {% endblock titleEcss %}
 
@@ -41,7 +41,7 @@
                         {% endif %}
                     </div>
                 </div>
-             <div class="form-group">
+            <div class="form-group">
                     <label for="">Foto de Perfil Atual</label>
 
                     <!-- Verifique se o usuário tem uma foto de perfil -->
