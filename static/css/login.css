@@ -198,34 +198,6 @@ button {
     padding: 5px 5px 5px 5px;
 }
 
-
-.social{
-    margin-top: 10px;
-    display: flex;
-    justify-content: center; /* Centraliza os itens dentro do contêiner .social */
-}
-
-.social div{
-    background: red;
-    width: 150px;
-    border-radius: 3px;
-    padding: 5px 10px 10px 5px;
-    background-color: rgba(255,255,255,0.27);
-    color: #eaf0fb;
-    text-align: center;
-}
-
-.social div:hover{
-    background-color: rgba(255,255,255,0.47);
-}
-
-.social .fb{
-    margin-left: 25px;
-}
-.social i{
-    margin-right: 4px;
-}
-
 /* Centralizar e definir espaçamento para o reCAPTCHA */
 .recaptcha-container {
     display: flex;
