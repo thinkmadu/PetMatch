@@ -142,7 +142,7 @@ def logout():
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('index.html')
+    return render_template('geral/index.html')
 
 
 @app.route('/cadastro', methods=['GET', 'POST'])
@@ -220,7 +220,7 @@ def recuperar():
         else:
             flash('Usuário não encontrado. Verifique o email.', 'danger')
 
-    return render_template('recuperarSenha.html', form=form)
+    return render_template('user_pages/recuperarSenha.html', form=form)
 
 
 @app.route('/redefinir', methods=['GET', 'POST'])
@@ -245,13 +245,13 @@ def redefinir():
         else:
             flash('Usuário não encontrado. Verifique o email.', 'danger')
 
-    return render_template('redefinirSenha.html', form=form)
+    return render_template('user_pages/redefinirSenha.html', form=form)
 
 
-@app.route('/sobre')
-def sobre():
-    return render_template('sobre.html')
-
+# @app.route('/sobre')
+# def sobre():
+#     return render_template('sobre.html')
+#
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
@@ -301,7 +301,7 @@ def chat_por_numero(numero_unico):
 
     mensagens = Mensagem.query.filter_by(room_id=animal.id).order_by(Mensagem.timestamp.asc()).all()
 
-    return render_template('chat.html', animal=animal, ong=ong, user=current_user, mensagens=mensagens)
+    return render_template('geral/chat.html', animal=animal, ong=ong, user=current_user, mensagens=mensagens)
 
 
 @app.route('/interesse/<int:animal_id>', methods=['POST'])
@@ -455,7 +455,7 @@ def petsList():
     total_pages = animais.pages
 
     return render_template(
-        'petsList.html',
+        'geral/petsList.html',
         animal=animais.items,
         page=page,
         total_pages=total_pages,
@@ -483,7 +483,7 @@ def animalDetail(animal_id):
     # Determinar o tipo de usuário (Usuario ou Ong)
     user_type = "Usuario" if isinstance(current_user, Usuario) else "Ong"
 
-    return render_template('animalDetail.html', animal=animal, ong=ong, user=current_user, user_type=user_type)
+    return render_template('geral/animalDetail.html', animal=animal, ong=ong, user=current_user, user_type=user_type)
 
 
 
@@ -505,7 +505,7 @@ def ongsList():
     ongs = Ong.query.paginate(page=page, per_page=per_page, error_out=False)  # Consultar ONGs no banco de dados
     total_pages = ongs.pages  # Obter o total de páginas
 
-    return render_template('ongsList.html', ongs=ongs.items, page=page, total_pages=total_pages)
+    return render_template('geral/ongsList.html', ongs=ongs.items, page=page, total_pages=total_pages)
 
 
 # @app.route('/ongs_pages/ong_1')
