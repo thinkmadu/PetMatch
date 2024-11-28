@@ -5,6 +5,13 @@
     box-sizing: border-box;
 }
 
+*:before,
+*:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Oxanium', serif;
     color: #fff;
@@ -13,6 +20,9 @@ body {
     padding-bottom: 60px; /* Espaço para que o conteúdo não seja sobreposto pelo footer */
 }
 
+main {
+    flex: 1; /* Faz o conteúdo ocupar o espaço restante da tela */
+}
 /* Navbar */
 nav {
     background-color: #000;
@@ -87,7 +97,7 @@ footer {
     bottom: 0;
     width: 100%;
 }
-
+/* Fim CSS global */
 
 button {
     margin-top: 150px;
@@ -105,10 +115,16 @@ button {
 .profile-container {
     max-width: 600px; /* Largura máxima do container */
     margin: 100px auto; /* Centraliza verticalmente e horizontalmente */
-    padding: 20px; /* Espaçamento interno */
-    background-color: #444; /* Cor de fundo do container */
-    border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efeito de profundidade */
+    padding: 30px; /* Espaçamento interno */
+    background: linear-gradient(145deg, #333, #444); /* Gradiente suave de fundo */
+    border-radius: 15px; /* Bordas mais arredondadas */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra mais sutil */
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.profile-container:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
 }
 
 .profile-container h2 {
@@ -120,33 +136,61 @@ button {
 
 .profile-image {
     text-align: center; /* Centraliza a imagem */
-    margin-bottom: 20px; /* Espaço abaixo da imagem */
+    margin-bottom: 10px; /* Espaço abaixo da imagem */
 }
 
 .profile-image img {
-    max-width: 150px; /* Largura máxima da imagem */
-    max-height: 150px; /* Altura máxima da imagem */
-    border-radius: 50%; /* Faz a imagem circular */
-    border: 3px solid #f2f2f2; /* Borda branca ao redor da imagem */
+    max-width: 200px; /* Largura maior */
+    max-height: 200px; /* Altura maior */
+    border-radius: 50%;
+    border: 2px solid #f2f2f2; /* Borda fina e delicada */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 button {
-    margin-top: 20px; /* Espaço acima do botão */
-    width: 100%; /* Botão ocupa a largura total */
-    background-color: #33ba3354; /* Cor de fundo do botão */
-    color: #100707; /* Cor do texto do botão */
-    padding: 15px; /* Espaçamento interno do botão */
-    font-size: 24px; /* Tamanho da fonte do botão */
-    font-weight: 600; /* Peso da fonte do botão */
+    background: #33ba3354; /* Ajuste para o fundo desejado */
+    color: #fff; /* Cor do texto */
     border: none; /* Remove a borda padrão */
-    border-radius: 4px; /* Bordas arredondadas do botão */
-    cursor: pointer; /* Muda o cursor ao passar o mouse */
-    transition: background-color 0.3s; /* Transição suave para a cor do fundo */
+    outline: none; /* Remove o contorno padrão ao clicar */
+    box-shadow: none; /* Remove sombras extras */
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px; /* Bordas arredondadas */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 10px; /* Reduza o espaçamento acima do botão */
 }
 
 button:hover {
-    background-color: #33ba3354; /* Cor de fundo do botão ao passar o mouse */
+    background-color: #218838; /* Cor ao passar o mouse */
+    transform: translateY(-3px); /* Efeito ao passar o mouse */
 }
+
+button:focus {
+    outline: none; /* Remove contorno no estado focus */
+    box-shadow: none; /* Remove sombra padrão */
+}
+
+/* Responsividade: Ajusta para telas menores */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 20px;
+    }
+
+    .profile-container h2 {
+        font-size: 26px;
+    }
+
+    .profile-image img {
+        max-width: 140px;
+        max-height: 140px;
+    }
+
+    button {
+        font-size: 20px;
+    }
+}
+
 /* Estilos para a lista de chats */
 .chat-list {
     max-width: 900px; /* Largura máxima da lista de chats */
@@ -203,5 +247,3 @@ button:hover {
     color: #ffcc00; /* Cor de destaque para a mensagem */
     font-size: 18px; /* Tamanho de fonte maior */
 }
-
-/* Fim CSS global */

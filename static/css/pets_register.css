@@ -535,16 +535,14 @@ footer {
 /* Estilo do campo de entrada de arquivo */
 .input-file {
     width: 100%;
-    padding: 10px 15px;
-    font-size: 14px;
-    background-color: rgba(255, 255, 255, 0.07);
+    padding: 12px;
+    background: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 16px;
+    color: #333;
     cursor: pointer;
-    appearance: none;  /* Remove o estilo padrão do navegador para campos de arquivo */
-    outline: none;
-    overflow: visible; /* Evita que elementos dentro sejam cortados */
-    display: inline-block; /* Evita comportamento de bloco total */
+    box-sizing: border-box;
 }
 
 .input-file:focus {
@@ -558,19 +556,20 @@ footer {
     font-weight: 500;
     font-size: 25px;
     margin-bottom: 10px;
-
 }
+
 .input-file::-webkit-file-upload-button {
     background: #317134;
+    color: white;
     border: none;
     border-radius: 5px;
     padding: 8px 12px;
     cursor: pointer;
     font-weight: 700;
-    appearance: none; /* Remover aparência padrão */
+    /* appearance: none; /* Remover aparência padrão
     height: auto;
     padding: 8px 12px;
-    font-size: 14px;
+    font-size: 14px; */
 }
 
 .input-file::-webkit-file-upload-button:hover {

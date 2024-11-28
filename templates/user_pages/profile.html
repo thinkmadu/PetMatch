@@ -12,7 +12,7 @@
     </div>
     <form method="POST" action="{{ url_for('profile') }}">
         {{ form.hidden_tag() }}
-        <button type="submit">{{ form.editarBotao() }}</button>
+        <button type="submit" class="btn-edit">Editar Perfil</button>
     </form>
 </div>
 {% endblock conteudo %}
