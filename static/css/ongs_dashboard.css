@@ -104,13 +104,14 @@ table {
     width: 80%;
     margin: 20px auto;
     border-collapse: collapse;
-    background-color: #333;
-    color: #1d1b1b;
+    text-align: left;
+    background-color: #919191;
+    color: white;
     border-radius: 10px;
 }
 
 table th {
-    background-color: #218838;
+    background-color: #0b0f0c;
     text-align: center;
 }
 
@@ -137,7 +138,7 @@ table {
 .button-container a {
     display: inline-block;
     padding: 15px 30px;
-    background-color: #7546bc;
+    background-color: #218838;
     color: #fff;
     text-decoration: none;
     font-size: 18px;
@@ -147,7 +148,7 @@ table {
 }
 
 .button-container a:hover {
-    background-color: #c43d1b;
+    background-color: #33ba33
 }
 
 /* Grupo de botões */

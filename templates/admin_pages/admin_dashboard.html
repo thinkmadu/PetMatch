@@ -1,93 +1,95 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% block titleEcss %}
-<title>Paginal inicial - Admin</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
-{% endblock %}
+        {% block titleEcss %}
+        <title>Paginal inicial - Admin</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
+        {% endblock %}
 
-<link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+    </head>
 
-</head>
+    <body class="form-v10">
+        <nav>
+            <div class="navbar-left">
+                <a href="/home" class="logo">
+                    <img src="../static/assets/pata%20png.webp " alt="Logo"> <!-- Imagem ao lado do texto -->
+                    PetMatch
+                </a> <!-- Link para a home -->
+            </div>
 
-<body class="form-v10">
-<nav>
-<div class="navbar-left">
-    <a href="/home" class="logo">
-        <img src="../../static/assets/logo.webp" alt="Logo"> <!-- Imagem ao lado do texto -->
-        PetMatch
-    </a> <!-- Link para a home -->
-</div>
+            <ul class="topnav">
+                <li><a href="/ongsList">Pets</a></li>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/sobre">Sobre</a></li>
+                <li><a href="/logout">Sair</a></li>
+            </ul>
+        </nav>
 
-<ul class="topnav">
-<li><a href="/ongsList">Pets</a></li>
-<li><a href="/home">Home</a></li>
-<li><a href="/sobre">Sobre</a></li>
-<li><a href="/logout">Sair</a></li>
-</ul>
-</nav>
+        {% block conteudo %}
+        <h1>Admin Dashboard</h1>
+        <h2>Lista de ONGs</h2>
 
-{% block conteudo %}
-<h1>Admin Dashboard</h1>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+            </tr>
 
-<h2>Lista de ONGs</h2>
-<table>
-    <tr>
-        <th>Nome</th>
-        <th>Email</th>
-        <th>Telefone</th>
-    </tr>
-    {% for ong in ongs %}
-    <tr>
-        <td>{{ ong.nome_Ong }}</td>
-        <td>{{ ong.email }}</td>
-        <td>{{ ong.telefone }}</td>
-    </tr>
-    {% endfor %}
-</table>
+            {% for ong in ongs %}
+            <tr>
+                <td>{{ ong.nome_Ong }}</td>
+                <td>{{ ong.email }}</td>
+                <td>{{ ong.telefone }}</td>
+            </tr>
+            {% endfor %}
+        </table>
 
-<h2>Lista de Animais</h2>
-<table>
-    <tr>
-        <th>Nome</th>
-        <th>Espécie</th>
-        <th>Idade</th>
-    </tr>
-    {% for animal in animais %}
-    <tr>
-        <td>{{ animal.nome }}</td>
-        <td>{{ animal.especie }}</td>
-        <td>{{ animal.idade }}</td>
-    </tr>
-    {% endfor %}
-</table>
+        <h2>Lista de Animais</h2>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Espécie</th>
+                <th>Idade</th>
+            </tr>
 
+            {% for animal in animais %}
+            <tr>
+                <td>{{ animal.nome }}</td>
+                <td>{{ animal.especie }}</td>
+                <td>{{ animal.idade }}</td>
+            </tr>
+            {% endfor %}
+        </table>
 
-<h2>Lista de Usuários</h2>
-<table>
-    <tr>
-        <th>Nome</th>
-        <th>Sobrenome</th>
-        <th>email</th>
-    </tr>
-    {% for usuario in usuarios %}
-    <tr>
-        <td>{{ usuario.primeiro_nome }}</td>
-        <td>{{ usuario.sobrenome }}</td>
-        <td>{{ usuario.email }}</td>
-    </tr>
-    {% endfor %}
-</table>
-<div class="button-container">
-    <a href="/admin_dashboard/ongs_register"> CADASTRAR ONG</a>
-</div>
+        <h2>Lista de Usuários</h2>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Sobrenome</th>
+                <th>email</th>
+            </tr>
 
-{% endblock %}
-<footer>
-<p>&copy; 2024 PetMatch. Todos os direitos reservados.</p>
-</footer>
-</body>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.primeiro_nome }}</td>
+                <td>{{ usuario.sobrenome }}</td>
+                <td>{{ usuario.email }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="button-container">
+            <a href="/admin_dashboard/ongs_register"> CADASTRAR ONG</a>
+        </div>
+        {% endblock %}
+
+        <footer>
+            <p>&copy; 2024 PetMatch. Todos os direitos reservados.</p>
+        </footer>
+    </body>
 </html>

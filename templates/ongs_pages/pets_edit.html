@@ -98,9 +98,11 @@
                         {{ form.foto2.label }}
                         {{ form.foto2(class="input-file") }}
                         {% if animal.foto2 %}
-                            <p>Imagem existente: <img
-                                    src="{{ url_for('static', filename=animal.foto2.replace('static/', '').replace('\\', '/')) }}"
-                                    alt="{{ animal.descricao_foto2 }}" style="max-width: 200px; max-height: 200px;"></p>
+                        <div class="image-preview">
+                            <p>Imagem existente</p>
+                            <img src="{{ url_for('static', filename=animal.foto2.replace('static/', '').replace('\\', '/')) }}"
+                                alt="{{ animal.descricao_foto1 }}" class="preview-img">
+                            </div>
 
                         {% endif %}
                         {% if form.foto2.errors %}
@@ -120,9 +122,11 @@
                         {{ form.foto3.label }}
                         {{ form.foto3(class="input-file") }}
                         {% if animal.foto3 %}
-                            <p>Imagem existente: <img
-                                    src="{{ url_for('static', filename=animal.foto3.replace('static/', '').replace('\\', '/')) }}"
-                                    alt="{{ animal.descricao_foto3 }}" style="max-width: 200px; max-height: 200px;"></p>
+                        <div class="image-preview">
+                            <p>Imagem existente</p>
+                            <img src="{{ url_for('static', filename=animal.foto3.replace('static/', '').replace('\\', '/')) }}"
+                                alt="{{ animal.descricao_foto1 }}" class="preview-img">
+                            </div>
 
                         {% endif %}
                         {% if form.foto3.errors %}
@@ -142,9 +146,11 @@
                         {{ form.foto4.label }}
                         {{ form.foto4(class="input-file") }}
                         {% if animal.foto4 %}
-                            <p>Imagem existente: <img
-                                    src="{{ url_for('static', filename=animal.foto4.replace('static/', '').replace('\\', '/')) }}"
-                                    alt="{{ animal.descricao_foto4 }}" style="max-width: 200px; max-height: 200px;"></p>
+                        <div class="image-preview">
+                            <p>Imagem existente</p>
+                            <img src="{{ url_for('static', filename=animal.foto4.replace('static/', '').replace('\\', '/')) }}"
+                                alt="{{ animal.descricao_foto1 }}" class="preview-img">
+                            </div>
 
                         {% endif %}
                         {% if form.foto4.errors %}
