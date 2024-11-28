@@ -5,15 +5,24 @@
     box-sizing: border-box;
 }
 
-body {
-    margin: 0
+*:before,
+*:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-.current-photo img.profile-photo {
-    max-width: 150px;
-    max-height: 150px;
-    border-radius: 50%; /* Exibir como círculo, opcional */
-    margin-bottom: 15px;
+body {
+    font-family: 'Oxanium', serif;
+    color: #fff;
+    background-color: #333;
+    display: flex;
+    flex-direction: column; /* Garante que o conteúdo e o rodapé fiquem empilhados */
+    min-height: 100vh; /* Ocupa toda a altura da tela */
+}
+
+main {
+    flex: 1; /* Faz o conteúdo ocupar o espaço restante da tela */
 }
 
 nav {
@@ -77,7 +86,26 @@ nav {
 .topnav a:hover {
     color: #ccc;
 }
+
+/* Footer */
+footer {
+    font-family: 'Oxanium';
+    background-color: #000;
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #f2f2f2;
+}
 /* Fim CSS global */
+
+.current-photo img.profile-photo {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 50%; /* Exibir como círculo, opcional */
+    margin-bottom: 15px;
+}
+
 
 .current-photo {
     text-align: center; /* Centraliza o conteúdo dentro do div */
@@ -86,24 +114,10 @@ nav {
 .current-photo img.profile-photo {
     max-width: 350px;
     max-height: 350px;
-    border-radius: ; /* Deixa a imagem redonda */
+    border-radius: 5; /* Deixa a imagem redonda */
     object-fit: cover;
     margin:50px; /* Centraliza a imagem se for um bloco */
 }
-
-/* nav {
-    background-color: #000;
-    font-family: 'Oxanium';
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 16px;
-} */
 
 .page-content {
     width: 100%;
@@ -142,6 +156,7 @@ nav {
 }
 
 .form-v10-content .form-detail {
+    color: #000; /* Cor do texto em cima dos campos para preencher*/
     position: relative;
     width: 100%;
     display: flex;
@@ -521,6 +536,15 @@ nav {
         margin: 44px 0 30px
     }
 }
+
+.file-input-container {
+    position: relative;
+    width: 100%;  /* Garante que o campo de arquivo ocupe toda a largura do formulário */
+    display: inline-block; /* Impede que o campo de upload ocupe mais de uma linha */
+    margin-top: 10px;  /* Adiciona espaçamento */
+    overflow: visible; /* Evita que elementos dentro sejam cortados */
+}
+
 .input-file {
     width: 100%;
     padding: 12px;
@@ -537,6 +561,7 @@ nav {
     border-color: #999;
     outline: none;
 }
+
 .form-row-3 label {
     display: block;
     text-align: center;
@@ -546,6 +571,14 @@ nav {
     margin-bottom: 10px;
 
 }
+
+/* Ajuste para todos os .form-row, garantindo alinhamento */
+.form-row {
+    margin-bottom: 15px; /* Espaçamento entre os campos */
+    display: flex;
+    flex-direction: column; /* Garante alinhamento vertical */
+}
+
 .input-file::-webkit-file-upload-button {
     background: #317134;
     color: white;
@@ -560,13 +593,29 @@ nav {
     background: #449e49;
 }
 
-/* Footer */
-footer {
-    font-family: 'Oxanium';
-    background-color: #000;
-    padding: 15px;
-    text-align: center;
+/* Estilo específico para input-text-custom */
+.input-text {
+    width: 100%; /* Preenche a largura do contêiner */
+    height: 50px; /* Define a altura personalizada */
+    padding: 10px; /* Espaçamento interno */
+    font-size: 16px; /* Texto maior */
+    font-family: Arial, sans-serif;
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid #000000;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Layout para manter a organização */
+.input-textarea-description {
+    width: 100%; /* Preenche a largura do contêiner */
+    height: 120px; /* Altura maior para os campos de descrição */
+    resize: none; /* Impede redimensionamento manual */
+    padding: 10px;
     font-size: 14px;
-    font-weight: 400;
-    color: #f2f2f2;
+    font-family: Arial, sans-serif;
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
 }
