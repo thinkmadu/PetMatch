@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {% block titleEcss %} {% endblock %}
+        {% block titleEcss %} {% endblock %}
+        <!-- importando fonte Oxanium do google -->
+        <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
+    </head>
 
-    <!-- importando fonte Oxanium do google -->
-    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
-</head>
+    <body class="form-v10">
+        <nav>
+            <div class="navbar-left">
+                <a href="/home" class="logo">                    <
+                    img src="../../static/assets/logo.webp" alt="Logo"> <!-- Imagem ao lado do texto -->
+                    PetMatch
+                </a> <!-- Link para a home -->
+            </div>
+            <ul class="topnav">
+                <li><a href="/cadastro">Cadastrar</a></li>
+                <li><a href="/login">Entrar</a></li>
+                <li><a href="/home">Home</a></li>
+                <li   li><a href="/home#sobre">Sobre</a></li>
+                <li><a href="/petsList">Pets para adoção</a></li>
+                <li><a href="/ongsList">ONGs</a></li>
+            </ul>
+        </nav>
+        {% block conteudo %} {% endblock %}
 
-<body class="form-v10">
-<nav>
-    <div class="navbar-left">
-        <a href="/home" class="logo">
-            <img src="../../static/assets/logo.webp" alt="Logo"> <!-- Imagem ao lado do texto -->
-            PetMatch
-        </a> <!-- Link para a home -->
-    </div>
-    <ul class="topnav">
-        <li><a href="/cadastro">Cadastrar</a></li>
-        <li><a href="/login">Entrar</a></li>
-        <li><a href="/home">Home</a></li>
-        <li><a href="/home#sobre">Sobre</a></li>
-        <li><a href="/petsList">Pets para adoção</a></li>
-        <li><a href="/ongsList">ONGs</a></li>
-    </ul>
-</nav>
-{% block conteudo %} {% endblock %}
-
-<footer>
-    <p>&copy; 2024 PetMatch. Todos os direitos reservados.</p>
-</footer>
-</body>
+        <footer>
+            <p>&copy; 2024 PetMatch. Todos os direitos reservados.</p>
+        </footer>
+    </body>
 </html>
