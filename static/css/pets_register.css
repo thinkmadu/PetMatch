@@ -558,6 +558,8 @@ footer {
     margin-bottom: 10px;
 }
 
+
+
 .input-file::-webkit-file-upload-button {
     background: #317134;
     color: white;
@@ -566,10 +568,6 @@ footer {
     padding: 8px 12px;
     cursor: pointer;
     font-weight: 700;
-    /* appearance: none; /* Remover aparência padrão
-    height: auto;
-    padding: 8px 12px;
-    font-size: 14px; */
 }
 
 .input-file::-webkit-file-upload-button:hover {
@@ -590,7 +588,6 @@ footer {
     background-color: #0056b3;
 }
 
-/* Estilo específico para input-text-custom */
 .input-text {
     width: 100%; /* Preenche a largura do contêiner */
     height: 50px; /* Define a altura personalizada */
