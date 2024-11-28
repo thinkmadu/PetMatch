@@ -1,0 +1,2 @@
+verde escuro: #317134
+verde claro: #449e49
