@@ -104,13 +104,13 @@ table {
     width: 80%;
     margin: 20px auto;
     border-collapse: collapse;
-    background-color: #6dadc3;
+    background-color: #333;
     color: #1d1b1b;
     border-radius: 10px;
 }
 
 table th {
-    background-color: #8e58c4;
+    background-color: #218838;
     text-align: center;
 }
 
@@ -171,13 +171,13 @@ table {
 }
 
 .delete-btn {
-    background-color: #c43d1b; /* Cor de fundo do botão Excluir */
+    background-color: #a12e15; /* Cor de fundo do botão Excluir */
     color: #fff; /* Cor do texto */
     margin-bottom: 5px;
 }
 
 .delete-btn:hover {
-    background-color: #a12e15; /* Cor de fundo ao passar o mouse */
+    background-color: #c43d1b; /* Cor de fundo ao passar o mouse */
 }
 
 .edit-btn {
@@ -188,5 +188,5 @@ table {
 }
 
 .edit-btn:hover {
-    background-color: #45a049; /* Cor de fundo ao passar o mouse */
+    background-color: #33ba33; /* Cor de fundo ao passar o mouse */
 }

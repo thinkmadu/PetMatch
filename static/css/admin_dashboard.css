@@ -101,15 +101,15 @@ table {
     margin: 20px auto;
     border-collapse: collapse;
     text-align: left;
-    background-color: #6dadc3;
-    color: #0a0a0a;
+    background-color: #919191;
+    color: white;
     border-radius: 10px;
     overflow: hidden;
 }
 
 /* Centralizando os títulos das colunas */
 table th {
-    background-color: #8e58c4;
+    background-color: #0b0f0c;
     text-align: center; /* Centralizando os títulos */
 }
 
@@ -159,7 +159,7 @@ button:hover {
 .button-container a {
     display: inline-block;
     padding: 15px 30px;
-    background-color: #7546bc; /* Cor de fundo */
+    background-color: #218838; /* Cor de fundo */
     color: #fff; /* Cor do texto */
     text-decoration: none;
     font-size: 18px;
@@ -169,7 +169,7 @@ button:hover {
 }
 
 .button-container a:hover {
-    background-color: #c43d1b; /* Cor de fundo ao passar o mouse */
+    background-color: #33ba33; /* Cor de fundo ao passar o mouse */
 }
 
 
