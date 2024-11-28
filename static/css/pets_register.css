@@ -634,3 +634,21 @@ footer {
     border-color: #007bff; /* Cor da borda ao focar */
     outline: none; /* Remove a borda padrão do navegador */
 }
+
+.image-preview {
+    display: flex;
+    flex-direction: column; /* Organiza elementos verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    margin-top: 10px; /* Espaço superior */
+}
+
+.image-preview p {
+    font-size: 16px; /* Ajusta o tamanho da fonte */
+    margin-bottom: 8px; /* Espaço entre o texto e a imagem */
+    text-align: center; /* Centraliza o texto */
+}
+
+.preview-img {
+    max-width: 200px; /* Limita a largura da imagem */
+    max-height: 200px; /* Limita a altura da imagem */
+}
