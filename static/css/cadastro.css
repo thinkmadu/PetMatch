@@ -6,7 +6,8 @@
 }
 
 body {
-    margin: 0
+    margin: 0;
+    background: #333;
 }
 
 .current-photo img.profile-photo {
@@ -70,7 +71,6 @@ nav {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 27 px;
     display: inline-block;
 }
 
@@ -532,6 +532,30 @@ nav {
 
 .input-file::-webkit-file-upload-button:hover {
     background: #449e49;
+}
+.info-ong {
+    margin-top: 20px; /* Espaço acima do texto */
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #333;
+    border-radius: 5px;
+    max-width: 800px; /* Opcional: ajusta a largura */
+    margin-left: auto; /* Centraliza */
+    margin-right: auto; /* Centraliza */
+    font-size: 18px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.info-ong p {
+    color: #4a5e33;
+    font-size: 24px;
+    margin: 5px 0;
+}
+
+.info-ong ul {
+    list-style-type: disc;
+    margin: 10px 0 0 20px;
 }
 
 /* Footer */
