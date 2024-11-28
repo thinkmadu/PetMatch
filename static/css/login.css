@@ -18,6 +18,83 @@ body{
     background-color: #333;
 }
 
+/* CSS global */
+nav {
+    background-color: #000;
+    font-family: 'Oxanium';
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+}
+
+/* Logo no canto esquerdo */
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 700;
+    color: #f2f2f2;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px; /* Define a altura da imagem para se ajustar à altura da navbar */
+    width: auto; /* Mantém a proporção da imagem */
+    margin-right: 10px; /* Espaçamento entre a imagem e o texto */
+    filter: invert(50%); /* Inverte as cores da imagem */
+    object-fit: contain; /* Garante que a imagem se ajuste sem distorção */
+}
+
+.logo:hover {
+    color: #ccc;
+}
+
+/* Estilo da lista da Navbar */
+.topnav {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    flex: 2; /* Garante que a lista ocupe o restante do espaço */
+}
+
+.topnav a {
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 27 px;
+    display: inline-block;
+}
+
+.topnav a:hover {
+    color: #ccc;
+}
+
+footer {
+    font-family: 'Oxanium';
+    background-color: #000;
+    padding: 5px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #f2f2f2;
+    position: absolute; /* Adicionei essa linha para posicionar o rodapé */
+    bottom: 0; /* Coloca o rodapé na parte inferior */
+    width: 100%; /* Faz o rodapé ocupar toda a largura */
+}
+/* Fim CSS global */
+
 .background{
     width: 430px;
     height: 520px;
@@ -95,7 +172,6 @@ input{
     background-color: rgba(255,255,255,0.07);
     border-radius: 3px;
     padding: 0 10px;
-    margin-top: 8px;
     font-size: 14px;
     font-weight: 300;
 }
@@ -105,14 +181,12 @@ input{
 }
 
 button {
-    margin-top: 50px;
     width: 100%;
     background-color: #68646454;
     color: #080710;
     padding:  0;
     font-size: 24px;
     font-weight: 600;
-    border-radius:0;
     cursor: pointer;
 }
 
@@ -121,14 +195,14 @@ button {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 10px 5px 5px 10px;
+    padding: 5px 5px 5px 5px;
 }
 
-.social{
-    margin-top: 30px;
-    display: flex;
-  justify-content: center; /* Centraliza os itens dentro do contêiner .social */
 
+.social{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; /* Centraliza os itens dentro do contêiner .social */
 }
 
 .social div{
@@ -144,6 +218,7 @@ button {
 .social div:hover{
     background-color: rgba(255,255,255,0.47);
 }
+
 .social .fb{
     margin-left: 25px;
 }
@@ -151,79 +226,22 @@ button {
     margin-right: 4px;
 }
 
-/* CSS global */
-nav {
-    background-color: #000;
-    font-family: 'Oxanium';
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
+/* Centralizar e definir espaçamento para o reCAPTCHA */
+.recaptcha-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 16px;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    margin: 5px 0; /* Espaçamento em cima e embaixo */
 }
 
-/* Logo no canto esquerdo */
-.navbar-left {
-    display: flex;
-    align-items: center;
+/* Opcional: Alterar o tamanho do iframe */
+.recaptcha-container iframe {
+    transform: scale(0.9); /* Reduz ou aumenta o tamanho */
+    transform-origin: center; /* Mantém o centro como ponto de origem */
 }
 
-.logo {
-    font-size: 25px;
-    font-weight: 700;
-    color: #f2f2f2;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
+/* Ajuste visual para evitar cortes */
+.recaptcha-container {
+    height: auto;
+    overflow: hidden;
 }
-
-.logo img {
-    height: 50px; /* Define a altura da imagem para se ajustar à altura da navbar */
-    width: auto; /* Mantém a proporção da imagem */
-    margin-right: 10px; /* Espaçamento entre a imagem e o texto */
-    filter: invert(50%); /* Inverte as cores da imagem */
-    object-fit: contain; /* Garante que a imagem se ajuste sem distorção */
-}
-
-.logo:hover {
-    color: #ccc;
-}
-
-/* Estilo da lista da Navbar */
-.topnav {
-    list-style: none;
-    display: flex;
-    justify-content: flex-end;
-    flex: 2; /* Garante que a lista ocupe o restante do espaço */
-}
-
-.topnav a {
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 27 px;
-    display: inline-block;
-}
-
-.topnav a:hover {
-    color: #ccc;
-}
-
-footer {
-    font-family: 'Oxanium';
-    background-color: #000;
-    padding: 5px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 400;
-    color: #f2f2f2;
-    position: absolute; /* Adicionei essa linha para posicionar o rodapé */
-    bottom: 0; /* Coloca o rodapé na parte inferior */
-    width: 100%; /* Faz o rodapé ocupar toda a largura */
-}
-/* Fim CSS global */

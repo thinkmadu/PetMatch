@@ -97,7 +97,6 @@ footer {
     color: #f2f2f2;
     width: 100%; /* Garante que o rodapé ocupe toda a largura */
 }
-/* Fim CSS global */
 
 .current-photo img.profile-photo {
     max-width: 150px;
