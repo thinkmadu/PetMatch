@@ -17,7 +17,7 @@
                 <!-- Campos de informações do animal -->
                 <div class="form-row">
                     {{ form.nome.label }}
-                    {{ form.nome(class="input-text") }}
+                    {{ form.nome(class="input-text", placeholder="Digite o nome do animal") }}
                     {% if form.nome.errors %}
                         <div class="error">{{ form.nome.errors[0] }}</div>
                     {% endif %}
@@ -38,14 +38,14 @@
                 </div>
                 <div class="form-row">
                     {{ form.idade.label }}
-                    {{ form.idade(class="input-text") }}
+                    {{ form.idade(class="input-text", placeholder="Digite a idade do animal em anos") }}
                     {% if form.idade.errors %}
                         <div class="error">{{ form.idade.errors[0] }}</div>
                     {% endif %}
                 </div>
                 <div class="form-row">
                     {{ form.descricao.label }}
-                    {{ form.descricao(class="input-text") }}
+                    {{ form.descricao(class="input-text-description", placeholder="Descreva o animal") }}
                     {% if form.descricao.errors %}
                         <div class="error">{{ form.descricao.errors[0] }}</div>
                     {% endif %}
@@ -70,7 +70,7 @@
                 </div>
                 <div class="form-row">
                     {{ form.descricao_foto1.label }}
-                    {{ form.descricao_foto1(class="input-text") }}
+                    {{ form.descricao_foto1(class="input-text-description", placeholder="Descrição de acessibilidade") }}
                     {% if form.descricao_foto1.errors %}
                         <div class="error">{{ form.descricao_foto1.errors[0] }}</div>
                     {% endif %}
@@ -86,7 +86,7 @@
                 </div>
                 <div class="form-row">
                     {{ form.descricao_foto2.label }}
-                    {{ form.descricao_foto2(class="input-text") }}
+                    {{ form.descricao_foto2(class="input-text-description", placeholder="Descrição de acessibilidade") }}
                     {% if form.descricao_foto2.errors %}
                         <div class="error">{{ form.descricao_foto2.errors[0] }}</div>
                     {% endif %}
@@ -102,7 +102,7 @@
                 </div>
                 <div class="form-row">
                     {{ form.descricao_foto3.label }}
-                    {{ form.descricao_foto3(class="input-text") }}
+                    {{ form.descricao_foto3(class="input-text-description", placeholder="Descrição de acessibilidade") }}
                     {% if form.descricao_foto3.errors %}
                         <div class="error">{{ form.descricao_foto3.errors[0] }}</div>
                     {% endif %}
@@ -118,7 +118,7 @@
                 </div>
                 <div class="form-row">
                     {{ form.descricao_foto4.label }}
-                    {{ form.descricao_foto4(class="input-text") }}
+                    {{ form.descricao_foto4(class="input-text-description", placeholder="Descrição de acessibilidade") }}
                     {% if form.descricao_foto4.errors %}
                         <div class="error">{{ form.descricao_foto4.errors[0] }}</div>
                     {% endif %}
