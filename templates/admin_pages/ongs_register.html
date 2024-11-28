@@ -15,7 +15,7 @@
 
                 <div class="form-left">
                     <h2>Informações Gerais</h2>
-                    <div class="form-row">
+                    <div class="form-group">
                         <div class="form-row form-row-1">
                             {{ form.nome_Ong.label }}
                             {{ form.nome_Ong(class="input-text") }}
@@ -33,33 +33,37 @@
                         </div>
                     </div>
 
+                    <h2>Foto de perfil/logo</h2>
                     <div class="form-group">
                         <div class="form-row form-row-3">
-                            {{ form.fotoPerfilLogo.label }}<br>
                             {{ form.fotoPerfilLogo(class="input-file") }}
                             {% if form.fotoPerfilLogo.errors %}
                                 <div class="error">{{ form.fotoPerfilLogo.errors[0] }}</div>
                             {% endif %}
 
                             {{ form.descricao_foto_perfil_Logo.label }}<br>
-                            {{ form.descricao_foto_perfil_Logo(class="input-text") }}
+                            {{ form.descricao_foto_perfil_Logo(class="input-text-description") }}
                             {% if form.descricao_foto_perfil_Logo.errors %}
                                 <div class="error">{{ form.descricao_foto_perfil_Logo.errors[0] }}</div>
                             {% endif %}
-                            {{ form.fotoQrCode.label }}<br>
-                            {{ form.fotoQrCode(class="input-file") }}
-                            {% if form.fotoQrCode.errors %}
-                                <div class="error">{{ form.fotoQrCode.errors[0] }}</div>
-                            {% endif %}
-
-                            {{ form.descricao_fotoqrCode.label }}<br>
-                            {{ form.descricao_fotoqrCode(class="input-text") }}
-                            {% if form.descricao_fotoqrCode.errors %}
-                                <div class="error">{{ form.descricao_fotoqrCode.errors[0] }}</div>
-                            {% endif %}
-
                         </div>
                     </div>
+
+                        <h2>Foto do QRcode</h2>
+                        <div class="form-group">
+                            <div class="form-row form-row-3">
+                                {{ form.fotoQrCode(class="input-file") }}
+                                {% if form.fotoQrCode.errors %}
+                                    <div class="error">{{ form.fotoQrCode.errors[0] }}</div>
+                                {% endif %}
+
+                                {{ form.descricao_fotoqrCode.label }}<br>
+                                {{ form.descricao_fotoqrCode(class="input-text-description") }}
+                                {% if form.descricao_fotoqrCode.errors %}
+                                    <div class="error">{{ form.descricao_fotoqrCode.errors[0] }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
 
                     <h2>Informações de Contato</h2>
                     <div class="form-row">

@@ -6,11 +6,16 @@
 }
 
 body {
+    width: 100%;
     font-family: 'Oxanium', serif;
     color: #fff;
     background-color: #333;
     padding-top: 100px; /* Margem para que o conteúdo não seja sobreposto pela navbar */
     padding-bottom: 60px; /* Espaço para que o conteúdo não seja sobreposto pelo footer */
+}
+
+main {
+    flex: 1; /* Faz o conteúdo ocupar o espaço restante da tela */
 }
 
 /* Navbar */
@@ -533,11 +538,10 @@ footer {
 
 .form-row-3 label {
     display: block;
-    text-align: center;
+    text-align: left;
     color: #333; /* Mesmo tom de azul do restante do formulário */
-    font-weight: 500;
-    font-size: 25px;
-    margin-bottom: 10px;
+    font-size: 15px;
+    margin-top: 10px;
 }
 
 .form-row {
@@ -593,16 +597,9 @@ footer {
     background-color: rgba(255, 255, 255, 0.15); /* Alteração sutil ao focar */
 }
 
-/* Ajuste para todos os .form-row, garantindo alinhamento */
-.form-row {
-    margin-bottom: 15px; /* Espaçamento entre os campos */
-    display: flex;
-    flex-direction: column; /* Garante alinhamento vertical */
-}
-
 /* Layout para manter a organização */
 .input-text-description {
-    width: 290%; /* Preenche a largura do contêiner */
+    width: 100%; /* Preenche a largura do contêiner */
     height: 120px; /* Altura maior para os campos de descrição */
     resize: none; /* Impede redimensionamento manual */
     padding: 10px;
