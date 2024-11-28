@@ -1,15 +1,18 @@
-{% extends "layout.html" %}
-    {% block titleEcss %}
-        <title>PetMatch</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    {% endblock titleEcss%}
+{% extends "/layouts/layout.html" %}
+{% block titleEcss %}
+    <title>PetMatch</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock titleEcss %}
 
-    {% block conteudo %}
-        <!-- Seção principal com a imagem -->
+{% block conteudo %}
+    <!-- Seção principal com a imagem -->
     <section class="hero">
         <a href="{{ url_for('petsList') }}">
-        <h1>Adote um amigo</h1>
+            <h1>Adote um amigo</h1>
         </a>
+
+
+    <a href="#sobre" class="link-sobre">Saiba mais sobre nós</a>
     </section>
 
     <!-- Seção Sobre -->
@@ -22,10 +25,10 @@
             <li>Oferecer um lar temporário</li>
             <li>Ser voluntário nos eventos ou nos próprios abrigos das ONGs parceiras</li>
             <li>Doar ração, remédios, brinquedos para o endereço das ONGs</li>
-            <li>Doar qualquer valor na aba de “Ajude as Instituições”</li>
+            <li>Doar qualquer valor para as instituições usando os dados bancarários na aba "Ongs"</li>
         </ul>
-        <img src="../static/assets/gato%20fofo%20gif.gif " alt="gif de um gatinho"> <!-- Imagem ao lado do texto -->
+        <img src="../../static/assets/gato%20fofo%20gif.gif " alt="gif de um gatinho"> <!-- Imagem ao lado do texto -->
 
     </section>
-    {% endblock conteudo%}
+{% endblock conteudo %}
 
