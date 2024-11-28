@@ -153,6 +153,7 @@ class editAnimalForm(FlaskForm):
     idade = IntegerField('Idade', validators=[DataRequired(), NumberRange(min=0, max=30, message='Idade inválida')])
     descricao = TextAreaField('Descrição', validators=[DataRequired(), Length(max=300)])
     status = SelectField('Status', choices=[('disponível', 'Disponível'), ('adotado', 'Adotado'), ('reservado', 'Reservado')], validators=[DataRequired()])
+
     adotante = SelectField('Adotante', choices=[], coerce=int)
 
     foto1 = FileField('Foto 1', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Apenas arquivos de imagem são permitidos')])

@@ -248,11 +248,6 @@ def redefinir():
     return render_template('user_pages/redefinirSenha.html', form=form)
 
 
-# @app.route('/sobre')
-# def sobre():
-#     return render_template('sobre.html')
-#
-
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
@@ -484,8 +479,6 @@ def animalDetail(animal_id):
     user_type = "Usuario" if isinstance(current_user, Usuario) else "Ong"
 
     return render_template('geral/animalDetail.html', animal=animal, ong=ong, user=current_user, user_type=user_type)
-
-
 
 
 
@@ -739,6 +732,8 @@ def edit_animal(id):
         # Definindo o valor do campo 'adotante' no formulário
         form.adotante.data = animal.adotante.id if animal.adotante else 0  # Seleciona "Nenhum" se não houver adotante
 
+        print(f"Adotante ID recebido no formulário: {form.adotante.data}")
+
         # Preenche o formulário com os dados atuais do animal ao acessar a página
         if request.method == 'GET':
             form.nome.data = animal.nome
@@ -748,7 +743,7 @@ def edit_animal(id):
             form.descricao.data = animal.descricao
             form.status.data = animal.status
             form.adotante.data = animal.adotante.id if animal.adotante else 0  # Seleciona "Nenhum" se não houver adotante
-
+            print(f"Adotante ID recebido no formulário: {form.adotante.data}")
             form.descricao_foto1.data = animal.descricao_foto1
             form.descricao_foto2.data = animal.descricao_foto2
             form.descricao_foto3.data = animal.descricao_foto3
@@ -770,6 +765,9 @@ def edit_animal(id):
                 # Verifica se a adoção já existe (evita duplicidade)
                 if not Adocao.query.filter_by(animal_id=animal.id, usuario_id=form.adotante.data).first():
                     nova_adocao = Adocao(usuario_id=form.adotante.data, animal_id=animal.id)
+                    print(f"Adotante ID recebido no formulário: {form.adotante.data}")
+                    print(f"Criando adoção: Animal ID {animal.id}, Usuário ID {form.adotante.data}")
+
                     db.session.add(nova_adocao)
 
             # Atualiza as descrições das fotos

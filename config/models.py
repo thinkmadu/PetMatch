@@ -61,7 +61,7 @@ class Animal(db.Model):
     tamanho = db.Column(db.String(20), nullable=False)
     idade = db.Column(db.Integer, nullable=False)
     descricao = db.Column(db.String(300), nullable=False)
-    #ong = db.Column(db.String(60), nullable=False)
+
     status = db.Column(db.String(50), nullable=False)
     #fotos
     foto1  = db.Column(db.String(200), nullable=False)
