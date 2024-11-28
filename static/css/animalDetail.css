@@ -1,96 +1,110 @@
-    /* CSS Global */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+/* CSS Global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    *:before,
-    *:after {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-    }
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 
-    body {
-        font-family: 'Oxanium', serif;
-        color: #fff;
-        background-color: #333;
-    }
+body {
+    font-family: 'Oxanium', serif;
+    color: #fff;
+    background-color: #333;
+}
 
-    nav {
-        background-color: #000;
-        font-family: 'Oxanium', serif;
-        position: fixed;
-        width: 100%;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 14px 16px;
-    }
+nav {
+    background-color: #000;
+    font-family: 'Oxanium', serif;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+}
 
-    /* Logo no canto esquerdo */
-    .navbar-left {
-        display: flex;
-        align-items: center;
-    }
+/* Logo no canto esquerdo */
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
 
-    .logo {
-        font-size: 25px;
-        font-weight: 700;
-        color: #f2f2f2;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-    }
+.logo {
+    font-size: 25px;
+    font-weight: 700;
+    color: #f2f2f2;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
 
-    .logo img {
-        height: 50px;
-        width: auto;
-        margin-right: 10px;
-        filter: invert(50%);
-        object-fit: contain;
-    }
+.logo img {
+    height: 50px;
+    width: auto;
+    margin-right: 10px;
+    filter: invert(50%);
+    object-fit: contain;
+}
 
-    .logo:hover {
-        color: #ccc;
-    }
+.logo:hover {
+    color: #ccc;
+}
 
-    /* Estilo da lista da Navbar */
-    .topnav {
-        list-style: none;
-        display: flex;
-        justify-content: flex-end;
-        flex: 2;
-    }
+/* Estilo da lista da Navbar */
+.topnav {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    flex: 2;
+}
 
-    .topnav a {
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        display: inline-block;
-    }
+.topnav a {
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    display: inline-block;
+}
 
-    .topnav a:hover {
-        color: #ccc;
-    }
+.topnav a:hover {
+    color: #ccc;
+}
 
-    /* Detalhes do Animal */
-    .animal-detail {
-        text-align: center;
-        margin: 20px;
-        font-size: 1.5em;
-    }
+footer {
+    font-family: 'Oxanium', serif;
+    background-color: #000;
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #f2f2f2;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+/* Fim CSS global */
 
-    .animal-detail h1 {
-        margin-bottom: 10px;
-    }
+/* Detalhes do Animal */
+.animal-detail {
+    text-align: center;
+    margin: 20px;
+    font-size: 1.5em;
+}
 
-    .animal-images {
+.animal-detail h1 {
+    margin-bottom: 10px;
+}
+
+.animal-images {
     display: flex;
     flex-wrap: wrap; /* Permite que as imagens passem para a próxima linha */
     justify-content: center; /* Centraliza as imagens na linha */
@@ -98,42 +112,72 @@
 }
 
 
-    .image-container {
-        margin: 10px;
-        width: 300px; /* Largura fixa */
-        height: 300px; /* Altura fixa */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #444; /* Cor de fundo para imagens ausentes */
-        border-radius: 10px;
-        overflow: hidden; /* Garante que imagens maiores sejam cortadas */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Adiciona uma sombra */
+.image-container {
+    margin: 10px;
+    width: 300px; /* Largura fixa */
+    height: 300px; /* Altura fixa */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #444; /* Cor de fundo para imagens ausentes */
+    border-radius: 10px;
+     overflow: hidden; /* Garante que imagens maiores sejam cortadas */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Adiciona uma sombra */
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Corta a imagem para preencher a área */
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+
+.image-container img:hover {
+    transform: scale(1.05);
+}
+
+.interest-button{
+    width: 150px; /* Ajuste a largura conforme necessário */
+    margin: 0 auto; /* Centraliza o botão */
+    background-color: #317134;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px; /* Arredonda os cantos do botão */
+    font-size: 16px; /* Ajusta o tamanho da fonte */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Suaviza a transição */
+}
+
+button:hover {
+    background-color: #449e49;
+}
+
+button.btn-edit {
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda */
+    color: white; /* Cor do texto do botão */
+    padding: 10px 20px; /* Espaçamento interno */
+    font-size: 16px; /* Tamanho da fonte */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .topnav {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 10px;
     }
 
-    .image-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Corta a imagem para preencher a área */
-        border-radius: 10px;
-        transition: transform 0.2s ease;
+    nav {
+        padding: 10px 16px;
     }
 
-    .image-container img:hover {
-        transform: scale(1.05);
+    .form-box {
+        padding: 20px;
     }
+}
 
-    /* Rodapé */
-    footer {
-        font-family: 'Oxanium', serif;
-        background-color: #000;
-        padding: 15px;
-        text-align: center;
-        font-size: 14px;
-        font-weight: 400;
-        color: #f2f2f2;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-    }
-    /* Fim CSS global */
+

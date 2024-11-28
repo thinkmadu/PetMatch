@@ -23,7 +23,7 @@
                     {% if animal[foto_attr] %}
                         <div class="image-container">
                             <img src="{{ url_for('static', filename=animal[foto_attr].replace('static/', '').replace('\\', '/')) }}"
-                                 alt="{{ animal[descricao_attr] }}">
+                                alt="{{ animal[descricao_attr] }}">
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -38,7 +38,7 @@
                 {% if user_type == "Usuario" %}
                     {% set interesse = user.interesses|selectattr('animal_id', 'equalto', animal.id) | list %}
                     <form action="{{ url_for('interesse_animal', animal_id=animal.id) }}" method="POST">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn-edit">
                             {% if interesse %}
                                 Acessar Chat
                             {% else %}
