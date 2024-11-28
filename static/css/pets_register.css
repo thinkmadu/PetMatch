@@ -143,6 +143,7 @@ footer {
 }
 
 .form-v10-content .form-detail {
+    color: #000; /* Cor do texto em cima dos campos para preencher*/
     position: relative;
     width: 100%;
     display: flex;
@@ -293,7 +294,7 @@ footer {
 }
 
 .form-v10-content .form-detail .form-left input,.form-v10-content .form-detail .form-left select {
-    border-bottom: 1px solid #ccc
+    border-bottom: 1px solid transparent; /*linha cinza */
 }
 
 .form-v10-content .form-detail .form-left input:focus,.form-v10-content .form-detail .form-left select:focus {
@@ -522,16 +523,28 @@ footer {
         margin: 44px 0 30px
     }
 }
+
+.file-input-container {
+    position: relative;
+    width: 100%;  /* Garante que o campo de arquivo ocupe toda a largura do formulário */
+    display: inline-block; /* Impede que o campo de upload ocupe mais de uma linha */
+    margin-top: 10px;  /* Adiciona espaçamento */
+    overflow: visible; /* Evita que elementos dentro sejam cortados */
+}
+
+/* Estilo do campo de entrada de arquivo */
 .input-file {
     width: 100%;
-    padding: 12px;
-    background: #f0f0f0;
+    padding: 10px 15px;
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.07);
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
-    color: #333;
     cursor: pointer;
-    box-sizing: border-box;
+    appearance: none;  /* Remove o estilo padrão do navegador para campos de arquivo */
+    outline: none;
+    overflow: visible; /* Evita que elementos dentro sejam cortados */
+    display: inline-block; /* Evita comportamento de bloco total */
 }
 
 .input-file:focus {
@@ -549,16 +562,34 @@ footer {
 }
 .input-file::-webkit-file-upload-button {
     background: #317134;
-    color: white;
     border: none;
     border-radius: 5px;
     padding: 8px 12px;
     cursor: pointer;
     font-weight: 700;
+    appearance: none; /* Remover aparência padrão */
+    height: auto;
+    padding: 8px 12px;
+    font-size: 14px;
 }
 
 .input-file::-webkit-file-upload-button:hover {
     background: #449e49;
+}
+
+.input-file::-moz-file-upload-button {
+    background-color: #007bff;
+    border: none;
+    padding: 8px 12px;
+    font-size: 11px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: auto;
+
+}
+
+.input-file::-moz-file-upload-button:hover {
+    background-color: #0056b3;
 }
 
 /* Estilo específico para input-text-custom */
@@ -569,7 +600,7 @@ footer {
     font-size: 16px; /* Texto maior */
     font-family: Arial, sans-serif;
     background-color: rgba(255, 255, 255, 0.07);
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     border-radius: 5px;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
 }

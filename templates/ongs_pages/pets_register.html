@@ -17,7 +17,7 @@
                 <!-- Campos de informações do animal -->
                 <div class="form-row">
                     {{ form.nome.label }}
-                    {{ form.nome(class="input-text", placeholder="Digite o nome do animal") }}
+                    {{ form.nome(class="input-text") }}
                     {% if form.nome.errors %}
                         <div class="error">{{ form.nome.errors[0] }}</div>
                     {% endif %}
@@ -38,14 +38,14 @@
                 </div>
                 <div class="form-row">
                     {{ form.idade.label }}
-                    {{ form.idade(class="input-text", placeholder="Digite a idade do animal em anos") }}
+                    {{ form.idade(class="input-text", placeholder="Idade do animal em anos") }}
                     {% if form.idade.errors %}
                         <div class="error">{{ form.idade.errors[0] }}</div>
                     {% endif %}
                 </div>
                 <div class="form-row">
                     {{ form.descricao.label }}
-                    {{ form.descricao(class="input-text-description", placeholder="Descreva o animal") }}
+                    {{ form.descricao(class="input-text-description") }}
                     {% if form.descricao.errors %}
                         <div class="error">{{ form.descricao.errors[0] }}</div>
                     {% endif %}
@@ -59,18 +59,19 @@
                 </div>
 
                 <h2>Fotos do Animal</h2>
-
                 <!-- Campos para foto 1 -->
                 <div class="form-row">
                     {{ form.foto1.label }}
-                    {{ form.foto1(class="input-file") }}
+                    <div class="file-input-container">
+                        {{ form.foto1(class="input-file") }}
+                    </div>
                     {% if form.foto1.errors %}
                         <div class="error">{{ form.foto1.errors[0] }}</div>
                     {% endif %}
                 </div>
                 <div class="form-row">
                     {{ form.descricao_foto1.label }}
-                    {{ form.descricao_foto1(class="input-text-description", placeholder="Descrição de acessibilidade") }}
+                    {{ form.descricao_foto1(class="input-text-description") }}
                     {% if form.descricao_foto1.errors %}
                         <div class="error">{{ form.descricao_foto1.errors[0] }}</div>
                     {% endif %}
@@ -86,7 +87,7 @@
                 </div>
                 <div class="form-row">
                     {{ form.descricao_foto2.label }}
-                    {{ form.descricao_foto2(class="input-text-description", placeholder="Descrição de acessibilidade") }}
+                    {{ form.descricao_foto2(class="input-text-description") }}
                     {% if form.descricao_foto2.errors %}
                         <div class="error">{{ form.descricao_foto2.errors[0] }}</div>
                     {% endif %}
@@ -102,7 +103,7 @@
                 </div>
                 <div class="form-row">
                     {{ form.descricao_foto3.label }}
-                    {{ form.descricao_foto3(class="input-text-description", placeholder="Descrição de acessibilidade") }}
+                    {{ form.descricao_foto3(class="input-text-description") }}
                     {% if form.descricao_foto3.errors %}
                         <div class="error">{{ form.descricao_foto3.errors[0] }}</div>
                     {% endif %}
@@ -118,7 +119,7 @@
                 </div>
                 <div class="form-row">
                     {{ form.descricao_foto4.label }}
-                    {{ form.descricao_foto4(class="input-text-description", placeholder="Descrição de acessibilidade") }}
+                    {{ form.descricao_foto4(class="input-text-description") }}
                     {% if form.descricao_foto4.errors %}
                         <div class="error">{{ form.descricao_foto4.errors[0] }}</div>
                     {% endif %}
