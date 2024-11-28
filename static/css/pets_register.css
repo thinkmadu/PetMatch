@@ -5,13 +5,29 @@
     box-sizing: border-box;
 }
 
+*:before,
+*:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 body {
-    margin: 0
+    font-family: 'Oxanium', serif;
+    color: #fff;
+    background-color: #333;
+    display: flex;
+    flex-direction: column; /* Garante que o conteúdo e o rodapé fiquem empilhados */
+    min-height: 100vh; /* Ocupa toda a altura da tela */
+}
+
+main {
+    flex: 1; /* Faz o conteúdo ocupar o espaço restante da tela */
 }
 
 nav {
     background-color: #000;
-    font-family: 'Oxanium';
+    font-family: 'Oxanium', serif;
     position: fixed;
     width: 100%;
     top: 0;
@@ -69,6 +85,17 @@ nav {
 
 .topnav a:hover {
     color: #ccc;
+}
+
+footer {
+    font-family: 'Oxanium', serif;
+    background-color: #000;
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #f2f2f2;
+    width: 100%; /* Garante que o rodapé ocupe toda a largura */
 }
 /* Fim CSS global */
 
@@ -532,16 +559,5 @@ nav {
 
 .input-file::-webkit-file-upload-button:hover {
     background: #449e49;
-}
-
-/* Footer */
-footer {
-    font-family: 'Oxanium';
-    background-color: #000;
-    padding: 15px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 400;
-    color: #f2f2f2;
 }
 
