@@ -6,20 +6,20 @@
 }
 
 body {
-    margin: 0;
-    background: #333;
+    height: 100%;
+    font-family: 'Oxanium', serif;
+    color: #fff;
+    background-color: #333;
+    display: flex;
+    flex-direction: column; /* Garante que o conteúdo e o rodapé fiquem empilhados */
+    min-height: 100vh; /* Ocupa toda a altura da tela */
+    margin: 0; /* Remove margens padrão */
 }
 
-.current-photo img.profile-photo {
-    max-width: 150px;
-    max-height: 150px;
-    border-radius: 50%; /* Exibir como círculo, opcional */
-    margin-bottom: 15px;
-}
-
+/* Navbar */
 nav {
     background-color: #000;
-    font-family: 'Oxanium';
+    font-family: 'Oxanium', serif;
     position: fixed;
     width: 100%;
     top: 0;
@@ -35,6 +35,26 @@ nav {
 .navbar-left {
     display: flex;
     align-items: center;
+}
+
+.topnav {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    flex: 2; /* Garante que a lista ocupe o restante do espaço */
+}
+
+.topnav a {
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 27 px;
+    display: inline-block;
+}
+
+.topnav a:hover {
+    color: #ccc;
 }
 
 .logo {
@@ -58,26 +78,25 @@ nav {
     color: #ccc;
 }
 
-/* Estilo da lista da Navbar */
-.topnav {
-    list-style: none;
-    display: flex;
-    justify-content: flex-end;
-    flex: 2; /* Garante que a lista ocupe o restante do espaço */
-}
-
-.topnav a {
-    color: #f2f2f2;
+footer {
+    font-family: 'Oxanium', serif;
+    background-color: #000;
+    padding: 15px;
     text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    display: inline-block;
-}
-
-.topnav a:hover {
-    color: #ccc;
+    font-size: 14px;
+    font-weight: 400;
+    color: #f2f2f2;
+    bottom: 0;
+    width: 100%;
+    margin-top: 10px;
 }
 /* Fim CSS global */
+current-photo img.profile-photo {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 50%; /* Exibir como círculo, opcional */
+    margin-bottom: 15px;
+}
 
 .page-content {
     width: 100%;
@@ -116,6 +135,7 @@ nav {
 }
 
 .form-v10-content .form-detail {
+    color: #000; /* Cor do texto em cima dos campos para preencher*/
     position: relative;
     width: 100%;
     display: flex;
@@ -495,6 +515,7 @@ nav {
         margin: 44px 0 30px
     }
 }
+
 .input-file {
     width: 100%;
     padding: 12px;
@@ -518,8 +539,8 @@ nav {
     font-weight: 500;
     font-size: 25px;
     margin-bottom: 10px;
-
 }
+
 .input-file::-webkit-file-upload-button {
     background: #317134;
     color: white;
@@ -533,6 +554,133 @@ nav {
 .input-file::-webkit-file-upload-button:hover {
     background: #449e49;
 }
+
+.input-file::-webkit-file-upload-button {
+    background: #317134;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.input-file::-webkit-file-upload-button:hover {
+    background: #449e49;
+} */
+
+.file-input-container {
+    position: relative;
+    width: 100%;  /* Garante que o campo de arquivo ocupe toda a largura do formulário */
+    display: inline-block; /* Impede que o campo de upload ocupe mais de uma linha */
+    margin-top: 10px;  /* Adiciona espaçamento */
+    overflow: visible; /* Evita que elementos dentro sejam cortados */
+}
+
+/* Estilo do campo de entrada de arquivo */
+.input-file {
+    width: 100%;
+    padding: 12px;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.input-file:focus {
+    border-color: #999;
+    outline: none;
+}
+
+.form-row-3 label {
+    display: block;
+    text-align: center;
+    color: #333; /* Mesmo tom de azul do restante do formulário */
+    font-weight: 500;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.input-file::-webkit-file-upload-button {
+    background: #317134;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: 700;
+    /* appearance: none; /* Remover aparência padrão
+    height: auto;
+    padding: 8px 12px;
+    font-size: 14px; */
+}
+
+.input-file::-webkit-file-upload-button:hover {
+    background: #449e49;
+}
+
+.input-file::-moz-file-upload-button {
+    background-color: #007bff;
+    border: none;
+    padding: 8px 12px;
+    font-size: 11px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: auto;
+}
+
+.input-file::-moz-file-upload-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo específico para input-text-custom */
+.input-text {
+    width: 100%; /* Preenche a largura do contêiner */
+    height: 50px; /* Define a altura personalizada */
+    padding: 10px; /* Espaçamento interno */
+    font-size: 16px; /* Texto maior */
+    font-family: Arial, sans-serif;
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid #000000;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.input-text:focus {
+    border-color: #007bff; /* Cor da borda ao focar */
+    outline: none; /* Remove a borda padrão do navegador */
+    background-color: rgba(255, 255, 255, 0.15); /* Alteração sutil ao focar */
+}
+
+/* Ajuste para todos os .form-row, garantindo alinhamento */
+.form-row {
+    width: 100%;
+    margin-bottom: 15px; /* Espaçamento entre os campos */
+    display: flex;
+    flex-direction: column; /* Garante alinhamento vertical */
+}
+
+/* Layout para manter a organização */
+.input-text-description {
+    height: 120px; /* Altura maior para os campos de descrição */
+    resize: none; /* Impede redimensionamento manual */
+    padding: 10px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.input-text-description:focus {
+    border-color: #007bff; /* Cor da borda ao focar */
+    outline: none; /* Remove a borda padrão do navegador */
+}
+
 .info-ong {
     margin-top: 20px; /* Espaço acima do texto */
     padding: 15px;
@@ -556,15 +704,4 @@ nav {
 .info-ong ul {
     list-style-type: disc;
     margin: 10px 0 0 20px;
-}
-
-/* Footer */
-footer {
-    font-family: 'Oxanium';
-    background-color: #000;
-    padding: 15px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 400;
-    color: #f2f2f2;
 }
