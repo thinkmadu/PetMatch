@@ -294,7 +294,7 @@ footer {
 }
 
 .form-v10-content .form-detail .form-left input,.form-v10-content .form-detail .form-left select {
-    border-bottom: 1px solid transparent; /*linha cinza */
+    border-bottom: 1px solid #ccc
 }
 
 .form-v10-content .form-detail .form-left input:focus,.form-v10-content .form-detail .form-left select:focus {
@@ -584,7 +584,6 @@ footer {
     border-radius: 5px;
     cursor: pointer;
     height: auto;
-
 }
 
 .input-file::-moz-file-upload-button:hover {
@@ -635,28 +634,3 @@ footer {
     border-color: #007bff; /* Cor da borda ao focar */
     outline: none; /* Remove a borda padrão do navegador */
 }
-
-/* Estilo geral para .form-row permanece inalterado */
-.form-row {
-    margin-bottom: 15px; /* Espaçamento entre os campos */
-    display: flex;
-    flex-direction: column; /* Garante alinhamento vertical dos itens */
-}
-
-/* Estilo dos outros campos */
-.input-file {
-    width: 100%;
-    height: 40px; /* Altura padrão para campos menores */
-    padding: 5px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.07);
-    color: #eaf0fb;
-}
-
-.input-file:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
