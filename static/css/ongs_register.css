@@ -513,6 +513,7 @@ footer {
         margin: 44px 0 30px
     }
 }
+
 .input-file {
     width: 100%;
     padding: 12px;
@@ -529,6 +530,7 @@ footer {
     border-color: #999;
     outline: none;
 }
+
 .form-row-3 label {
     display: block;
     text-align: center;
@@ -536,8 +538,14 @@ footer {
     font-weight: 500;
     font-size: 25px;
     margin-bottom: 10px;
-
 }
+
+.form-row {
+    margin-bottom: 15px; /* Espaçamento entre os campos */
+    display: flex;
+    flex-direction: column; /* Garante alinhamento vertical */
+}
+
 .input-file::-webkit-file-upload-button {
     background: #317134;
     color: white;
@@ -550,5 +558,64 @@ footer {
 
 .input-file::-webkit-file-upload-button:hover {
     background: #449e49;
+}
+
+.input-file::-moz-file-upload-button {
+    background-color: #007bff;
+    border: none;
+    padding: 8px 12px;
+    font-size: 11px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: auto;
+}
+
+.input-file::-moz-file-upload-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo específico para input-text-custom */
+.input-text {
+    width: 100%; /* Preenche a largura do contêiner */
+    height: 50px; /* Define a altura personalizada */
+    padding: 10px; /* Espaçamento interno */
+    font-size: 16px; /* Texto maior */
+    font-family: Arial, sans-serif;
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid #000000;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.input-text:focus {
+    border-color: #007bff; /* Cor da borda ao focar */
+    outline: none; /* Remove a borda padrão do navegador */
+    background-color: rgba(255, 255, 255, 0.15); /* Alteração sutil ao focar */
+}
+
+/* Ajuste para todos os .form-row, garantindo alinhamento */
+.form-row {
+    margin-bottom: 15px; /* Espaçamento entre os campos */
+    display: flex;
+    flex-direction: column; /* Garante alinhamento vertical */
+}
+
+/* Layout para manter a organização */
+.input-text-description {
+    width: 290%; /* Preenche a largura do contêiner */
+    height: 120px; /* Altura maior para os campos de descrição */
+    resize: none; /* Impede redimensionamento manual */
+    padding: 10px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.input-text-description:focus {
+    border-color: #007bff; /* Cor da borda ao focar */
+    outline: none; /* Remove a borda padrão do navegador */
 }
 
