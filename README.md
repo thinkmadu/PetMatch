@@ -16,7 +16,6 @@ A premissa do projeto é criar uma ponte entre ONGs para pets e possíveis donos
 - Para executar o sistema em si tem que rodar o arquivo PetMatch.py, no terminal vai aparecer a url http://127.0.0.1:5000
   - Caso a porta 5000 esteja ocupada só comentar a linha 8 e descomentar a 7, que vai ser executado na porta 5001, na url http://127.0.0.1:5001
 
-
 ## Credenciais
 - No arquivo contas salvas.txt tem todos os admins, ongs e usuários cadastrados 
 - Email e senha de cada um
@@ -24,7 +23,7 @@ A premissa do projeto é criar uma ponte entre ONGs para pets e possíveis donos
 ## Rotas do Admin
 - O admin possui a visão de todos os animais, usuários e ongs cadastradas no dashboard dele, logo após logar
 - Ele pode cadastrar Ongs
-- 
+
 ## Rotas do Usuário
 - Cadastro na barra de navegação da home
 - Login na barra de navegação da home
@@ -36,7 +35,7 @@ A premissa do projeto é criar uma ponte entre ONGs para pets e possíveis donos
 - Ao clicar em redefinir senha na página de login um email com um link para o recuperação é enviado para o email cadastrado no petmatch, como aqui todas as contas foram criadas usando email temporário pra testar essa funcionalidade tem que ser criada uma nova conta
 - Ao clicar em "pets para adoção" na barra de navegação, selecionar um animal e clicar em tenho interesse um chat vai ser iniciado com a ong que cadastrou o animal
 - Na aba de /petList tem filtros de exibição de animais
-- 
+
 ## Rotas do Usuário
 - Visão de todos os animais cadastrados após logar com a opção de editar ou excluir o pet
 - Na rota de edição ele tem a opção de reservar o animal ou adotar, ao clicar em mudar o status para adotado o campo de adotante vai mostrar uma lista de usuários que clicaram em "Tenho interesse" nesse pet
