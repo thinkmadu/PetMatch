@@ -252,14 +252,14 @@ def redefinir():
 @login_required
 def profile():
     form = profileForm()
-    print(current_user)
-    print(isinstance(current_user, Usuario))
     if isinstance(current_user, Usuario):
-        if form.validate_on_submit():
-            return redirect(url_for('edit_profile'))
-        return render_template('user_pages/profile.html', form=form)
+        # Recuperar o histórico de adoções do usuário atual
+        adocoes = Adocao.query.filter_by(usuario_id=current_user.id).all()
+        return render_template('user_pages/profile.html', form=form, adocoes=adocoes)
     else:
         return "Unauthorized access", 403
+
+
 
 @app.route('/chats', methods=['GET', 'POST'])
 @login_required
@@ -276,6 +276,7 @@ def allchats():
 
     # Retornar o template com a lista de chats
     return render_template('user_pages/allChats.html', chats=chats)
+
 
 @app.route('/chat/<numero_unico>', methods=['GET'])
 @login_required
@@ -479,7 +480,6 @@ def animalDetail(animal_id):
     user_type = "Usuario" if isinstance(current_user, Usuario) else "Ong"
 
     return render_template('geral/animalDetail.html', animal=animal, ong=ong, user=current_user, user_type=user_type)
-
 
 
 # @app.route('/ongsList')
@@ -729,12 +729,7 @@ def edit_animal(id):
         form.adotante.choices = [(0, 'Nenhum')] + [(usuario.id, f'{usuario.primeiro_nome} {usuario.sobrenome}') for
                                                    usuario in interessados]
 
-        # Definindo o valor do campo 'adotante' no formulário
-        form.adotante.data = animal.adotante.id if animal.adotante else 0  # Seleciona "Nenhum" se não houver adotante
-
-        print(f"Adotante ID recebido no formulário: {form.adotante.data}")
-
-        # Preenche o formulário com os dados atuais do animal ao acessar a página
+        # Preenche os dados do formulário ao acessar a página
         if request.method == 'GET':
             form.nome.data = animal.nome
             form.especie.data = animal.especie
@@ -742,8 +737,7 @@ def edit_animal(id):
             form.idade.data = animal.idade
             form.descricao.data = animal.descricao
             form.status.data = animal.status
-            form.adotante.data = animal.adotante.id if animal.adotante else 0  # Seleciona "Nenhum" se não houver adotante
-            print(f"Adotante ID recebido no formulário: {form.adotante.data}")
+            form.adotante.data = animal.adocao.usuario.id if animal.adocao else 0  # Adotante atual ou nenhum
             form.descricao_foto1.data = animal.descricao_foto1
             form.descricao_foto2.data = animal.descricao_foto2
             form.descricao_foto3.data = animal.descricao_foto3
@@ -758,17 +752,18 @@ def edit_animal(id):
             animal.idade = form.idade.data
             animal.descricao = form.descricao.data
             animal.status = form.status.data
-            animal.adotante_id = form.adotante.data if form.adotante.data != 0 else None
 
-            # Se um adotante foi selecionado, cria uma adoção
-            if form.adotante.data != 0:
-                # Verifica se a adoção já existe (evita duplicidade)
-                if not Adocao.query.filter_by(animal_id=animal.id, usuario_id=form.adotante.data).first():
-                    nova_adocao = Adocao(usuario_id=form.adotante.data, animal_id=animal.id)
-                    print(f"Adotante ID recebido no formulário: {form.adotante.data}")
-                    print(f"Criando adoção: Animal ID {animal.id}, Usuário ID {form.adotante.data}")
-
+            # Atualiza ou cria uma adoção
+            adotante_id = form.adotante.data
+            if adotante_id != 0:  # Caso um adotante tenha sido selecionado
+                if animal.adocao:  # Caso já exista uma adoção
+                    animal.adocao.usuario_id = adotante_id
+                else:  # Cria uma nova adoção
+                    nova_adocao = Adocao(usuario_id=adotante_id, animal_id=animal.id)
                     db.session.add(nova_adocao)
+            else:  # Remove a adoção se "Nenhum" foi selecionado
+                if animal.adocao:
+                    db.session.delete(animal.adocao)
 
             # Atualiza as descrições das fotos
             animal.descricao_foto1 = form.descricao_foto1.data
@@ -789,12 +784,6 @@ def edit_animal(id):
                     path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                     foto_field.data.save(path)
                     setattr(animal, f'foto{i}', path)
-                else:
-                    # Se nenhuma foto nova foi enviada, mantém a foto existente
-                    foto_atual = getattr(animal, f'foto{i}')
-                    if not foto_atual:
-                        # Se não houver foto, você pode definir um valor padrão ou deixar como está
-                        setattr(animal, f'foto{i}', None)
 
             # Salvar as alterações no banco de dados
             db.session.commit()
@@ -806,3 +795,4 @@ def edit_animal(id):
     else:
         flash('Acesso negado. Apenas ONGs podem acessar esta página.', 'danger')
         return redirect(url_for('home'))
+

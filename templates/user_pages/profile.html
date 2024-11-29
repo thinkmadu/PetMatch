@@ -10,9 +10,36 @@
     <div class="profile-image">
         <img src="{{ current_user.foto_perfil }}" alt="{{ current_user.descricao_foto_perfil }}" />
     </div>
-    <form method="POST" action="{{ url_for('profile') }}">
+    <form method="POST" action="{{ url_for('edit_profile') }}">
         {{ form.hidden_tag() }}
         <button type="submit" class="btn-edit">Editar Perfil</button>
     </form>
 </div>
+
+<div class="adoption-history">
+    <h3>Histórico de Adoções</h3>
+    {% if adocoes %}
+        <table class="adoption-table">
+            <thead>
+                <tr>
+                    <th>Animal</th>
+                    <th>Espécie</th>
+                    <th>Data da Adoção</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for adocao in adocoes %}
+                    <tr>
+                        <td>{{ adocao.animal.nome }}</td>
+                        <td>{{ adocao.animal.especie }}</td>
+                        <td>{{ adocao.data_adocao.strftime('%d/%m/%Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Você ainda não adotou nenhum animal.</p>
+    {% endif %}
+</div>
+
 {% endblock conteudo %}
