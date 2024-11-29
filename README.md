@@ -15,4 +15,4 @@ Para conseguir rodar o sistema, existe uma base de dados já alimentada para que
 2. Abra os arquivos na IDE de sua preferência.
 3. Há um arquivo requirements.txt que possui todas as bibliotecas utilizadas nesse projeto, para instalar rode o comando:
 4. Após isso, abra o seu MySQL Configurator e siga os passos do programa.
-5. Depois de configurar o ambiente, procure nos arquivos baixados do repositório o app.py e substitua a linha "app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/PetMatch' "
+5. Depois de configurar o ambiente, procure nos arquivos baixados do repositório o app.py e substitua a linha "app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root<sua_senha_sql>:@localhost/PetMatch' "
