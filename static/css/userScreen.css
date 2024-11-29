@@ -244,7 +244,7 @@ button:focus {
 .chat-list {
     max-width: 900px;
     margin: 40px auto;
-    padding: 20px; /
+    padding: 20px;
     background-color: #444; /* Cor de fundo do container */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -258,7 +258,7 @@ button:focus {
 }
 
 .chat-list ul {
-    list-style: none; /
+    list-style: none;
     padding-left: 0;
 }
 
