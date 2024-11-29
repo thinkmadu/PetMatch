@@ -25,6 +25,11 @@ class Usuario(db.Model, UserMixin):
     #descrição das fotos para acessibilidade
     descricao_foto_perfil = db.Column(db.String(300), nullable=False)
 
+
+    # Relacionamento com Adocao
+    adocoes = db.relationship('Adocao', back_populates='usuario', lazy=True)
+
+
     def check_password(self, password):
         return check_password_hash(self.senha, password)
 
@@ -63,6 +68,7 @@ class Animal(db.Model):
     descricao = db.Column(db.String(300), nullable=False)
 
     status = db.Column(db.String(50), nullable=False)
+
     #fotos
     foto1  = db.Column(db.String(200), nullable=False)
     foto2 = db.Column(db.String(200))
@@ -83,12 +89,11 @@ class Animal(db.Model):
     ong = db.relationship('Ong', backref='animais')
 
     # Relacionamento com Adocao (para acessar o adotante)
-    adocoes = db.relationship('Adocao', backref='animal_associado', lazy=True)
+    adocao = db.relationship('Adocao', back_populates='animal', uselist=False, lazy=True)
 
-    # Método para acessar o adotante diretamente
     @property
     def adotante(self):
-        adotacao = Adocao.query.filter_by(animal_id=self.id).first()  # Pega a primeira adoção do animal
+        adotacao = Adocao.query.filter_by(animal_id=self.id).first()
         if adotacao:
             return adotacao.usuario  # Retorna o usuário (adotante) associado
         return None
@@ -142,8 +147,10 @@ class Adocao(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
     animal_id = db.Column(db.Integer, db.ForeignKey('animal.id'), nullable=False)
+    data_adocao = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Relacionamento com Usuario
+    usuario = db.relationship('Usuario', back_populates='adocoes')
 
-    # Relacionamentos
-    usuario = db.relationship('Usuario', backref='adocoes')
-    animal = db.relationship('Animal', backref='animal_associado')
+    # Relacionamento com Animal
+    animal = db.relationship('Animal', back_populates='adocao')
