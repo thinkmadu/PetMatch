@@ -9,7 +9,7 @@ A premissa do projeto é criar uma ponte entre ONGs para pets e possíveis donos
 - Para Usar a base de dados já alimentada do nosso projeto:
   - No MySQL Workbench,selecionar uma conexao
   - ![img.png](img.png)
-  - Ir na Server -> Data Import -> selecionar o local do PetmatchExport (que está logo abaixo da pasta instance) -> Import Progress -> Start Import
+  - Ir na Server -> Data Import -> selecionar o local do PetmatchExport -> Import Progress -> Start Import
   - ![img_1.png](img_1.png) ![img_2.png](img_2.png)
 - No arquivo app.py na linha 22 é necessário botar as credenciais do mysql
   - Segue esse padrão : app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://<nome_do_user_mysql>:<senha_do_user>@localhost/PetMatch'
