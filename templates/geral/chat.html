@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
 {% endblock titleEcss %}
 
+<body>
 {% block conteudo %}
     <main>
         <div class="chat-container">
@@ -23,6 +24,7 @@
             </form>
         </div>
     </main>
+</body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
     <script>
         const socket = io();
@@ -60,7 +62,5 @@
             socket.emit('send_message', {room, message, senderName});
             messageInput.value = '';
         });
-
-
     </script>
 {% endblock conteudo %}
