@@ -90,7 +90,7 @@ class cadastrar_OngForm(FlaskForm):
     cadastrarBotao = SubmitField('Cadastrar ONG')
 
     def process(self, formdata=None, obj=None, data=None, extra_filters=None):
-        # Chama o método `process` padrão do FlaskForm
+
         super().process(formdata, obj, data, extra_filters)
 
         # Preenche a descrição do QR code automaticamente se `nome_Ong` estiver definido
@@ -101,10 +101,10 @@ class cadastrar_OngForm(FlaskForm):
 class AnimalForm(FlaskForm):
     nome = StringField('Nome do Animal', validators=[DataRequired(), Length(min=2, max=100)])
 
-    # Campo especie com opções fixas
+    # opções fixas
     especie = SelectField('Espécie', choices=[('gato', 'Gato'), ('cachorro', 'Cachorro'),('outro','Outro')], validators=[DataRequired()])
 
-    # Campo tamanho com opções fixas
+    # tamanho com opções fixas
     tamanho = SelectField('Tamanho', choices=[('pequeno', 'Pequeno'), ('medio', 'Médio'), ('grande', 'Grande')],
                         validators=[DataRequired()])
 
@@ -123,7 +123,7 @@ class AnimalForm(FlaskForm):
     descricao_foto4 = TextAreaField('Descrição da Foto 4', validators=[Optional(), Length(max=300)])
 
 
-    # Campo de nome da ONG preenchido automaticamente e oculto
+    # campo de nome da ONG preenchido automaticamente e oculto
     ong = StringField('ONG', render_kw={'readonly': True}, validators=[DataRequired()])
 
     cadastrarBotao = SubmitField('Cadastrar Animal')
@@ -166,7 +166,7 @@ class editAnimalForm(FlaskForm):
     descricao_foto3 = TextAreaField('Descrição da Foto 3', validators=[Optional(), Length(max=300)])
     descricao_foto4 = TextAreaField('Descrição da Foto 4', validators=[Optional(), Length(max=300)])
 
-    # Campo de nome da ONG preenchido automaticamente e oculto
+    # campo de nome da ONG preenchido automaticamente e oculto
     ong = StringField('ONG', render_kw={'readonly': True}, validators=[DataRequired()])
     salvarBotao = SubmitField('Salvar')
 
@@ -176,16 +176,15 @@ class editAnimalForm(FlaskForm):
         self.adotante.choices = [(0, 'Nenhum')] + [(usuario.id, f'{usuario.primeiro_nome} {usuario.sobrenome}') for usuario in Usuario.query.all()]
 
     def validate(self, **kwargs):
-        # Executa validações padrão
         if not super(editAnimalForm, self).validate():
             return False
 
-        # Verifica se a descrição está presente para as fotos 2, 3 e 4, caso as fotos tenham sido enviadas
+        # verifica se a descrição está presente para as fotos 2, 3 e 4, caso as fotos tenham sido enviadas
         for i in range(2, 5):
             foto_field = getattr(self, f'foto{i}')
             descricao_field = getattr(self, f'descricao_foto{i}')
 
-            # Se a foto foi enviada, a descrição é obrigatória
+            # Se a foto foi enviada  a descrição é obrigatória
             if foto_field.data and not descricao_field.data:
                 descricao_field.errors.append('Descrição é obrigatória se uma imagem foi enviada.')
                 return False

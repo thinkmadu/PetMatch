@@ -128,47 +128,47 @@ button {
 }
 
 .profile-container h2 {
-    text-align: center; /* Centraliza o título */
-    margin-bottom: 20px; /* Espaço abaixo do título */
-    font-size: 28px; /* Tamanho da fonte do título */
-    color: #f2f2f2; /* Cor do texto */
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #f2f2f2;
 }
 
 .profile-image {
-    text-align: center; /* Centraliza a imagem */
-    margin-bottom: 10px; /* Espaço abaixo da imagem */
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .profile-image img {
-    max-width: 200px; /* Largura maior */
-    max-height: 200px; /* Altura maior */
+    max-width: 200px;
+    max-height: 200px;
     border-radius: 50%;
-    border: 2px solid #f2f2f2; /* Borda fina e delicada */
+    border: 2px solid #f2f2f2;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 button {
-    background: #33ba3354; /* Ajuste para o fundo desejado */
-    color: #fff; /* Cor do texto */
-    border: none; /* Remove a borda padrão */
-    outline: none; /* Remove o contorno padrão ao clicar */
-    box-shadow: none; /* Remove sombras extras */
+    background: #33ba3354;
+    color: #fff;
+    border: none;
+    outline: none;
+    box-shadow: none;
     font-size: 20px;
     padding: 10px;
     cursor: pointer;
-    border-radius: 4px; /* Bordas arredondadas */
+    border-radius: 4px;
     transition: background-color 0.3s ease, transform 0.3s ease;
     margin-top: 10px; /* Reduza o espaçamento acima do botão */
 }
 
 button:hover {
-    background-color: #218838; /* Cor ao passar o mouse */
-    transform: translateY(-3px); /* Efeito ao passar o mouse */
+    background-color: #218838;
+    transform: translateY(-3px);
 }
 
 button:focus {
-    outline: none; /* Remove contorno no estado focus */
-    box-shadow: none; /* Remove sombra padrão */
+    outline: none;
+    box-shadow: none;
 }
 
 /* Responsividade: Ajusta para telas menores */
@@ -192,11 +192,11 @@ button:focus {
 }
 
 .adoption-history {
-    max-width: 600px; /* Largura máxima do container */
-    margin: 20px auto; /* Centraliza a tabela */
+    max-width: 600px;
+    margin: 20px auto;
     padding: 30px;
     background: linear-gradient(145deg, #333, #444); /* Fundo com gradiente */
-    border-radius: 15px; /* Bordas arredondadas */
+    border-radius: 15px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra */
     text-align: center;
     transition: all 0.3s ease;
@@ -209,90 +209,90 @@ button:focus {
 }
 
 .adoption-table {
-    width: 100%; /* Ocupa toda a largura do container */
-    border-collapse: collapse; /* Remove espaçamento entre bordas */
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 20px;
 }
 
 .adoption-table th,
 .adoption-table td {
-    padding: 10px 15px; /* Espaçamento interno */
-    text-align: center; /* Centraliza texto */
-    border: 1px solid #666; /* Bordas finas e visíveis */
+    padding: 10px 15px;
+    text-align: center;
+    border: 1px solid #666;
     color: #f2f2f2;
 }
 
 .adoption-table th {
-    background: #444; /* Fundo para o cabeçalho */
+    background: #444;
     font-weight: bold;
-    color: #ffcc00; /* Destaque para o texto do cabeçalho */
-    text-transform: uppercase; /* Deixa o texto em maiúsculas */
+    color: #ffcc00;
+    text-transform: uppercase;
 }
 
 .adoption-table tr:nth-child(even) {
-    background: #555; /* Cor de fundo para linhas pares */
+    background: #555;
 }
 
 .adoption-table tr:hover {
-    background: #33ba3354; /* Fundo ao passar o mouse */
-    transform: scale(1.01); /* Leve aumento */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Transição suave */
+    background: #33ba3354;
+    transform: scale(1.01);
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 
 /* Estilos para a lista de chats */
 .chat-list {
-    max-width: 900px; /* Largura máxima da lista de chats */
-    margin: 40px auto; /* Centraliza a lista na página */
-    padding: 20px; /* Espaçamento interno */
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px; /
     background-color: #444; /* Cor de fundo do container */
-    border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efeito de profundidade */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .chat-list h2 {
-    text-align: center; /* Centraliza o título */
-    margin-bottom: 20px; /* Espaço abaixo do título */
-    font-size: 28px; /* Tamanho da fonte do título */
-    color: #f2f2f2; /* Cor do texto */
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #f2f2f2;
 }
 
 .chat-list ul {
-    list-style: none; /* Remove os marcadores padrão da lista */
-    padding-left: 0; /* Remove o padding */
+    list-style: none; /
+    padding-left: 0;
 }
 
 .chat-list li {
-    background-color: #555; /* Cor de fundo para cada item */
-    padding: 15px; /* Espaçamento interno de cada item */
-    margin-bottom: 15px; /* Espaço entre os itens */
-    border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    transition: transform 0.3s ease, background-color 0.3s ease; /* Transições suaves para o hover */
+    background-color: #555;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .chat-list li:hover {
     background-color: #33ba3354; /* Cor de fundo ao passar o mouse */
-    transform: scale(1.05); /* Aumento suave ao passar o mouse */
+    transform: scale(1.05);
 }
 
 .chat-list li a {
     color: #f2f2f2; /* Cor do texto do link */
-    text-decoration: none; /* Remove o sublinhado */
+    text-decoration: none;
     display: block; /* Faz o link ocupar toda a área do item */
 }
 
 .chat-list li a:hover {
-    color: #ddd; /* Cor do texto ao passar o mouse */
+    color: #ddd;
 }
 
 .chat-list strong {
-    color: #ffcc00; /* Destaca as labels */
+    color: #ffcc00;
     font-weight: bold;
 }
 
 .chat-list p {
-    text-align: center; /* Centraliza a mensagem */
-    color: #ffcc00; /* Cor de destaque para a mensagem */
-    font-size: 18px; /* Tamanho de fonte maior */
+    text-align: center;
+    color: #ffcc00;
+    font-size: 18px; /
 }

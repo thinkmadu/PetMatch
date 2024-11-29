@@ -8,6 +8,13 @@ from sqlalchemy import event
 
 from PetMatch import db
 
+
+#criação dos admins - executado só uma vez
+""" INSERT	INTO admin(id,nome,email,senha)
+ VALUES (44,"Dua Lipa","admin1@gmail.com","77"),(74,"Olivia Rodrigo","admin2@gmail.com","88"),
+(48,"Beyonce","admin3@gmail.com","77"),(24,"Sia","admin4@gmail.com","88");
+"""
+
 class Usuario(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     primeiro_nome = db.Column(db.String(100), nullable=False)
@@ -26,7 +33,7 @@ class Usuario(db.Model, UserMixin):
     descricao_foto_perfil = db.Column(db.String(300), nullable=False)
 
 
-    # Relacionamento com Adocao
+    # relacionamento com Adocao
     adocoes = db.relationship('Adocao', back_populates='usuario', lazy=True)
 
 
@@ -41,7 +48,7 @@ class Mensagem(db.Model):
     room_id = db.Column(db.Integer, db.ForeignKey('animal.id'), nullable=False)  # Referência ao animal
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)  # Hora de envio
 
-    # Relacionamento com o modelo Animal (sala)
+    # relacionamento com animal
     animal = db.relationship('Animal', backref=db.backref('mensagens', lazy=True))
 
     def __repr__(self):
@@ -82,13 +89,13 @@ class Animal(db.Model):
     descricao_foto4 = db.Column(db.String(300), nullable=True)
 
 
-    # Chave estrangeira para referenciar a ONG
+    # foreign key para referenciar a ONG
     ong_id = db.Column(db.Integer, db.ForeignKey('ong.id'), nullable=False)
 
-    # Definir o relacionamento com a classe Ong
+    #  relacionamento com  Ong
     ong = db.relationship('Ong', backref='animais')
 
-    # Relacionamento com Adocao (para acessar o adotante)
+    # relacionamento com Adocao (para acessar o adotante)
     adocao = db.relationship('Adocao', back_populates='animal', uselist=False, lazy=True)
 
     @property
@@ -98,12 +105,6 @@ class Animal(db.Model):
             return adotacao.usuario  # Retorna o usuário (adotante) associado
         return None
 
-
-
-""" INSERT	INTO admin(id,nome,email,senha)
- VALUES (44,"Dua Lipa","admin1@gmail.com","77"),(74,"Olivia Rodrigo","admin2@gmail.com","88"),
-(48,"Beyonce","admin3@gmail.com","77"),(24,"Sia","admin4@gmail.com","88");
-"""
 
 class Admin(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -149,8 +150,8 @@ class Adocao(db.Model):
     animal_id = db.Column(db.Integer, db.ForeignKey('animal.id'), nullable=False)
     data_adocao = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # Relacionamento com Usuario
+    # relacionamento com Usuario
     usuario = db.relationship('Usuario', back_populates='adocoes')
 
-    # Relacionamento com Animal
+    # relacionamento com Animal
     animal = db.relationship('Animal', back_populates='adocao')

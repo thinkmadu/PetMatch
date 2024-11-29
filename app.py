@@ -68,14 +68,14 @@ def load_user(user_id):
 @app.route('/test_db')
 def test_db():
     try:
-        # Executa uma consulta simples
+        #  consulta simples
         result = db.session.execute(text('SELECT 1'))
         return "Conexão com o banco de dados bem-sucedida!"
     except Exception as e:
         return f"Erro ao conectar ao banco de dados: {e}"
 
 
-# Rotas
+# Rotas gerais
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = loginForm()
@@ -110,14 +110,14 @@ def login():
                 print("Senha incorreta.")
                 flash('Senha incorreta. Tente novamente.', 'danger')
 
-        # Verifica na tabela Admin
+        # verifica na tabela Admin
         admin = Admin.query.filter_by(email=email).first()
         if admin and admin.check_password(senha):
             login_user(admin)
             flash('Login bem-sucedido! Bem-vindo Admin.', 'success')
             return redirect(url_for('admin_dashboard'))  # Redireciona para o dashboard do admin
 
-        # Verifica na tabela Ong
+        # verifica na tabela Ong
         ong = Ong.query.filter_by(email=email).first()
         if ong and ong.check_password(senha):
             login_user(ong)
@@ -134,7 +134,7 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user()  # Faz logout do usuário
+    logout_user()
     flash('Você saiu da sua conta.', 'success')
     return redirect(url_for('login'))
 
@@ -150,20 +150,20 @@ def cadastro():
     form = cadastroForm()
     if form.validate_on_submit():
         print("Formulário validado")
-        # Hasheando a senha antes de salvar
+        # hasheando a senha antes de salvar
         senha_hash = generate_password_hash(form.senha.data)
 
-        # Inicializa a variável para o caminho da foto do perfil
+        # inicializa a variável para o caminho da foto do perfil
         foto_perfil_path = None
 
-        # Verifica se uma imagem foi enviada
+        # verifica se uma imagem foi enviada
         if form.foto_perfil.data:
             # Salva a imagem na pasta de uploads
             filename = secure_filename(form.foto_perfil.data.filename)
             foto_perfil_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             form.foto_perfil.data.save(foto_perfil_path)
 
-        # Cria novo usuário
+        # criando novo usuário
         novo_usuario = Usuario(
             primeiro_nome=form.primeiroNome.data,
             sobrenome=form.sobrenome.data,
@@ -185,7 +185,7 @@ def cadastro():
             flash('Email já cadastrado. Tente outro.', 'danger')
             return redirect(url_for('login'))
 
-        # Adiciona e confirma o usuário no banco de dados
+        # adiciona usuário no bd
         db.session.add(novo_usuario)
         db.session.commit()
 
@@ -202,7 +202,7 @@ def recuperar():
     if form.validate_on_submit():
         email = form.email.data
 
-        # Encontrar o usuário pelo email
+        # encontrar o usuário pelo email
         user = Usuario.query.filter_by(email=email).first()
 
         if user:
@@ -230,14 +230,13 @@ def redefinir():
         email = form.email.data
         nova_senha = form.senha.data
 
-        # Encontrar o usuário pelo email
+
         user = Usuario.query.filter_by(email=email).first()
 
         if user:
-            # Atualizar a senha (lembre-se de hashear antes de salvar)
+            # atualizar a senha e hashear antes de salvar)
             user.senha = generate_password_hash(nova_senha)
 
-            # Salvar as mudanças no banco de dados
             db.session.commit()
 
             flash('Sua senha foi redefinida com sucesso!', 'success')
@@ -253,28 +252,26 @@ def redefinir():
 def profile():
     form = profileForm()
     if isinstance(current_user, Usuario):
-        # Recuperar o histórico de adoções do usuário atual
+        #  histórico de adoções
         adocoes = Adocao.query.filter_by(usuario_id=current_user.id).all()
         return render_template('user_pages/profile.html', form=form, adocoes=adocoes)
     else:
         return "Unauthorized access", 403
 
 
-
 @app.route('/chats', methods=['GET', 'POST'])
 @login_required
 def allchats():
-    # Buscar todos os chats do usuário
+    # buscar todos os chats do usuário em interesses
     if isinstance(current_user, Usuario):
-        # Buscar todos os chats (interesses) do usuário
+
         chats = InteresseAnimal.query.filter_by(usuario_id=current_user.id).all()
     elif isinstance(current_user, Ong):
-        # Se for uma ONG, buscar os chats relacionados aos animais cadastrados pela ONG
+        # se for uma ONG buscar os chats relacionados aos animais daquela ONG
         chats = InteresseAnimal.query.join(Animal).filter(Animal.ong_id == current_user.id).all()
     else:
         chats = []
 
-    # Retornar o template com a lista de chats
     return render_template('user_pages/allChats.html', chats=chats)
 
 
@@ -305,16 +302,16 @@ def chat_por_numero(numero_unico):
 def interesse_animal(animal_id):
     animal = Animal.query.get_or_404(animal_id)
     if isinstance(current_user, Usuario):
-        # Verificar se o usuário já tem interesse registrado
+        # verificar se o usuário já tem interesse registrado
         interesse_existente = InteresseAnimal.query.filter_by(usuario_id=current_user.id, animal_id=animal.id).first()
         if not interesse_existente:
-            # Gerar número aleatório único
+            # gerar número aleatório único
             while True:
                 numero_unico = str(randint(100000, 999999))  # Gera número de 6 dígitos
                 if not InteresseAnimal.query.filter_by(numero_unico=numero_unico).first():
                     break
 
-            # Criar o novo registro de interesse
+            # novo registro de interesse
             interesse = InteresseAnimal(usuario_id=current_user.id, animal_id=animal.id, numero_unico=numero_unico)
             db.session.add(interesse)
             db.session.commit()
@@ -341,19 +338,18 @@ def handle_send_message(data):
     message = data['message']
     sender_name = data['senderName']
 
-    # Salvar a mensagem no banco de dados
+    # Salvar a mensagem no bd
     nova_mensagem = Mensagem(
         message=message,
         sender_name=sender_name,
-        room_id=room  # Referência ao animal/sala
+        room_id=room
     )
     db.session.add(nova_mensagem)
     db.session.commit()
 
-    # Log para verificar os dados recebidos
-    print(f'Mensagem de {sender_name} na sala {room}: {message}')
+    #print(f'Mensagem de {sender_name} na sala {room}: {message}')
 
-    # Envia a mensagem para os clientes na sala
+    # Envia a mensagem
     socketio.emit('receive_message', {'message': message, 'senderName': sender_name}, to=room)
 
 
@@ -363,13 +359,13 @@ def edit_profile():
     form = editPerfilForm()
     if isinstance(current_user, Usuario):
 
-        # Verifique se o usuário tem uma foto de perfil
+        # verifica se o usuário tem uma foto de perfil
         foto_perfil_atual = None
         if current_user.foto_perfil:
-            # Obtenha o caminho da foto de perfil atual
+            # caminho da foto de perfil atual
             foto_perfil_atual = current_user.foto_perfil
 
-        # Preencher o formulário com os dados atuais do usuário logado
+        # Preenche o formulário com os dados atuais do usuário logado
         if request.method == 'GET':
             form.primeiroNome.data = current_user.primeiro_nome
             form.sobrenome.data = current_user.sobrenome
@@ -382,7 +378,6 @@ def edit_profile():
             form.ddd.data = current_user.ddd
             form.celular.data = current_user.celular
 
-        # Quando o formulário for submetido
         if form.validate_on_submit():
             current_user.primeiro_nome = form.primeiroNome.data
             current_user.sobrenome = form.sobrenome.data
@@ -395,7 +390,6 @@ def edit_profile():
             current_user.ddd = form.ddd.data
             current_user.celular = form.celular.data
 
-            # Se uma nova foto de perfil for enviada
             if form.foto_perfil.data:
 
                 if current_user.foto_perfil and os.path.exists(current_user.foto_perfil):
@@ -409,25 +403,12 @@ def edit_profile():
             if form.senha.data:
                 current_user.senha = generate_password_hash(form.senha.data)
 
-            # Salvar as alterações no banco de dados
             db.session.commit()
 
             flash('Perfil atualizado com sucesso!', 'success')
             return redirect(url_for('profile'))
 
     return render_template('user_pages/edit.html', form=form, foto_perfil_atual=foto_perfil_atual)
-
-
-# @app.route('/petsList')
-# def petsList():
-#     animais = Animal.query.all()
-#     page = request.args.get('page', 1, type=int)
-#     per_page = 20
-#     start = (page - 1) * per_page
-#     end = start + per_page
-#     paginated_pets = pets[start:end]
-#     total_pages = (len(pets) + per_page - 1) // per_page
-#     return render_template('petsList.html', pets=paginated_pets, page=page, total_pages=total_pages)
 
 
 @app.route('/petsList')
@@ -438,7 +419,7 @@ def petsList():
     tamanho = request.args.get('tamanho')
     idade = request.args.get('idade')  # Obter filtro de idade
 
-    # Consultar animais
+
     query = Animal.query.filter(Animal.status != 'adotado')  # Exclui animais adotados
     if especie:
         query = query.filter_by(especie=especie)
@@ -465,65 +446,29 @@ def petsList():
 def animalDetail(animal_id):
     animal = Animal.query.get_or_404(animal_id)
     ong = Ong.query.get(animal.ong_id)
-
-    # # Lista de imagens e descrições
-    # imagens = [
-    #     {
-    #         "foto": getattr(animal, f"foto{i}").replace("\\", "/"),  # Corrige barras invertidas
-    #         "descricao": getattr(animal, f"descricao_foto{i}")
-    #     }
-    #     for i in range(1, 5)
-    #     if getattr(animal, f"foto{i}", None)
-    # ]
-    # print("Imagens para o animal:", imagens)
-    # Determinar o tipo de usuário (Usuario ou Ong)
     user_type = "Usuario" if isinstance(current_user, Usuario) else "Ong"
 
     return render_template('geral/animalDetail.html', animal=animal, ong=ong, user=current_user, user_type=user_type)
 
 
-# @app.route('/ongsList')
-# def ongsList():
-#     page = request.args.get('page', 1, type=int)
-#     per_page = 20
-#     start = (page - 1) * per_page
-#     end = start + per_page
-#     paginated_pets = pets[start:end]
-#     total_pages = (len(pets) + per_page - 1) // per_page
-#     return render_template('ongsList.html')
 @app.route('/ongsList')
 def ongsList():
     page = request.args.get('page', 1, type=int)  # Obter o número da página da requisição
     per_page = 5
     ongs = Ong.query.paginate(page=page, per_page=per_page, error_out=False)  # Consultar ONGs no banco de dados
-    total_pages = ongs.pages  # Obter o total de páginas
+    total_pages = ongs.pages
 
     return render_template('geral/ongsList.html', ongs=ongs.items, page=page, total_pages=total_pages)
-
-
-# @app.route('/ongs_pages/ong_1')
-# def ong_1():
-#     return render_template('ongs_pages/ong_1.html')
-#
-# @app.route('/ongs_pages/ong_2')
-# def ong_2():
-#     return render_template('ongs_pages/ong_2.html')
-
-# @app.route('/user_user_layout')
-# def user_layout():
-#     return render_template('user_templates/user_layout.html')
-
 
 # ROTAS DO ADMIN
 
 @app.route('/admin_dashboard')
 @login_required
 def admin_dashboard():
-    # Verifica se o usuário logado é um administrador
-    print(isinstance(current_user, Admin))
+
+    #print(isinstance(current_user, Admin))
 
     if isinstance(current_user, Admin):
-        # Aqui você pode adicionar dados que deseja exibir no dashboard
         usuarios = Usuario.query.all()
         ongs = Ong.query.all()
         animais = Animal.query.all()
@@ -537,7 +482,7 @@ def admin_dashboard():
 @app.route('/admin_dashboard/ongs_register', methods=['GET', 'POST'])
 @login_required
 def ongs_register():
-    # Verifica se o usuário logado é um administrador
+    # garantir que o usuário logado é um administrador
     if isinstance(current_user, Admin):
         form = cadastrar_OngForm()
 
@@ -550,23 +495,20 @@ def ongs_register():
             # Hasheando a senha antes de salvar
             senha_hash = generate_password_hash(form.senha.data)
 
-            # Caminhos das imagens a serem salvas
             foto_qr_code_path = None
             foto_perfil_path = None
 
-            # Verifica e salva a imagem do QR code
             if form.fotoQrCode.data:
                 filename_qr = secure_filename(form.fotoQrCode.data.filename)
                 foto_qr_code_path = os.path.join(app.config['UPLOAD_FOLDER'], filename_qr)
                 form.fotoQrCode.data.save(foto_qr_code_path)
 
-            # Verifica e salva a imagem do perfil/logo
             if form.fotoPerfilLogo.data:
                 filename_logo = secure_filename(form.fotoPerfilLogo.data.filename)
                 foto_perfil_path = os.path.join(app.config['UPLOAD_FOLDER'], filename_logo)
                 form.fotoPerfilLogo.data.save(foto_perfil_path)
 
-            # Cria nova ONG
+            # nova ONG
             nova_ong = Ong(
                 nome_Ong=form.nome_Ong.data,
                 email=form.email.data,
@@ -593,7 +535,6 @@ def ongs_register():
                 flash('Email já cadastrado. Tente outro.', 'danger')
                 return redirect(url_for('ongs_register'))
 
-            # Adiciona e confirma a ONG no banco de dados
             db.session.add(nova_ong)
             db.session.commit()
 
@@ -615,8 +556,8 @@ def ongs_register():
 @app.route('/ong_dashboard')
 @login_required
 def ong_dashboard():
-    # Verifica se o usuário logado é um administrador
-    print(isinstance(current_user, Ong))
+
+    #print(isinstance(current_user, Ong))
 
     if isinstance(current_user, Ong):
         # Aqui você pode adicionar dados que deseja exibir no dashboard
@@ -632,19 +573,19 @@ def ong_dashboard():
 @app.route('/ong_dashboard/pets_register', methods=['GET', 'POST'])
 @login_required
 def pets_register():
-    # Verifica se o usuário logado é uma ONG
+
     if isinstance(current_user, Ong):
         form = AnimalForm()
 
-        # Preenche o campo ong com o nome da ONG associada
+        # preenche o campo ong com o nome da ONG associada
         form.ong.data = current_user.nome_Ong
 
         if form.validate_on_submit():
-            # Diretório de upload
+            # diretório de upload
             upload_folder = current_app.config['UPLOAD_FOLDER']
             os.makedirs(upload_folder, exist_ok=True)
 
-            # Salva as imagens e armazena o caminho no banco de dados
+            # salva as imagens e o caminho no banco de dados
             foto_paths = []
             for i in range(1, 5):
                 foto = getattr(form, f'foto{i}').data
@@ -652,11 +593,11 @@ def pets_register():
                     filename = secure_filename(foto.filename)
                     foto_path = os.path.join(upload_folder, filename)
                     foto.save(foto_path)
-                    foto_paths.append(foto_path)  # Adiciona o caminho para o banco
+                    foto_paths.append(foto_path)  # caminho para o banco
                 else:
-                    foto_paths.append(None)  # Se não houver imagem, adiciona None
+                    foto_paths.append(None)
 
-            # Criando novo animal
+            # novo animal
             novo_animal = Animal(
                 nome=form.nome.data,
                 especie=form.especie.data,
@@ -675,7 +616,6 @@ def pets_register():
                 ong_id=current_user.id
             )
 
-            # Adiciona e salva o novo animal no banco de dados
             db.session.add(novo_animal)
             db.session.commit()
 
@@ -695,15 +635,15 @@ def pets_register():
 @login_required
 def delete_animal(id):
     if isinstance(current_user, Ong):
-        animal = Animal.query.get_or_404(id)  # Busca o animal pelo ID
+        animal = Animal.query.get_or_404(id)  # busca o animal pelo ID
 
-        # Exclui as imagens associadas ao animal
+        # exclui as imagens do animal
         for foto_path in [animal.foto1, animal.foto2, animal.foto3, animal.foto4]:
-            if foto_path and os.path.exists(foto_path):  # Verifica se o caminho existe
-                os.remove(foto_path)  # Exclui a imagem
+            if foto_path and os.path.exists(foto_path):
+                os.remove(foto_path)
 
-        db.session.delete(animal)  # Exclui o animal do banco de dados
-        db.session.commit()  # Confirma a exclusão
+        db.session.delete(animal)  # exclui o animal do banco de dados
+        db.session.commit()
         flash('Animal excluído com sucesso!', 'success')
         return redirect(url_for('ong_dashboard'))
     else:
@@ -718,18 +658,16 @@ def edit_animal(id):
         animal = Animal.query.get_or_404(id)  # Busca o animal pelo ID
         form = editAnimalForm()
 
-        # Preenche o campo ong com o nome da ONG associada (se necessário no template)
         form.ong.data = current_user.nome_Ong
 
-        # Preencher dinamicamente o campo adotante
+        # possiveis adotantes com os users que tem interesse registrado em tal pet
         interessados = Usuario.query.join(InteresseAnimal, Usuario.id == InteresseAnimal.usuario_id) \
             .filter(InteresseAnimal.animal_id == animal.id).all()
 
-        # Preenche o campo 'adotante' no formulário com os usuários interessados
+        # Preenche 'adotante' no form com os usuários interessados
         form.adotante.choices = [(0, 'Nenhum')] + [(usuario.id, f'{usuario.primeiro_nome} {usuario.sobrenome}') for
                                                    usuario in interessados]
 
-        # Preenche os dados do formulário ao acessar a página
         if request.method == 'GET':
             form.nome.data = animal.nome
             form.especie.data = animal.especie
@@ -737,15 +675,14 @@ def edit_animal(id):
             form.idade.data = animal.idade
             form.descricao.data = animal.descricao
             form.status.data = animal.status
-            form.adotante.data = animal.adocao.usuario.id if animal.adocao else 0  # Adotante atual ou nenhum
+            form.adotante.data = animal.adocao.usuario.id if animal.adocao else 0
             form.descricao_foto1.data = animal.descricao_foto1
             form.descricao_foto2.data = animal.descricao_foto2
             form.descricao_foto3.data = animal.descricao_foto3
             form.descricao_foto4.data = animal.descricao_foto4
 
-        # Processa o formulário ao submeter
         if form.validate_on_submit():
-            # Atualiza os campos do animal
+            # atualiza os campos do animal
             animal.nome = form.nome.data
             animal.especie = form.especie.data
             animal.tamanho = form.tamanho.data
@@ -753,25 +690,25 @@ def edit_animal(id):
             animal.descricao = form.descricao.data
             animal.status = form.status.data
 
-            # Atualiza ou cria uma adoção
+            # atualiza ou cria uma adoção
             adotante_id = form.adotante.data
             if adotante_id != 0:  # Caso um adotante tenha sido selecionado
-                if animal.adocao:  # Caso já exista uma adoção
+                if animal.adocao:
                     animal.adocao.usuario_id = adotante_id
                 else:  # Cria uma nova adoção
                     nova_adocao = Adocao(usuario_id=adotante_id, animal_id=animal.id)
                     db.session.add(nova_adocao)
-            else:  # Remove a adoção se "Nenhum" foi selecionado
+            else:
                 if animal.adocao:
                     db.session.delete(animal.adocao)
 
-            # Atualiza as descrições das fotos
+            # atualiza as descrições das fotos
             animal.descricao_foto1 = form.descricao_foto1.data
             animal.descricao_foto2 = form.descricao_foto2.data
             animal.descricao_foto3 = form.descricao_foto3.data
             animal.descricao_foto4 = form.descricao_foto4.data
 
-            # Atualiza as fotos se novas forem enviadas
+            # atualiza as fotos se novas forem enviadas
             for i, foto_field in enumerate([form.foto1, form.foto2, form.foto3, form.foto4], start=1):
                 if foto_field.data:
                     # Deleta a imagem antiga, se existir
@@ -779,13 +716,11 @@ def edit_animal(id):
                     if foto_atual and os.path.exists(foto_atual):
                         os.remove(foto_atual)
 
-                    # Salva a nova imagem
                     filename = secure_filename(foto_field.data.filename)
                     path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                     foto_field.data.save(path)
                     setattr(animal, f'foto{i}', path)
 
-            # Salvar as alterações no banco de dados
             db.session.commit()
 
             flash('Animal atualizado com sucesso!', 'success')
