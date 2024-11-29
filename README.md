@@ -2,16 +2,16 @@
 Esse projeto foi fruto da disciplina de Gerência de Projetos da Universidade Estadual da Paraíba.
 A premissa do projeto é criar uma ponte entre ONGs para pets e possíveis donos que procuram um(a) companheiro!
 
-## Ferramentas necessárias para rodar o projeto
+## Ferramentas e passos necessárias para rodar o projeto
 - MySql 8.x.x ou superior.
 - Python 3.11 ou superior.
 - Para instalar todos os pacotes necessários executar no terminal  pip install -r requirements.txt
-- Para Usar a base de dados do nosso projeto:
+- Para Usar a base de dados já alimentada do nosso projeto:
   - No MySQL Workbench,selecionar uma conexao![img.png](img.png)
   - Ir na Server -> Data Import -> selecionar o local do PetmatchExport (que está logo abaixo da pasta instance) -> Import Progress -> Start Import
   - ![img_1.png](img_1.png) ![img_2.png](img_2.png)
 - No arquivo app.py na linha 22 é necessário botar as credeciais do mysql
-  - Segue esse padrão : app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://nome_do_user_mysql:senha_do_user@localhost/PetMatch'
+  - Segue esse padrão : app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://<nome_do_user_mysql>:<senha_do_user>@localhost/PetMatch'
 - Para executar o sistema em si tem que rodar o arquivo PetMatch.py, no terminal vai aparecer a url http://127.0.0.1:5000
   - Caso a porta 5000 esteja ocupada só comentar a linha 8 e descomentar a 7, que vai ser executado na porta 5001, na url http://127.0.0.1:5001
 
