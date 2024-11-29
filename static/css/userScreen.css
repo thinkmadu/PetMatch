@@ -148,7 +148,7 @@ button {
 }
 
 button {
-    background: #33ba3354;
+    background: rgba(33, 150, 186, 0.33);
     color: #fff;
     border: none;
     outline: none;
@@ -162,7 +162,7 @@ button {
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #0d3f53;
     transform: translateY(-3px);
 }
 
@@ -225,7 +225,7 @@ button:focus {
 .adoption-table th {
     background: #444;
     font-weight: bold;
-    color: #ffcc00;
+    color: #2b919f;
     text-transform: uppercase;
 }
 
@@ -287,7 +287,7 @@ button:focus {
 }
 
 .chat-list strong {
-    color: #ffcc00;
+    color: #349bb3;
     font-weight: bold;
 }
 

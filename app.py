@@ -16,9 +16,15 @@ from flask_socketio import SocketIO, join_room, leave_room, send
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['SECRET_KEY'] = 'JHBJDJMBDKJ677898'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://petuser:87Amore;;w34@localhost/PetMatch'
+
+#professora
+#template app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://nome_do_user_mysql:senha_do_user@localhost/PetMatch'
+
+
+#joana
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://petuser:87Amore;;w34@localhost/PetMatch'
 # de madu
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'my    sql+pymysql://root:Mylooksql2024@localhost/PetMatch'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Mylooksql2024@localhost/PetMatch'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -44,7 +50,7 @@ mail = Mail(app)
 s = URLSafeTimedSerializer(app.secret_key)
 
 from config.models import Usuario, Admin, Ong, Animal, Mensagem, InteresseAnimal, Adocao
-from config.forms import cadastroForm, loginForm, ResetPasswordForm, sendLinkForm, profileForm, editPerfilForm, \
+from config.forms import cadastroForm, loginForm, ResetPasswordForm, sendLinkForm, profileForm, editPerfilForm1, \
     cadastrar_OngForm, AnimalForm, editAnimalForm
 
 
@@ -247,16 +253,6 @@ def redefinir():
     return render_template('user_pages/redefinirSenha.html', form=form)
 
 
-@app.route('/profile', methods=['GET', 'POST'])
-@login_required
-def profile():
-    form = profileForm()
-    if isinstance(current_user, Usuario):
-        #  histórico de adoções
-        adocoes = Adocao.query.filter_by(usuario_id=current_user.id).all()
-        return render_template('user_pages/profile.html', form=form, adocoes=adocoes)
-    else:
-        return "Unauthorized access", 403
 
 
 @app.route('/chats', methods=['GET', 'POST'])
@@ -285,11 +281,9 @@ def chat_por_numero(numero_unico):
     # Verificar permissões
     if isinstance(current_user, Usuario):
         if interesse.usuario_id != current_user.id:
-            flash('Você não tem permissão para acessar este chat.', 'danger')
             return redirect(url_for('home'))
     elif isinstance(current_user, Ong):
         if animal.ong_id != current_user.id:
-            flash('Acesso negado. Esta não é a sua ONG.', 'danger')
             return redirect(url_for('home'))
 
     mensagens = Mensagem.query.filter_by(room_id=animal.id).order_by(Mensagem.timestamp.asc()).all()
@@ -316,10 +310,8 @@ def interesse_animal(animal_id):
             db.session.add(interesse)
             db.session.commit()
 
-            flash('Você demonstrou interesse neste animal!', 'success')
             return redirect(url_for('chat_por_numero', numero_unico=numero_unico))
         else:
-            flash('Você já demonstrou interesse neste animal.', 'info')
             return redirect(url_for('chat_por_numero', numero_unico=interesse_existente.numero_unico))
 
 
@@ -352,62 +344,66 @@ def handle_send_message(data):
     # Envia a mensagem
     socketio.emit('receive_message', {'message': message, 'senderName': sender_name}, to=room)
 
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    form = profileForm()
+    if isinstance(current_user, Usuario):
+        #  histórico de adoções
+        adocoes = Adocao.query.filter_by(usuario_id=current_user.id).all()
+        return render_template('user_pages/profile.html', form=form, adocoes=adocoes)
+    # if form.validate_on_submit():
+    #     return redirect(url_for('edit_profile'))
+    else:
+        return "Unauthorized access", 403
 
-@app.route('/profile/edit', methods=['GET', 'POST'])
+
+@app.route('/profile/edit', methods=[ 'POST','GET'])
 @login_required
 def edit_profile():
-    form = editPerfilForm()
-    if isinstance(current_user, Usuario):
+    form = editPerfilForm1()
 
-        # verifica se o usuário tem uma foto de perfil
-        foto_perfil_atual = None
-        if current_user.foto_perfil:
-            # caminho da foto de perfil atual
-            foto_perfil_atual = current_user.foto_perfil
 
-        # Preenche o formulário com os dados atuais do usuário logado
-        if request.method == 'GET':
-            form.primeiroNome.data = current_user.primeiro_nome
-            form.sobrenome.data = current_user.sobrenome
-            form.email.data = current_user.email
-            form.rua.data = current_user.rua
-            form.complemento.data = current_user.complemento
-            form.cep.data = current_user.cep
-            form.numero.data = current_user.numero
-            form.descricao_foto_perfil.data = current_user.descricao_foto_perfil
-            form.ddd.data = current_user.ddd
-            form.celular.data = current_user.celular
+    # Salvar alterações no banco se o formulário for válido
+    if form.validate_on_submit():
+        current_user.primeiro_nome = form.primeiroNome.data
+        current_user.sobrenome = form.sobrenome.data
+        current_user.email = form.email.data
+        current_user.rua = form.rua.data
+        current_user.complemento = form.complemento.data
+        current_user.cep = form.cep.data
+        current_user.descricao_foto_perfil = form.descricao_foto_perfil.data
+        current_user.numero = form.numero.data
+        current_user.ddd = form.ddd.data
+        current_user.celular = form.celular.data
 
-        if form.validate_on_submit():
-            current_user.primeiro_nome = form.primeiroNome.data
-            current_user.sobrenome = form.sobrenome.data
-            current_user.email = form.email.data
-            current_user.rua = form.rua.data
-            current_user.complemento = form.complemento.data
-            current_user.cep = form.cep.data
-            current_user.descricao_foto_perfil = form.descricao_foto_perfil.data
-            current_user.numero = form.numero.data
-            current_user.ddd = form.ddd.data
-            current_user.celular = form.celular.data
+        # Atualizar a foto de perfil, se fornecida
+        if form.foto_perfil.data:
+            # Remover a foto antiga se existir
+            if current_user.foto_perfil and os.path.exists(current_user.foto_perfil):
+                os.remove(current_user.foto_perfil)
 
-            if form.foto_perfil.data:
+            filename = secure_filename(form.foto_perfil.data.filename)
+            foto_perfil_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            form.foto_perfil.data.save(foto_perfil_path)
+            current_user.foto_perfil = foto_perfil_path
 
-                if current_user.foto_perfil and os.path.exists(current_user.foto_perfil):
-                    os.remove(current_user.foto_perfil)
-                filename = secure_filename(form.foto_perfil.data.filename)
-                foto_perfil_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                form.foto_perfil.data.save(foto_perfil_path)
-                current_user.foto_perfil = foto_perfil_path  # Armazena o caminho no banco de dados
+        # Atualizar a senha, se fornecida
+        if form.senha.data:
+            current_user.senha = generate_password_hash(form.senha.data)
 
-            # Se uma nova senha for fornecida
-            if form.senha.data:
-                current_user.senha = generate_password_hash(form.senha.data)
+        # Persistir alterações no banco
+        db.session.add(current_user)
+        db.session.commit()
 
-            db.session.commit()
 
-            flash('Perfil atualizado com sucesso!', 'success')
-            return redirect(url_for('profile'))
+        return redirect(url_for('profile'))
 
+    # Para debug, exibir erros do formulário e checar os valores
+    print(form.errors)  # Verifica erros de validação
+    print(vars(current_user))  # Mostra os atributos do usuário no terminal
+
+    foto_perfil_atual = current_user.foto_perfil if current_user.foto_perfil else None
     return render_template('user_pages/edit.html', form=form, foto_perfil_atual=foto_perfil_atual)
 
 
@@ -475,7 +471,7 @@ def admin_dashboard():
         return render_template('admin_pages/admin_dashboard.html', usuarios=usuarios, ongs=ongs, animais=animais)
     else:
         print("Acesso negado. Somente administradores podem acessar esta página.")
-        flash('Acesso negado. Somente administradores podem acessar esta página.', 'danger')
+
         return redirect(url_for('home'))
 
 
@@ -532,13 +528,13 @@ def ongs_register():
             # Verifica se a ONG já existe pelo email
             ong_existente = Ong.query.filter_by(email=form.email.data).first()
             if ong_existente:
-                flash('Email já cadastrado. Tente outro.', 'danger')
+
                 return redirect(url_for('ongs_register'))
 
             db.session.add(nova_ong)
             db.session.commit()
 
-            flash('Cadastro de ONG realizado com sucesso!', 'success')
+
             return redirect(url_for('admin_dashboard'))
 
         else:
@@ -547,7 +543,7 @@ def ongs_register():
         return render_template('admin_pages/ongs_register.html', form=form)
 
     else:
-        flash('Acesso negado. Apenas administradores podem acessar esta página.', 'danger')
+
         return redirect(url_for('home'))
 
 
@@ -565,8 +561,8 @@ def ong_dashboard():
         animais = Animal.query.filter_by(ong_id=current_user.id).all()
         return render_template('ongs_pages/ong_dashboard.html', animais=animais)
     else:
-        print("Acesso negado. Somente Ongs podem acessar esta página.")
-        flash('Acesso negado. Somente Ongs podem acessar esta página.', 'danger')
+        #print("Acesso negado. Somente Ongs podem acessar esta página.")
+
         return redirect(url_for('home'))
 
 
@@ -619,7 +615,7 @@ def pets_register():
             db.session.add(novo_animal)
             db.session.commit()
 
-            flash('Animal cadastrado com sucesso!', 'success')
+
             return redirect(url_for('ong_dashboard'))
         else:
             print("Formulário inválido:", form.errors)
@@ -627,7 +623,7 @@ def pets_register():
         return render_template('ongs_pages/pets_register.html', form=form)
 
     else:
-        flash('Acesso negado. Apenas ONGs podem acessar esta página.', 'danger')
+
         return redirect(url_for('home'))
 
 
@@ -647,8 +643,10 @@ def delete_animal(id):
         flash('Animal excluído com sucesso!', 'success')
         return redirect(url_for('ong_dashboard'))
     else:
-        flash('Acesso negado. Apenas ONGs podem acessar esta página.', 'danger')
+
         return redirect(url_for('home'))
+
+
 
 
 @app.route('/ong_dashboard/pets_edit/<int:id>', methods=['GET', 'POST'])
@@ -723,11 +721,11 @@ def edit_animal(id):
 
             db.session.commit()
 
-            flash('Animal atualizado com sucesso!', 'success')
+
             return redirect(url_for('ong_dashboard'))  # Redireciona para o dashboard da ONG
 
         return render_template('ongs_pages/pets_edit.html', form=form, animal=animal)
     else:
-        flash('Acesso negado. Apenas ONGs podem acessar esta página.', 'danger')
+
         return redirect(url_for('home'))
 

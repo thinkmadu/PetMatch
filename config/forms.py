@@ -45,7 +45,7 @@ class profileForm(FlaskForm):
     editarBotao = SubmitField('Editar perfil')
 
 
-class editPerfilForm(FlaskForm):
+class editPerfilForm1(FlaskForm):
     primeiroNome = StringField('Primeiro Nome')
     sobrenome = StringField('Sobrenome')
     email = StringField('Email', validators=[ Email()])
